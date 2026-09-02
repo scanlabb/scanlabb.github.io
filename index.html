@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MM ScanLab | Gestión Digital y Rescate Patrimonial</title>
+  <style>
+    /* --- MODO CAD 80s (Terminal / DOS) --- */
+    :root {
+      --primary-dark: #000000;
+      --section-grey: #0B0E14;
+      --bg-white: #050505;
+      --bg-light: #11141C;
+      --accent-copper: #00E5FF; /* Cyan brillante clásico */
+      --accent-copper-hover: #5BF2FF;
+      --accent-secondary: #7B2FF7;
+      --text-dark: #E2E8F0;
+      --text-muted: #94A3B8;
+      --text-light: #FFFFFF;
+      --glass-blur: 0px;
+      --sidebar-width: 180px;
+      --cad-font: 'Lucida Console', 'Courier New', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--bg-white);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden; 
+    }
+
+    h1, h2, h3 { letter-spacing: 0.5px; font-weight: 600; }
+    a { color: var(--accent-copper); text-decoration: none; transition: none; }
+    a:hover { color: var(--accent-copper-hover); }
+
+    /* --- LAYOUT FLEX PRINCIPAL --- */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* --- SIDEBAR (MENÚ LATERAL ESTILO CAD 80s) --- */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width); 
+      max-width: var(--sidebar-width); 
+      flex-shrink: 0;                  
+      background: #000000;
+      border-right: 1px solid var(--accent-copper);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;              
+      z-index: 1000;
+      font-family: var(--cad-font);
+    }
+    
+    .sidebar-header { 
+      padding: 10px 12px; 
+      border-bottom: 1px solid var(--accent-copper); 
+      background: #000;
+    }
+    .nav-logo-link { display: block; }
+    .nav-logo-text { 
+      font-size: 0.9rem; 
+      font-weight: normal; 
+      color: var(--accent-copper); 
+      font-family: var(--cad-font);
+    }
+    .nav-logo-text span { color: #FFF; }
+
+    .menu-section { padding: 5px 0; border-bottom: 1px dashed #333; }
+    .menu-title { 
+      font-size: 0.7rem; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      color: #555; 
+      margin: 5px 12px 2px; 
+      font-family: var(--cad-font);
+    }
+    .menu-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .menu-list a {
+      display: block; 
+      padding: 3px 12px; 
+      color: #AAA; 
+      font-size: 0.85rem; 
+      font-weight: normal; 
+      border-left: 3px solid transparent;
+      font-family: var(--cad-font);
+      transition: none;
+    }
+    .menu-list a:hover, .menu-list a.active {
+      background: var(--accent-copper); 
+      color: #000; 
+      border-left-color: #FFF;
+      text-shadow: none;
+    }
+
+    /* --- CONTENEDOR PRINCIPAL DERECHO --- */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #08090C;
+      background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 20px 20px; 
+    }
+
+    .view-section {
+      display: none;
+      flex: 1;
+      padding: 15px 20px; 
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+    .view-section.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BARRA DE COMANDOS --- */
+    .cad-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 15px;
+      background: #000;
+      border: 1px solid var(--accent-copper);
+      margin-bottom: 10px; 
+      font-family: var(--cad-font);
+    }
+    .cad-title { 
+      color: #FFF; 
+      font-size: 1rem; 
+      margin: 0; 
+      text-transform: uppercase; 
+      letter-spacing: 1px;
+    }
+    .cad-subtitle { 
+      color: var(--accent-copper); 
+      font-size: 0.8rem; 
+      margin: 0;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* --- HERO SPLIT SCREEN --- */
+    .hero-view { max-width: 100%; margin: 0 auto; width: 100%; }
+    .hero {
+      display: grid; grid-template-columns: 1fr 1.4fr; align-items: center;
+      background-color: transparent; position: relative; gap: 20px;
+    }
+    .hero-left { z-index: 2; display: flex; flex-direction: column; justify-content: center; }
+    .hero-logo { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.6)); }
+    .hero h1 { 
+      font-size: 3rem; margin-bottom: 10px; 
+      background: linear-gradient(135deg, #FFFFFF 0%, #00E5FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1;
+      font-family: var(--cad-font);
+    }
+    .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--cad-font); }
+    .hero .profesion { font-size: 1rem; max-width: 500px; margin-bottom: 35px; color: var(--text-muted); }
+    
+    .botones-hero { display: flex; gap: 15px; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 10px 25px; background: var(--accent-copper); 
+      color: #000; font-size: 0.85rem; font-weight: 700; border-radius: 0; 
+      box-shadow: none; transition: none; border: 1px solid var(--accent-copper); cursor: pointer; 
+      text-transform: uppercase; letter-spacing: 1px; font-family: var(--cad-font);
+    }
+    .btn:hover { background: #FFF; border-color: #FFF; color: #000; }
+    .btn-outline { 
+      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper); 
+      box-shadow: none;
+    }
+    .btn-outline:hover { background: rgba(0, 229, 255, 0.1); color: #FFF; }
+
+    .hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: 10px; background: rgba(0, 0, 0, 0.5); border-radius: 0; border: 1px solid var(--accent-copper); }
+    .hero-right h3 { color: var(--accent-copper); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-align:center; font-family: var(--cad-font); }
+    .desliza-hint { margin-top: 10px; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--cad-font); }
+    .desliza-hint::before { content: '>'; color: var(--accent-copper); font-weight: bold; }
+
+    /* --- VISOR ANTES Y DESPUÉS --- */
+    .visor-container {
+      width: 100%; max-width: 100%; position: relative; overflow: hidden;
+      border: 1px solid var(--accent-copper); box-shadow: 0 0 20px rgba(0,229,255,0.1); margin-bottom: 10px;
+    }
+    .visor-img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; background: #111; }
+    .visor-after-wrap {
+      position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden;
+      border-right: 1px solid var(--accent-copper); transition: width 0.05s linear; 
+    }
+    .visor-after-wrap img, .visor-after-wrap svg.visor-img { width: 100%; max-width: none; height: auto; } 
+    .visor-label {
+      position: absolute; top: 10px; padding: 4px 10px; background: #000;
+      color: var(--accent-copper); font-size: 0.7rem; font-weight: normal; letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--accent-copper); z-index: 10; pointer-events: none; font-family: var(--cad-font);
+    }
+    .label-before { left: 10px; color: #FFF; }
+    .label-after { right: 10px; color: var(--accent-copper); }
+    .visor-handle {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px;
+      background: #000; border-radius: 0; box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+      display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; border: 1px solid var(--accent-copper);
+    }
+    .visor-handle::before { content: '<>'; color: var(--accent-copper); font-size: 0.8rem; font-weight: bold; }
+    .visor-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: ew-resize; z-index: 5; }
+
+    /* --- ESTILOS GENERALES DE VISTAS --- */
+    .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; max-width: 1200px; margin-left:auto; margin-right:auto; width: 100%; }
+    .card { 
+      background: rgba(0, 0, 0, 0.6); padding: 20px; border-radius: 0; 
+      border: 1px solid #333; box-shadow: none; transition: none; text-align: left; 
+    }
+    .card:hover { border-color: var(--accent-copper); background: #000; }
+    .card svg { width: 32px; height: 32px; fill: var(--accent-copper); margin-bottom: 15px; }
+    .card h3 { color: var(--accent-copper); margin-bottom: 8px; font-size: 1.1rem; font-family: var(--cad-font); text-transform: uppercase; }
+    .card p { color: var(--text-muted); font-size: 0.9rem; }
+    
+    /* Nueva clase para listas en infografías */
+    .card-list { list-style: none; padding: 0; margin-top: 10px; }
+    .card-list li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
+    .card-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-family: var(--cad-font); }
+
+    /* --- VISOR ZOOM & PAN --- */
+    .zp-viewer{
+      --zp-accent:#00E5FF; --zp-bg:#000; --zp-panel:#000; --zp-border:#00E5FF;
+      --zp-text:#FFF; --zp-muted:#94A3B8; --zp-height:clamp(300px, 60vh, 620px);
+      max-width:1100px; margin:20px auto; width: 100%;
+      font-family: var(--cad-font);
+    }
+    .zp-viewer *{ box-sizing:border-box; }
+    .zp-label{ display:inline-block; margin:0 auto 12px; padding:5px 12px; font-size:.75rem; letter-spacing:1px; text-transform:uppercase; color:var(--zp-accent); text-align:center; background:#000; border:1px solid var(--zp-border); border-radius:0; }
+    .zp-label-wrap{ text-align:center; }
+    .zp-stage{ position:relative; overflow:hidden; height:var(--zp-height); border:1px solid var(--zp-border); border-radius:0; background-color:#050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size:20px 20px; cursor:grab; touch-action:none; user-select:none; }
+    .zp-stage:active{ cursor:grabbing; }
+    .zp-img{ position:absolute; top:0; left:0; max-width:none !important; width:auto; height:auto; transform-origin:0 0; pointer-events:none; }
+    .zp-hint{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); padding:5px 10px; font-size:.7rem; color:var(--zp-muted); background:#000; border:1px solid #444; white-space:nowrap; pointer-events:none; transition:opacity .5s; }
+    .zp-hint.zp-hide{ opacity:0; visibility:hidden; }
+    .zp-toolbar{ display:flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:10px; padding:8px; background:var(--zp-panel); border:1px solid var(--zp-border); border-radius:0; }
+    .zp-btn{ min-width:38px; padding:6px 10px; font:inherit; font-size:.85rem; font-weight:normal; color:var(--zp-accent); background:#000; border:1px solid var(--zp-border); border-radius:0; cursor:pointer; transition:none; }
+    .zp-btn:hover{ background:var(--zp-accent); color:#000; }
+    .zp-btn--wide{ font-size:.75rem; letter-spacing:1px; text-transform:uppercase; }
+    .zp-zoom{ min-width:50px; text-align:center; font-size:.8rem; color:var(--zp-text); padding:6px 4px; background:#000; border:1px solid #444; border-radius:0; }
+    .zp-sep{ width:1px; height:20px; background:var(--zp-border); margin:0 2px; }
+
+    /* --- VISORES 3D Y ARCHIVOS --- */
+    .stl-viewer {
+      max-width: 1100px;
+      margin: 20px auto;
+      width: 100%;
+      font-family: var(--cad-font);
+    }
+    .stl-stage {
+      height: clamp(350px, 60vh, 620px);
+      border: 1px solid var(--accent-copper);
+      background-color: #050505;
+      background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+      position: relative;
+    }
+    .stl-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      padding: 8px;
+      background: #000;
+      border: 1px solid var(--accent-copper);
+    }
+    .stl-btn {
+      padding: 6px 12px;
+      font-family: var(--cad-font);
+      font-size: 0.85rem;
+      color: var(--accent-copper);
+      background: #000;
+      border: 1px solid var(--accent-copper);
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .stl-btn:hover { background: var(--accent-copper); color: #000; }
+    .stl-color-label { color: #FFF; font-size: 0.8rem; }
+    .stl-color-input { width: 30px; height: 30px; border: 1px solid var(--accent-copper); background: #000; cursor: pointer; padding: 2px; }
+
+    /* Textos y Servicios */
+    .content-wrapper { max-width: 1000px; margin: 0 auto; width: 100%; }
+    .sobre-mi-layout { display: flex; gap: 30px; align-items: flex-start; }
+    .sobre-mi-texto { flex: 2; }
+    .sobre-mi-texto p { font-size: 1rem; line-height: 1.6; margin-bottom: 15px; }
+    .sobre-mi-texto .cita { border-left: 2px solid var(--accent-copper); padding-left: 15px; margin-bottom: 20px; color: var(--text-muted); }
+    .audiencia { flex: 1; background: #000; padding: 20px; border: 1px solid var(--accent-copper); border-radius: 0; }
+    .audiencia h4 { color: var(--accent-copper); margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; font-family: var(--cad-font); }
+    .audiencia ul { list-style: none; }
+    .audiencia ul li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
+    .audiencia ul li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; }
+
+    /* Estilos para bloques de texto y metodología */
+    .methodology-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; padding: 25px; margin-top: 20px; }
+    .methodology-block h3 { color: var(--text-light); font-family: var(--cad-font); margin-bottom: 15px; text-transform: uppercase; font-size: 1rem; }
+    .methodology-block p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; }
+    .methodology-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+    .methodology-list li { padding-left: 20px; position: relative; color: var(--text-light); font-family: var(--cad-font); font-size: 0.9rem; }
+    .methodology-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-weight: bold; }
+    
+    .text-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; border-left: 3px solid var(--accent-copper); padding: 20px; margin-bottom: 20px; margin-top: 20px; }
+    .text-block h3 { color: var(--accent-copper); font-family: var(--cad-font); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
+    .text-block p { color: var(--text-dark); font-size: 0.95rem; line-height: 1.6; }
+
+    /* Botón Flotante */
+    .wa-flotante { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
+    .wa-flotante a { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #000; border: 1px solid #25D366; border-radius: 0; transition: none; }
+    .wa-flotante a:hover { background: #25D366; }
+    .wa-flotante a svg { width: 28px; height: 28px; fill: #25D366; }
+    .wa-flotante a:hover svg { fill: #000; }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .sobre-mi-layout { flex-direction: column; }
+      .cad-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .cad-subtitle { text-align: left; }
+    }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- MENÚ LATERAL -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="nav-logo-link" onclick="showView('inicio', event)">
+        <div class="nav-logo-text">MM_SCANLAB <span>v1.0</span></div>
+      </a>
+    </div>
+
+    <div class="menu-section">
+      <h3 class="menu-title">-- MENU --</h3>
+      <ul class="menu-list">
+        <li><a href="#" onclick="showView('inicio', event)">> Inicio</a></li>
+        <li><a href="#" onclick="showView('servicios', event)">> Servicios</a></li>
+        <li><a href="#" onclick="showView('que-hacemos', event)">> Qué hacemos</a></li>
+        <li><a href="#" onclick="showView('sobre-mi', event)">> Sobre mi</a></li>
+        <li><a href="#" onclick="showView('contacto', event)">> Contacto</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3 class="menu-title">-- SCAN-TO- --</h3>
+      <ul class="menu-list">
+        <li><a href="#" onclick="showView('scan-dxf', event)">> DXF/SVG</a></li>
+        <li><a href="#" onclick="showView('scan-render', event)">> Render</a></li>
+        <li><a href="#" onclick="showView('scan-raster', event)">> Raster/Map</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3 class="menu-title">-- PROYECTOS --</h3>
+      <ul class="menu-list">
+        <li><a href="#" onclick="showView('desarrollo-web', event)">> Diseño Web</a></li>
+        <li><a href="#" onclick="showView('vis-3d', event)">> Renders 3D</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3 class="menu-title">-- VISORES --</h3>
+      <ul class="menu-list">
+        <li><a href="#" onclick="showView('visor-pdf', event)">> Visor PDF</a></li>
+        <li><a href="#" onclick="showView('visor-dxf', event)">> Visor DXF</a></li>
+        <li><a href="#" onclick="showView('visor-stl', event)">> Visor STL</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+
+    <!-- INICIO -->
+    <section class="view-section active" id="view-inicio">
+      <div class="hero-view">
+        <div class="hero">
+          <div class="hero-left">
+            <img src="img/mi_logo.png" alt="Logo MM ScanLab" class="hero-logo" onerror="this.style.display='none'">
+            <h1>MM ScanLab</h1>
+            <h2>Digitalización y Restauración de Planos, Mapas y Documentación Técnica en Papel</h2>
+            <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
+            <div class="botones-hero">
+              <a href="#" class="btn" onclick="showView('contacto', event)">Solicitar Consulta</a>
+              <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Ver Servicios</a>
+            </div>
+          </div>
+          <div class="hero-right">
+            <h3>Recuperación Digital</h3>
+            <div class="visor-container">
+              <span class="visor-label label-before">Restauración</span>
+              <span class="visor-label label-after">Original</span>
+              <img src="img/antes.jpg" alt="Plano original en papel" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Original+Scan'">
+              <div class="visor-after-wrap">
+                <img src="img/despues.webp" alt="Plano restaurado digitalmente" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Restored+Digital'">
+              </div>
+              <div class="visor-handle"></div>
+              <div class="visor-overlay"></div>
+            </div>
+            <span class="desliza-hint">Desliza para comparar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAN-TO-DXF/SVG -->
+    <section class="view-section" id="view-scan-dxf">
+      <div class="cad-header">
+        <h2 class="cad-title">> SCAN-TO-DXF / SVG</h2>
+        <p class="cad-subtitle">Conversión a vectoriales limpios para AutoCAD/QGIS</p>
+      </div>
+      <div class="viewer-showcase" style="max-width: 1100px; margin: 0 auto; width: 100%;">
+        <div class="visor-container" style="max-width: 100%;">
+          <span class="visor-label label-before">Digital</span>
+          <span class="visor-label label-after">Original</span>
+          <img src="img/antes_02.jpg" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Scan+Original'">
+          <div class="visor-after-wrap">
+            <img src="img/despues_02.jpg" alt="Vectorizado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Vectorizado'">
+          </div>
+          <div class="visor-handle"></div>
+          <div class="visor-overlay"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAN-TO-RENDER -->
+    <section class="view-section" id="view-scan-render">
+      <div class="cad-header">
+        <h2 class="cad-title">> SCAN-TO-RENDER</h2>
+        <p class="cad-subtitle">Render de perspectivas arquitectónicas y técnicas</p>
+      </div>
+      <div class="viewer-showcase" style="max-width: 1100px; margin: 0 auto; width: 100%;">
+        <div class="visor-container" style="max-width: 100%;">
+          <span class="visor-label label-before">Render</span>
+          <span class="visor-label label-after">Original</span>
+          <img src="img/proyecto_pe_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Perspectiva+Original'">
+          <div class="visor-after-wrap">
+            <img src="img/proyecto_pe_01.webp" alt="Renderizado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Render+Final'">
+          </div>
+          <div class="visor-handle"></div>
+          <div class="visor-overlay"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAN-TO-RASTER/MAP -->
+    <section class="view-section" id="view-scan-raster">
+      <div class="cad-header">
+        <h2 class="cad-title">> SCAN-TO-RASTER / MAP</h2>
+        <p class="cad-subtitle">Restauración de planos industriales, arquitectónicos y mapas</p>
+      </div>
+      <div class="viewer-showcase" style="max-width: 1100px; margin: 0 auto; width: 100%;">
+        <div class="visor-container" style="max-width: 100%;">
+          <span class="visor-label label-before">Mapa</span>
+          <span class="visor-label label-after">Original</span>
+          <img src="img/proyecto_ct_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Mapa+Original'">
+          <div class="visor-after-wrap">
+            <img src="img/proyecto_ct_02.webp" alt="Restaurado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Mapa+Restaurado'">
+          </div>
+          <div class="visor-handle"></div>
+          <div class="visor-overlay"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESARROLLO WEB -->
+    <section class="view-section" id="view-desarrollo-web">
+      <div class="cad-header">
+        <h2 class="cad-title">> DESARROLLO WEB</h2>
+        <p class="cad-subtitle">Tecnologías 3D y plataformas interactivas</p>
+      </div>
+      <div class="content-wrapper">
+        <div class="cards-container">
+          <div class="card"><h3>Plataformas 3D</h3><p>Integración de modelos BIM en web.</p></div>
+          <div class="card"><h3>Recorridos 360°</h3><p>Tours virtuales inmersivos.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISUALIZACIONES 3D -->
+    <section class="view-section" id="view-vis-3d">
+      <div class="cad-header">
+        <h2 class="cad-title">> VISUALIZACIONES 3D</h2>
+        <p class="cad-subtitle">Explora los detalles técnicos en alta resolución</p>
+      </div>
+      
+      <figure class="zp-viewer">
+        <div class="zp-label-wrap">
+          <figcaption class="zp-label">Render digital (Zoom & Pan)</figcaption>
+        </div>
+        <div class="zp-stage">
+          <img class="zp-img" src="img/proyecto_pe_02.webp" alt="Plano reentintado" draggable="false" onerror="this.src='https://via.placeholder.com/1200x800/000000/00E5FF?text=Imagen+Alta+Resolucion'">
+          <span class="zp-hint">Arrastra para mover · Rueda para zoom · Doble clic para ampliar</span>
+        </div>
+        <div class="zp-toolbar" role="toolbar">
+          <button class="zp-btn" data-zp-action="zoom-out">-</button>
+          <span class="zp-zoom" data-zp-role="zoom-level">—</span>
+          <button class="zp-btn" data-zp-action="zoom-in">+</button>
+          <span class="zp-sep"></span>
+          <button class="zp-btn zp-btn--wide" data-zp-action="fit">Ajustar</button>
+          <button class="zp-btn zp-btn--wide" data-zp-action="reset">1:1</button>
+          <button class="zp-btn zp-btn--wide" data-zp-action="fullscreen">[ ]</button>
+        </div>
+      </figure>
+    </section>
+
+    <!-- VISOR PDF -->
+    <section class="view-section" id="view-visor-pdf">
+      <div class="cad-header">
+        <h2 class="cad-title">> VISOR PDF</h2>
+        <p class="cad-subtitle">Documentación técnica en alta resolución</p>
+      </div>
+      
+      <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
+        
+        <!-- Área de visualización expandida -->
+        <div id="pdf-stage" style="flex: 1; width: 100%; border: 1px solid var(--accent-copper); overflow-y: auto; overflow-x: hidden; background: #050505; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 15px;">
+          <p style="color:var(--text-muted); font-family: var(--cad-font); text-align: center; margin-top: 50px;">[ Cargue un archivo PDF para visualizarlo ]</p>
+          <canvas id="pdf-canvas" style="display: none; max-width: 100%; height: auto; box-shadow: 0 0 15px rgba(0,229,255,0.1);"></canvas>
+        </div>
+        
+        <!-- Barra de herramientas ABAJO -->
+        <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
+          <label for="pdf-input" class="stl-btn">CARGAR .PDF</label>
+          <input type="file" id="pdf-input" accept="application/pdf" style="display: none;">
+          <button class="stl-btn" id="pdf-prev">PÁG. ANT.</button>
+          <button class="stl-btn" id="pdf-next">PÁG. SIG.</button>
+          <span class="stl-color-label" id="pdf-page-info">Pág: 0 / 0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISOR DXF -->
+    <section class="view-section" id="view-visor-dxf">
+      <div class="cad-header">
+        <h2 class="cad-title">> VISOR DXF</h2>
+        <p class="cad-subtitle">Visualización de archivos CAD en la web</p>
+      </div>
+      
+      <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
+        <div id="dxf-stage" class="stl-stage" style="flex: 1; width: 100%; height: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
+          <label for="dxf-input" class="stl-btn">CARGAR .DXF</label>
+          <input type="file" id="dxf-input" accept=".dxf" style="display: none;">
+          <button class="stl-btn" id="dxf-reset-view">RESET VISTA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISOR STL -->
+    <section class="view-section" id="view-visor-stl">
+      <div class="cad-header">
+        <h2 class="cad-title">> VISOR STL</h2>
+        <p class="cad-subtitle">Carga local de modelos 3D y control de color</p>
+      </div>
+      
+      <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
+        <div class="stl-stage" id="stl-stage" style="flex: 1; width: 100%; height: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
+          <label for="stl-input" class="stl-btn">CARGAR .STL</label>
+          <input type="file" id="stl-input" accept=".stl" style="display: none;">
+          
+          <span class="zp-sep"></span>
+          
+          <span class="stl-color-label">COLOR:</span>
+          <input type="color" id="stl-color" class="stl-color-input" value="#00E5FF">
+          
+          <span class="zp-sep"></span>
+          
+          <button class="stl-btn" id="stl-reset-view">RESET VISTA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUÉ HACEMOS -->
+    <section class="view-section" id="view-que-hacemos">
+      <div class="cad-header">
+        <h2 class="cad-title">> CÓMO PUEDO AYUDARTE</h2>
+        <p class="cad-subtitle">Soluciones de digitalización, visualizaciones 3D y desarrollo Web </p>
+      </div>
+      <div class="content-wrapper">
+        <div class="cards-container">
+          <div class="card"><h3>Digitalización / Rescate (HBIM)</h3><p>Digitalización y restauración de planos en papel y documentación histórica.</p></div>     
+          <div class="card"><h3>Comunicación</h3><p>Presentaciones web interactivas / Visualizaciones 3D.</p></div>
+          <div class="card"><h3>Desarrollo Web 3D</h3><p>Plataformas Web accesibles para visores 2D / 3D / Renders.</p></div>
+        </div>
+        
+        <div class="text-block">
+          <h3>Principales servicios</h3>
+          <p>Brindamos servicios integrales de diseño arquitectónico, mecánico e industrial, desarrollo web, visualización 3D y digitalización de archivos físicos. Convertimos planos, mapas y documentos en papel a formatos editables y compatibles con CAD, BIM, GIS y PDF.</p>
+        </div>
+
+        <div class="text-block">
+          <h3>Migración de archivos físicos a digitales</h3>
+          <p>Transformamos documentos físicos en archivos digitales de alta precisión, facilitando su consulta, edición, organización y conservación. Este proceso permite optimizar espacios, agilizar el acceso a la información, facilitar el trabajo remoto y proteger el patrimonio documental frente a desastres naturales, incendios y el deterioro causado por el paso del tiempo.</p>
+        </div> 
+        
+        <div class="methodology-block">
+          <h3>Metodología de Trabajo</h3>
+          <p>Contamos con una metodología eficiente que abarca desde el diagnóstico hasta la entrega final de archivos listos para su uso mediante plataformas web:</p>
+          <ul class="methodology-list">
+            <li>Diagnóstico</li>
+            <li>Digitalización</li>
+            <li>Gestión Documental</li>
+            <li>Entrega Web</li>
+          </ul>
+        </div>
+
+        <div class="text-block" style="margin-bottom: 40px;">
+          <h3>Áreas de aplicación</h3>
+          <p>Nuestro servicio está dirigido a instituciones, oficinas de arquitectura e ingeniería, archivos técnicos y organizaciones que necesiten conservar, gestionar y reutilizar información técnica de valor histórico u operativo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS (INFOGRAFÍA ORDENADA) -->
+    <section class="view-section" id="view-servicios">
+      <div class="cad-header">
+        <h2 class="cad-title">> NUESTROS SERVICIOS</h2>
+        <p class="cad-subtitle">Soluciones integrales para la era digital</p>
+      </div>
+
+      <div class="content-wrapper">
+        <div class="cards-container" style="max-width: 100%;">
+          <!-- Tarjeta 1: Digitalización -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 7h8v2H5zm0 4h8v2H5zm0 4h8v2H5zm10-8h4v2h-4zm0 4h4v2h-4zm0 4h4v2h-4z"/></svg>
+            <h3>1. Digitalización</h3>
+            <p>Escaneo de alta resolución y recuperación de planos en papel, vegetal o mapas antiguos para su preservación digital.</p>
+          </div>
+          <!-- Tarjeta 2: Vectorización -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            <h3>2. Vectorización</h3>
+            <p>Conversión de imágenes raster a formatos vectoriales limpios (DXF/SVG) para CAD y Sistemas de Información Geográfica (GIS).</p>
+          </div>
+          <!-- Tarjeta 3: Modelado 3D -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 2.83L19.17 12 12 19.17 4.83 12 12 4.83z"/><path d="M12 6L6 12l6 6 6-6-6-6z" fill="none"/></svg>
+            <h3>3. Modelado 3D</h3>
+            <p>Generación de modelos 3D y BIM a partir de planos 2D o levantamientos existentes para arquitectura e ingeniería.</p>
+          </div>
+          <!-- Tarjeta 4: Renderizado -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <h3>4. Renderizado</h3>
+            <p>Creación de renders fotorrealistas y visualizaciones inmersivas de proyectos arquitectónicos y perspectivas técnicas.</p>
+          </div>
+          <!-- Tarjeta 5: Desarrollo Web -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+            <h3>5. Desarrollo Web</h3>
+            <p>Plataformas web interactivas, visores de modelos 3D y recorridos virtuales 360° para presentación de proyectos.</p>
+          </div>
+          <!-- Tarjeta 6: Rescate Patrimonial -->
+          <div class="card">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+            <h3>6. Rescate Patrimonial</h3>
+            <p>Preservación y restauración digital de documentación histórica para archivos, museos y instituciones.</p>
+          </div>
+          <!-- Tarjeta Extra: Áreas de Aplicación -->
+          <div class="card" style="border-color: var(--accent-copper);">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <h3>Áreas de Aplicación</h3>
+            <ul class="card-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+              <li>Arquitectura</li>
+              <li>Ingeniería</li>
+              <li>Construcción</li>
+              <li>Topografía</li>
+              <li>Gestión GIS</li>
+              <li>Industria</li>
+              <li>Patrimonio</li>
+              <li>Urbanismo</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="methodology-block" style="margin-top: 0;">
+          <h3>Metodología de Trabajo</h3>
+          <p>Contamos con una metodología eficiente que abarca desde el diagnóstico hasta la entrega final de archivos listos para su uso mediante plataformas web:</p>
+          <ul class="methodology-list">
+            <li>Diagnóstico</li>
+            <li>Digitalización</li>
+            <li>Gestión Documental</li>
+            <li>Entrega Web</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MI -->
+    <section class="view-section" id="view-sobre-mi">
+      <div class="cad-header">
+        <h2 class="cad-title">> SOBRE MM SCANLAB</h2>
+        <p class="cad-subtitle">Perfil profesional y experiencia</p>
+      </div>
+      <div class="content-wrapper">
+        <div class="sobre-mi-layout">
+          <div class="sobre-mi-texto">
+            <p class="cita">"MM-ScanLab es un estudio de diseño y tecnología dirigido por Mario Molina, Constructor Civil 
+            (Eg. ISET-BA) con posgrado en SIG y Geomática (UBA) especializado en gestión digital de proyectos de edificación; 
+            firma de planos, dirección técnica de obra, relevamientos, peritajes, tasaciones y gestión de permisos municipales / 
+            provinciales."</p>
+
+            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería e infraestructura para corporaciones 
+            multinacionales líderes. Especialista en la transición tecnológica desde el dibujo tradicional hacia CAD, BIM e 
+            inteligencia artificial.</p>
+
+            <p>La firma ofrece servicios integrales que abarcan el diseño arquitectónico, mecánico e industrial, así como soluciones de desarrollo web, visualizaciones 3D y la migración de archivos físicos —incluyendo planos, mapas y documentación en papel—, a formatos digitales de alta precisión para su gestión y reutilización.</p>
+            
+            <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
+              <h3>Rescate Patrimonial Digital</h3>
+              <p>La digitalización de planos resulta esencial para la preservación, gestión y reutilización de información técnica contenida en documentos de gran formato, tales como planos arquitectónicos, mapas, diagramas de ingeniería o esquemas de infraestructura. Nuestro servicio facilita la conversión de soportes físicos (papel o tela), en archivos digitales de alta precisión, listos para consulta, archivo, edición o visualización mediante plataformas web.</p>
+            </div>
+          </div>
+          
+          <div class="audiencia">
+            <h4>A quién ayudo</h4>
+            <ul>
+              <li>Arquitectos</li>
+              <li>Ingenieros</li>
+              <li>Estudios profesionales</li>
+              <li>Desarrolladores</li>
+              <li>Empresas industriales</li>
+              <li>Inversores</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="view-section" id="view-contacto">
+      <div class="cad-header">
+        <h2 class="cad-title">> CONTACTO</h2>
+        <p class="cad-subtitle">Herramientas BIM, CAD y Web 3D/360</p>
+      </div>
+      <div class="content-wrapper" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+        <div class="card" style="text-align: center;">
+          <h3>WhatsApp</h3>
+          <p><a href="https://wa.me/5492345446330" target="_blank">+54 9 2345 44 6330</a></p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <h3>Sitio Web</h3>
+          <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="wa-flotante" aria-label="Contactar por WhatsApp">
+  <a href="https://wa.me/5492345446330?text=Hola%20Mario" target="_blank">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16.004c0 3.5 1.132 6.744 3.054 9.378L1.056 31.2l6.042-1.964c2.526 1.676 5.536 2.656 8.772 2.656h.008C24.826 31.892 32 24.714 32 15.888 32 7.06 24.826 0 16.004 0zm9.314 22.61c-.39 1.1-1.932 2.014-3.17 2.28-.846.18-1.95.324-5.668-1.218-4.758-1.97-7.822-6.81-8.064-7.13-.234-.318-1.918-2.556-1.918-4.874s1.216-3.454 1.648-3.928c.432-.474.944-.594 1.26-.594.316 0 .632.002.908.016.292.016.684-.11 1.068.816.394.946 1.34 3.266 1.458 3.502.118.236.196.512.04.828-.158.316-.236.512-.472.788-.236.276-.498.616-.71.828-.236.236-.482.492-.206.964.274.474 1.222 2.016 2.624 3.266 1.804 1.606 3.324 2.104 3.798 2.34.474.236.75.196 1.026-.118.274-.316 1.182-1.376 1.498-1.85.316-.474.632-.394 1.066-.236.434.158 2.744 1.294 3.218 1.53.474.236.79.354.908.55.118.196.118 1.14-.272 2.24z"/>
+    </svg>
+  </a>
+</div>
+
+<!-- Librerías Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+
+<!-- Librería PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<!-- Librería DxfParser -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dxf-parser/1.1.2/dxf.parser.min.js"></script>
+
+<script>
+  // Configuración del worker para PDF.js
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  // NAVEGACIÓN DE VISTAS
+  function showView(viewId, event) {
+    if(event) event.preventDefault();
+    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + viewId).classList.add('active');
+    
+    document.querySelectorAll('.menu-list a').forEach(a => a.classList.remove('active'));
+    if(event && event.target) event.target.classList.add('active');
+    
+    setTimeout(() => { 
+      window.dispatchEvent(new Event('resize')); 
+      if(viewId === 'visor-stl') initSTLViewer(); 
+      if(viewId === 'visor-dxf') initDXFViewer(); 
+    }, 100);
+  }
+
+  // VISOR ANTES Y DESPUÉS
+  const visorContainers = document.querySelectorAll('.visor-container');
+  visorContainers.forEach(container => {
+    const afterWrap = container.querySelector('.visor-after-wrap');
+    const handle = container.querySelector('.visor-handle');
+    const overlay = container.querySelector('.visor-overlay');
+    const afterContent = afterWrap.querySelector('img, svg'); 
+    let isResizing = false;
+
+    const adjustVisor = (clientX) => {
+      const rect = container.getBoundingClientRect();
+      let newWidth = clientX - rect.left;
+      if (newWidth < 0) newWidth = 0;
+      if (newWidth > rect.width) newWidth = rect.width;
+      
+      let percentage = (newWidth / rect.width) * 100;
+      afterWrap.style.width = percentage + '%';
+      handle.style.left = percentage + '%';
+      afterContent.style.width = rect.width + 'px';
+    };
+
+    overlay.addEventListener('mousedown', (e) => { isResizing = true; adjustVisor(e.clientX); });
+    document.addEventListener('mousemove', (e) => { if (isResizing) adjustVisor(e.clientX); });
+    document.addEventListener('mouseup', () => { isResizing = false; });
+
+    overlay.addEventListener('touchstart', (e) => { isResizing = true; adjustVisor(e.touches[0].clientX); }, { passive: true });
+    document.addEventListener('touchmove', (e) => { if (isResizing) adjustVisor(e.touches[0].clientX); }, { passive: true });
+    document.addEventListener('touchend', () => { isResizing = false; });
+
+    const initVisor = () => {
+      const rect = container.getBoundingClientRect();
+      afterContent.style.width = rect.width + 'px';
+    };
+    
+    window.addEventListener('load', initVisor);
+    window.addEventListener('resize', initVisor);
+    setTimeout(initVisor, 500);
+  });
+
+  // VISOR ZOOM & PAN
+  (function(){
+    'use strict';
+    var STEP = 1.25, MAX = 10, MIN = 0.6, PAD = 12;
+    function clamp(v, min, max){ return Math.min(max, Math.max(min, v)); }
+    function createViewer(root){
+      if (root.hasAttribute('data-zp-ready')) return;
+      root.setAttribute('data-zp-ready', '1');
+      var stage = root.querySelector('.zp-stage'), img = root.querySelector('.zp-img');
+      var label = root.querySelector('[data-zp-role="zoom-level"]'), hint = root.querySelector('.zp-hint');
+      var scale = 1, base = 1, tx = 0, ty = 0, imgW = 0, imgH = 0;
+      var pointers = new Map(), pan = null, pinch = null, tapTime = 0, tapX = 0, tapY = 0;
+
+      function size(){ var r = stage.getBoundingClientRect(); return { w: r.width, h: r.height }; }
+      function minScale(){ return MIN; } 
+      function calcBase(){ var s = size(); return Math.min((s.w - PAD*2)/imgW, (s.h - PAD*2)/imgH); }
+      function render(){ img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')'; if (label) label.textContent = Math.round(scale * 100) + '%'; }
+      function clampPan(){ var s = size(), rw = imgW * scale, rh = imgH * scale; tx = (rw <= s.w) ? (s.w - rw)/2 : clamp(tx, s.w - rw, 0); ty = (rh <= s.h) ? (s.h - rh)/2 : clamp(ty, s.h - rh, 0); }
+      function zoomAt(cx, cy, factor){ var ns = clamp(scale * factor, minScale(), MAX); var px = (cx - tx) / scale, py = (cy - ty) / scale; tx = cx - px * ns; ty = cy - py * ns; scale = ns; clampPan(); render(); }
+      function centerZoom(factor){ var s = size(); zoomAt(s.w/2, s.h/2, factor); }
+      function fit(){ 
+        if (!imgW) return;
+        base = calcBase();
+        scale = Math.max(base, MIN);
+        var s = size();
+        tx = (s.w - imgW * scale) / 2;
+        ty = (s.h - imgH * scale) / 2;
+        clampPan();
+        render();
+      }
+      function reset(){ scale = 1; clampPan(); render(); }
+      function hideHint(){ if (hint) hint.classList.add('zp-hide'); }
+
+      stage.addEventListener('pointerdown', function(e){
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        stage.setPointerCapture(e.pointerId); pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 1){ pan = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; pinch = null; } 
+        else if (pointers.size === 2){ var p = Array.from(pointers.values()); pinch = { dist: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y), scale: scale, tx: tx, ty: ty, midX: (p[0].x + p[1].x)/2, midY: (p[0].y + p[1].y)/2 }; pan = null; }
+        hideHint(); e.preventDefault();
+      });
+      stage.addEventListener('pointermove', function(e){
+        if (!pointers.has(e.pointerId)) return; pointers.set(e.pointerId, { x: e.clientX, y: e.clientY }); var rect = stage.getBoundingClientRect();
+        if (pointers.size === 1 && pan){ tx = pan.tx + (e.clientX - pan.x); ty = pan.ty + (e.clientY - pan.y); clampPan(); render(); } 
+        else if (pointers.size === 2 && pinch){ var p = Array.from(pointers.values()); var d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y); var ns = clamp(pinch.scale * d / pinch.dist, minScale(), MAX); var px = (pinch.midX - rect.left - pinch.tx) / pinch.scale; var py = (pinch.midY - rect.top - pinch.ty) / pinch.scale; var mx = (p[0].x + p[1].x)/2 - rect.left; var my = (p[0].y + p[1].y)/2 - rect.top; tx = mx - px * ns; ty = my - py * ns; scale = ns; clampPan(); render(); }
+      });
+      function endPointer(e){ pointers.delete(e.pointerId); if (pointers.size < 2) pinch = null; if (pointers.size === 1){ var p = Array.from(pointers.values())[0]; pan = { x: p.x, y: p.y, tx: tx, ty: ty }; } else if (pointers.size === 0){ pan = null; } }
+      stage.addEventListener('pointerup', function(e){ var rect = stage.getBoundingClientRect(); var now = Date.now(); if (now - tapTime < 320 && Math.hypot(e.clientX - tapX, e.clientY - tapY) < 32){ zoomAt(e.clientX - rect.left, e.clientY - rect.top, e.shiftKey ? 1/STEP : STEP); tapTime = 0; } else { tapTime = now; tapX = e.clientX; tapY = e.clientY; } endPointer(e); });
+      stage.addEventListener('pointercancel', endPointer);
+      stage.addEventListener('wheel', function(e){ e.preventDefault(); var dy = e.deltaY; if (e.deltaMode === 1) dy *= 33; else if (e.deltaMode === 2) dy *= 300; var rect = stage.getBoundingClientRect(); zoomAt(e.clientX - rect.left, e.clientY - rect.top, Math.exp(-dy * 0.0016)); hideHint(); }, { passive: false });
+      root.querySelectorAll('[data-zp-action]').forEach(function(btn){ btn.addEventListener('click', function(){ var a = btn.getAttribute('data-zp-action'); if (a === 'zoom-in') centerZoom(STEP); else if (a === 'zoom-out') centerZoom(1/STEP); else if (a === 'fit') fit(); else if (a === 'reset') reset(); else if (a === 'fullscreen') toggleFS(); hideHint(); }); });
+      function toggleFS(){ if (document.fullscreenElement === root) document.exitFullscreen(); else if (root.requestFullscreen) root.requestFullscreen(); }
+      document.addEventListener('fullscreenchange', function(){ var fs = document.fullscreenElement === root; root.classList.toggle('zp-fullscreen', fs); setTimeout(function(){ if (!imgW) return; var wasFit = Math.abs(scale - Math.max(base, MIN)) < 0.002; if (wasFit) fit(); else { base = calcBase(); clampPan(); render(); } }, 60); });
+      window.addEventListener('resize', function(){ if (!imgW) return; var wasFit = Math.abs(scale - Math.max(base, MIN)) < 0.002; if (wasFit) fit(); else { base = calcBase(); clampPan(); render(); } });
+      function start(){ imgW = img.naturalWidth; imgH = img.naturalHeight; fit(); }
+      if (img.complete && img.naturalWidth) start(); else img.addEventListener('load', start, { once: true });
+    }
+    function init(){ document.querySelectorAll('.zp-viewer').forEach(createViewer); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+    window.ZoomPanViewer = { init: init };
+  })();
+
+  // --- VISOR PDF (PDF.js) ---
+  let pdfDoc = null, pageNum = 1, pageIsRendering = false, pageNumIsPending = null;
+
+  function renderPDFPage(num) {
+    pageIsRendering = true;
+    pdfDoc.getPage(num).then(function(page) {
+      const canvas = document.getElementById('pdf-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Calcular escala dinámica para que encaje bien en el ancho de la pantalla
+      const container = document.getElementById('pdf-stage');
+      const desiredWidth = container.clientWidth - 40; // 40px de padding total
+      const unscaledViewport = page.getViewport({ scale: 1 });
+      const scale = Math.max(1, desiredWidth / unscaledViewport.width); // Mínimo escala 1 para no perder calidad
+      
+      const viewport = page.getViewport({ scale: scale });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      
+      const renderContext = { canvasContext: ctx, viewport: viewport };
+      const renderTask = page.render(renderContext);
+
+      renderTask.promise.then(function() {
+        pageIsRendering = false;
+        if (pageNumIsPending !== null) {
+          renderPDFPage(pageNumIsPending);
+          pageNumIsPending = null;
+        }
+      });
+      document.getElementById('pdf-page-info').textContent = `Pág: ${num} / ${pdfDoc.numPages}`;
+    });
+  }
+
+  function queueRenderPDFPage(num) {
+    if (pageIsRendering) pageNumIsPending = num;
+    else renderPDFPage(num);
+  }
+
+  document.getElementById('pdf-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const typedarray = new Uint8Array(e.target.result);
+      pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+        pdfDoc = pdf;
+        pageNum = 1;
+        document.getElementById('pdf-canvas').style.display = 'block';
+        document.querySelector('#pdf-stage p').style.display = 'none';
+        document.getElementById('pdf-stage').scrollTop = 0; // Manda el scroll arriba
+        renderPDFPage(pageNum);
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  document.getElementById('pdf-prev').addEventListener('click', () => {
+    if (pageNum <= 1) return;
+    pageNum--;
+    queueRenderPDFPage(pageNum);
+  });
+  document.getElementById('pdf-next').addEventListener('click', () => {
+    if (pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    queueRenderPDFPage(pageNum);
+  });
+
+  // --- VISOR DXF (Three.js + DxfParser) ---
+  let dxfScene, dxfCamera, dxfRenderer, dxfControls, dxfAnimationId, dxfGroup;
+
+  function initDXFViewer() {
+    const container = document.getElementById('dxf-stage');
+    if (!container || dxfRenderer) return;
+
+    dxfScene = new THREE.Scene();
+    dxfScene.background = new THREE.Color(0x050505);
+
+    dxfCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 5000);
+    dxfCamera.position.set(0, 0, 500);
+
+    dxfRenderer = new THREE.WebGLRenderer({ antialias: true });
+    dxfRenderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(dxfRenderer.domElement);
+
+    dxfControls = new THREE.OrbitControls(dxfCamera, dxfRenderer.domElement);
+    
+    const grid = new THREE.GridHelper(1000, 40, 0x00E5FF, 0x111111);
+    grid.rotation.x = Math.PI / 2;
+    dxfScene.add(grid);
+
+    function animate() {
+      dxfAnimationId = requestAnimationFrame(animate);
+      dxfControls.update();
+      dxfRenderer.render(dxfScene, dxfCamera);
+    }
+    animate();
+    window.addEventListener('resize', onDXFResize);
+  }
+
+  function onDXFResize() {
+    const container = document.getElementById('dxf-stage');
+    if (container && dxfCamera && dxfRenderer) {
+      dxfCamera.aspect = container.clientWidth / container.clientHeight;
+      dxfCamera.updateProjectionMatrix();
+      dxfRenderer.setSize(container.clientWidth, container.clientHeight);
+    }
+  }
+
+  document.getElementById('dxf-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    initDXFViewer();
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const parser = new DxfParser();
+      try {
+        const dxf = parser.parseSync(e.target.result);
+        
+        if(dxfGroup) {
+          dxfScene.remove(dxfGroup);
+        }
+        dxfGroup = new THREE.Group();
+        
+        const material = new THREE.LineBasicMaterial({ color: 0x00E5FF });
+
+        dxf.entities.forEach(entity => {
+          if (entity.type === 'LINE') {
+            const geometry = new THREE.BufferGeometry().setFromPoints([
+              new THREE.Vector3(entity.vertices[0].x, entity.vertices[0].y, 0),
+              new THREE.Vector3(entity.vertices[1].x, entity.vertices[1].y, 0)
+            ]);
+            dxfGroup.add(new THREE.Line(geometry, material));
+          } 
+          else if (entity.type === 'LWPOLYLINE' || entity.type === 'POLYLINE') {
+            const points = entity.vertices.map(v => new THREE.Vector3(v.x, v.y, 0));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            dxfGroup.add(new THREE.Line(geometry, material));
+          } 
+          else if (entity.type === 'CIRCLE') {
+            const curve = new THREE.EllipseCurve(
+              entity.center.x, entity.center.y,
+              entity.radius, entity.radius,
+              0, 2 * Math.PI, false, 0
+            );
+            const points = curve.getPoints(50).map(p => new THREE.Vector3(p.x, p.y, 0));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            dxfGroup.add(new THREE.Line(geometry, material));
+          }
+          else if (entity.type === 'ARC') {
+            const curve = new THREE.EllipseCurve(
+              entity.center.x, entity.center.y,
+              entity.radius, entity.radius,
+              entity.startAngle, entity.endAngle, false, 0
+            );
+            const points = curve.getPoints(50).map(p => new THREE.Vector3(p.x, p.y, 0));
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            dxfGroup.add(new THREE.Line(geometry, material));
+          }
+        });
+
+        dxfScene.add(dxfGroup);
+        
+        // Calcular bounding box para centrar la cámara
+        const box = new THREE.Box3().setFromObject(dxfGroup);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        dxfControls.target.copy(center);
+        dxfCamera.position.set(center.x, center.y, center.z + Math.max(size.x, size.y) * 1.5);
+        dxfControls.update();
+
+      } catch (err) {
+        console.error("Error al leer DXF:", err);
+        alert("Error al cargar el DXF. Asegúrate de que sea un archivo válido.");
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById('dxf-reset-view').addEventListener('click', function() {
+    if (dxfControls && dxfCamera && dxfGroup) {
+      const box = new THREE.Box3().setFromObject(dxfGroup);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      
+      dxfControls.target.copy(center);
+      dxfCamera.position.set(center.x, center.y, center.z + Math.max(size.x, size.y) * 1.5);
+      dxfControls.update();
+    }
+  });
+
+  // --- VISOR STL (THREE.JS) ---
+  let stlScene, stlCamera, stlRenderer, stlControls, stlMesh, stlAnimationId;
+
+  function initSTLViewer() {
+    const container = document.getElementById('stl-stage');
+    if (!container || stlRenderer) return;
+
+    stlScene = new THREE.Scene();
+    stlScene.background = new THREE.Color(0x050505);
+
+    stlCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 10000);
+    stlCamera.position.set(0, 0, 100);
+
+    stlRenderer = new THREE.WebGLRenderer({ antialias: true });
+    stlRenderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(stlRenderer.domElement);
+
+    stlControls = new THREE.OrbitControls(stlCamera, stlRenderer.domElement);
+    stlControls.enableDamping = true;
+    stlControls.dampingFactor = 0.1;
+    stlControls.maxDistance = 400;
+
+    const ambientLight = new THREE.AmbientLight(0x404040, 2);
+    stlScene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(1, 1, 1).normalize();
+    stlScene.add(directionalLight);
+
+    const grid = new THREE.GridHelper(200, 20, 0x00E5FF, 0x111111);
+    grid.rotation.x = Math.PI / 2;
+    stlScene.add(grid);
+
+    function animate() {
+      stlAnimationId = requestAnimationFrame(animate);
+      stlControls.update();
+      stlRenderer.render(stlScene, stlCamera);
+    }
+    animate();
+
+    window.addEventListener('resize', onSTLResize);
+  }
+
+  function onSTLResize() {
+    const container = document.getElementById('stl-stage');
+    if (container && stlCamera && stlRenderer) {
+      stlCamera.aspect = container.clientWidth / container.clientHeight;
+      stlCamera.updateProjectionMatrix();
+      stlRenderer.setSize(container.clientWidth, container.clientHeight);
+    }
+  }
+
+  document.getElementById('stl-input').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const loader = new THREE.STLLoader();
+      const geometry = loader.parse(e.target.result);
+      
+      if (stlMesh) {
+        stlScene.remove(stlMesh);
+        stlMesh.geometry.dispose();
+        stlMesh.material.dispose();
+      }
+
+      const material = new THREE.MeshPhongMaterial({
+        color: document.getElementById('stl-color').value,
+        specular: 0x111111,
+        shininess: 50,
+        flatShading: false 
+      });
+      
+      stlMesh = new THREE.Mesh(geometry, material);
+
+      geometry.computeBoundingBox();
+      const bbox = geometry.boundingBox;
+      const size = new THREE.Vector3().subVectors(bbox.max, bbox.min);
+      const center = new THREE.Vector3().addVectors(bbox.max, bbox.min).multiplyScalar(0.5);
+      
+      geometry.translate(-center.x, -center.y, -center.z);
+      
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = 100 / maxDim;
+      geometry.scale(scale, scale, scale);
+
+      stlScene.add(stlMesh);
+
+      stlCamera.position.set(0, -150, 100);
+      stlControls.target.set(0, 0, 0);
+      stlControls.update();
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  document.getElementById('stl-color').addEventListener('input', function(event) {
+    if (stlMesh) {
+      stlMesh.material.color.set(event.target.value);
+    }
+  });
+
+  document.getElementById('stl-reset-view').addEventListener('click', function() {
+    if (stlControls && stlCamera) {
+      stlCamera.position.set(0, -150, 100);
+      stlControls.target.set(0, 0, 0);
+      stlControls.update();
+    }
+  });
+</script>
+
+</body>
+</html>
