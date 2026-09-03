@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MM ScanLab | Gestión Digital y Rescate Patrimonial</title>
+  <title>ScanLabb | Digitalización y Rescate Patrimonial</title>
   <style>
     /* --- MODO CAD 80s (Terminal / DOS) --- */
     :root {
@@ -18,7 +18,8 @@
       --text-muted: #94A3B8;
       --text-light: #FFFFFF;
       --glass-blur: 0px;
-      --sidebar-width: 180px;
+      --sidebar-width: 160px;
+      --sidebar-collapsed-width: 50px; /* Nuevo ancho para el menú colapsado */
       --cad-font: 'Lucida Console', 'Courier New', monospace;
     }
 
@@ -61,21 +62,47 @@
       overflow-x: hidden;              
       z-index: 1000;
       font-family: var(--cad-font);
+      transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease; /* Transición suave */
     }
     
+    /* Estado colapsado del sidebar */
+    .sidebar.collapsed {
+      width: var(--sidebar-collapsed-width);
+      min-width: var(--sidebar-collapsed-width);
+      max-width: var(--sidebar-collapsed-width);
+    }
+
     .sidebar-header { 
       padding: 10px 12px; 
       border-bottom: 1px solid var(--accent-copper); 
       background: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .nav-logo-link { display: block; }
+    .nav-logo-link { display: block; text-decoration: none; }
     .nav-logo-text { 
       font-size: 0.9rem; 
       font-weight: normal; 
       color: var(--accent-copper); 
       font-family: var(--cad-font);
+      white-space: nowrap;
+      overflow: hidden;
     }
     .nav-logo-text span { color: #FFF; }
+
+    /* Botón de colapsar menú */
+    .sidebar-toggle {
+      background: transparent;
+      border: 1px solid var(--accent-copper);
+      color: var(--accent-copper);
+      padding: 2px 6px;
+      cursor: pointer;
+      font-family: var(--cad-font);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .sidebar-toggle:hover { background: var(--accent-copper); color: #000; }
 
     .menu-section { padding: 5px 0; border-bottom: 1px dashed #333; }
     .menu-title { 
@@ -85,23 +112,55 @@
       color: #555; 
       margin: 5px 12px 2px; 
       font-family: var(--cad-font);
+      white-space: nowrap;
     }
     .menu-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
     .menu-list a {
-      display: block; 
-      padding: 3px 12px; 
+      display: flex; 
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px; 
       color: #AAA; 
-      font-size: 0.85rem; 
+      font-size: 0.80rem; 
       font-weight: normal; 
       border-left: 3px solid transparent;
       font-family: var(--cad-font);
       transition: none;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .menu-list a:hover, .menu-list a.active {
       background: var(--accent-copper); 
       color: #000; 
       border-left-color: #FFF;
       text-shadow: none;
+    }
+
+    /* Iconos dentro del menú */
+    .menu-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* --- ESTILOS APLICADOS CUANDO EL MENÚ ESTÁ COLAPSADO --- */
+    .sidebar.collapsed .nav-logo-text,
+    .sidebar.collapsed .menu-title,
+    .sidebar.collapsed .menu-text {
+      display: none; /* Oculta los textos */
+    }
+    .sidebar.collapsed .sidebar-header {
+      padding: 10px 0;
+      justify-content: center;
+    }
+    .sidebar.collapsed .menu-list a {
+      justify-content: center;
+      padding: 10px 0;
     }
 
     /* --- CONTENEDOR PRINCIPAL DERECHO --- */
@@ -116,7 +175,16 @@
       background-image: 
         linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
-      background-size: 20px 20px; 
+      background-size: 20px 20px;
+      transition: margin-left 0.2s ease, width 0.2s ease; /* Transición suave */
+    }
+    .main-content.expanded {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+    }
+    .main-content.collapsed {
+      margin-left: var(--sidebar-collapsed-width);
+      width: calc(100% - var(--sidebar-collapsed-width));
     }
 
     .view-section {
@@ -344,62 +412,128 @@
 
 <div class="app-layout">
   <!-- MENÚ LATERAL -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <a href="#" class="nav-logo-link" onclick="showView('inicio', event)">
-        <div class="nav-logo-text">MM_SCANLAB <span>v1.0</span></div>
+        <div class="nav-logo-text">SCANLABB <span>v1.0</span></div>
       </a>
+      <button class="sidebar-toggle" onclick="toggleSidebar()">[<>]</button>
     </div>
 
     <div class="menu-section">
       <h3 class="menu-title">-- MENU --</h3>
       <ul class="menu-list">
-        <li><a href="#" onclick="showView('inicio', event)">> Inicio</a></li>
-        <li><a href="#" onclick="showView('servicios', event)">> Servicios</a></li>
-        <li><a href="#" onclick="showView('que-hacemos', event)">> Qué hacemos</a></li>
-        <li><a href="#" onclick="showView('sobre-mi', event)">> Sobre mi</a></li>
-        <li><a href="#" onclick="showView('contacto', event)">> Contacto</a></li>
+        <li>
+          <a href="#" onclick="showView('inicio', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 12L12 3l9 9v9h-6v-6H9v6H3v-9z"/></svg>
+            <span class="menu-text">Inicio</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('servicios', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.8 2.4 7.4L12 16.8 6 21.6l2.4-7.4-6-4.8h7.6L12 2z"/></svg>
+            <span class="menu-text">Servicios</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('que-hacemos', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="menu-text">Qué hacemos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('sobre-mi', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span class="menu-text">Sobre mi</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('contacto', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span class="menu-text">Contacto</span>
+          </a>
+        </li>
       </ul>
     </div>
 
     <div class="menu-section">
       <h3 class="menu-title">-- SCAN-TO- --</h3>
       <ul class="menu-list">
-        <li><a href="#" onclick="showView('scan-dxf', event)">> DXF/SVG</a></li>
-        <li><a href="#" onclick="showView('scan-render', event)">> Render</a></li>
-        <li><a href="#" onclick="showView('scan-raster', event)">> Raster/Map</a></li>
+        <li>
+          <a href="#" onclick="showView('scan-dxf', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            <span class="menu-text">DXF/SVG</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('scan-render', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span class="menu-text">Render</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('scan-raster', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM10 5l4 1.4v12.6L10 17V5z"/></svg>
+            <span class="menu-text">Raster/Map</span>
+          </a>
+        </li>
       </ul>
     </div>
 
     <div class="menu-section">
       <h3 class="menu-title">-- PROYECTOS --</h3>
       <ul class="menu-list">
-        <li><a href="#" onclick="showView('desarrollo-web', event)">> Diseño Web</a></li>
-        <li><a href="#" onclick="showView('vis-3d', event)">> Renders 3D</a></li>
+        <li>
+          <a href="#" onclick="showView('desarrollo-web', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+            <span class="menu-text">Diseño Web</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('vis-3d', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 2.83L19.17 12 12 19.17 4.83 12 12 4.83z"/></svg>
+            <span class="menu-text">Renders 3D</span>
+          </a>
+        </li>
       </ul>
     </div>
 
     <div class="menu-section">
       <h3 class="menu-title">-- VISORES --</h3>
       <ul class="menu-list">
-        <li><a href="#" onclick="showView('visor-pdf', event)">> Visor PDF</a></li>
-        <li><a href="#" onclick="showView('visor-dxf', event)">> Visor DXF</a></li>
-        <li><a href="#" onclick="showView('visor-stl', event)">> Visor STL</a></li>
+        <li>
+          <a href="#" onclick="showView('visor-pdf', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            <span class="menu-text">Visor PDF</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('visor-dxf', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M9 17l3-3 3 3M9 7l3 3 3-3" /></svg>
+            <span class="menu-text">Visor DXF</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('visor-stl', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 2.76-2.24 5-5 5-2.76 0-5-2.24-5-5 0-2.76 2.24-5 5-5m0-4C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 0v18m-9-9h18" /></svg>
+            <span class="menu-text">Visor STL</span>
+          </a>
+        </li>
       </ul>
     </div>
   </aside>
 
   <!-- CONTENIDO PRINCIPAL -->
-  <main class="main-content">
+  <main class="main-content expanded" id="main-content">
 
     <!-- INICIO -->
     <section class="view-section active" id="view-inicio">
       <div class="hero-view">
         <div class="hero">
           <div class="hero-left">
-            <img src="img/mi_logo.png" alt="Logo MM ScanLab" class="hero-logo" onerror="this.style.display='none'">
-            <h1>MM ScanLab</h1>
-            <h2>Digitalización y Restauración de Planos, Mapas y Documentación Técnica en Papel</h2>
+            <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onerror="this.style.display='none'">
+            <h1>ScanLabb</h1>
+            <h2>Digitalización y Restauración de Planos, Mapas y Documentación en Papel</h2>
             <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
             <div class="botones-hero">
               <a href="#" class="btn" onclick="showView('contacto', event)">Solicitar Consulta</a>
@@ -599,13 +733,13 @@
     <section class="view-section" id="view-que-hacemos">
       <div class="cad-header">
         <h2 class="cad-title">> CÓMO PUEDO AYUDARTE</h2>
-        <p class="cad-subtitle">Soluciones de digitalización, visualizaciones 3D y desarrollo Web </p>
+        <p class="cad-subtitle">Soluciones de digitalización y Desarrollo Web </p>
       </div>
       <div class="content-wrapper">
         <div class="cards-container">
           <div class="card"><h3>Digitalización / Rescate (HBIM)</h3><p>Digitalización y restauración de planos en papel y documentación histórica.</p></div>     
-          <div class="card"><h3>Comunicación</h3><p>Presentaciones web interactivas / Visualizaciones 3D.</p></div>
-          <div class="card"><h3>Desarrollo Web 3D</h3><p>Plataformas Web accesibles para visores 2D / 3D / Renders.</p></div>
+          <div class="card"><h3>Comunicación</h3><p>Presentaciones Web interactivas / Visualizaciones 3D.</p></div>
+          <div class="card"><h3>Desarrollo Web 3D</h3><p>Plataformas Web accesibles para visores 2D/3D/Renders.</p></div>
         </div>
         
         <div class="text-block">
@@ -615,7 +749,10 @@
 
         <div class="text-block">
           <h3>Migración de archivos físicos a digitales</h3>
-          <p>Transformamos documentos físicos en archivos digitales de alta precisión, facilitando su consulta, edición, organización y conservación. Este proceso permite optimizar espacios, agilizar el acceso a la información, facilitar el trabajo remoto y proteger el patrimonio documental frente a desastres naturales, incendios y el deterioro causado por el paso del tiempo.</p>
+          <p>Transformamos documentos físicos en archivos digitales, facilitando su consulta, edición, organización 
+          y conservación. Este proceso permite optimizar espacios, agilizar el acceso a la información, facilitar el 
+          trabajo remoto y proteger el patrimonio documental frente a desastres naturales, incendios y el deterioro 
+          causado por el paso del tiempo.</p>
         </div> 
         
         <div class="methodology-block">
@@ -649,13 +786,14 @@
           <div class="card">
             <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 7h8v2H5zm0 4h8v2H5zm0 4h8v2H5zm10-8h4v2h-4zm0 4h4v2h-4zm0 4h4v2h-4z"/></svg>
             <h3>1. Digitalización</h3>
-            <p>Escaneo de alta resolución y recuperación de planos en papel, vegetal o mapas antiguos para su preservación digital.</p>
+            <p>Escaneo y recuperación de planos en papel, mapas o documentos antiguos para su preservación digital.</p>
           </div>
           <!-- Tarjeta 2: Vectorización -->
           <div class="card">
             <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-            <h3>2. Vectorización</h3>
-            <p>Conversión de imágenes raster a formatos vectoriales limpios (DXF/SVG) para CAD y Sistemas de Información Geográfica (GIS).</p>
+            <h3>2. Planos / vectorización</h3>
+            <p>—Generación de planos arquitectónicos, mecánicos e industriales en CAD a partir de levantamientos.
+                —Vectorización, reconstrucción de planos a formatos limpios DXF para CAD.</p>
           </div>
           <!-- Tarjeta 3: Modelado 3D -->
           <div class="card">
@@ -700,7 +838,8 @@
         
         <div class="methodology-block" style="margin-top: 0;">
           <h3>Metodología de Trabajo</h3>
-          <p>Contamos con una metodología eficiente que abarca desde el diagnóstico hasta la entrega final de archivos listos para su uso mediante plataformas web:</p>
+          <p>Contamos con una metodología eficiente que abarca desde el diagnóstico hasta la entrega final de archivos 
+          listos para su uso mediante plataformas web:</p>
           <ul class="methodology-list">
             <li>Diagnóstico</li>
             <li>Digitalización</li>
@@ -714,26 +853,29 @@
     <!-- SOBRE MI -->
     <section class="view-section" id="view-sobre-mi">
       <div class="cad-header">
-        <h2 class="cad-title">> SOBRE MM SCANLAB</h2>
+        <h2 class="cad-title">> SOBRE SCANLABB</h2>
         <p class="cad-subtitle">Perfil profesional y experiencia</p>
       </div>
       <div class="content-wrapper">
         <div class="sobre-mi-layout">
           <div class="sobre-mi-texto">
-            <p class="cita">"MM-ScanLab es un estudio de diseño y tecnología dirigido por Mario Molina, Constructor Civil 
-            (Eg. ISET-BA) con posgrado en SIG y Geomática (UBA) especializado en gestión digital de proyectos de edificación; 
-            firma de planos, dirección técnica de obra, relevamientos, peritajes, tasaciones y gestión de permisos municipales / 
-            provinciales."</p>
+            <p class="cita">"ScanLabb es un estudio de diseño y tecnología dirigido por Mario Molina, Constructor Civil 
+            (ISET-BA) y GeoInformático (UBA), con competencias para diseñar y dirigir la construcción de edificios e 
+            infraestructuras. Integra BIM, CAD, GIS y Geomática, para la gestion digital de proyectos. </p>
 
-            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería e infraestructura para corporaciones 
-            multinacionales líderes. Especialista en la transformación tecnológica desde el dibujo tradicional hacia CAD, BIM e 
-            inteligencia artificial.</p>
+            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería y construcción, diseño y 
+            presentaciones visuales. Especialista en la transición tecnológica desde el dibujo tradicional hacia 
+            CAD, BIM e inteligencia artificial.</p>
 
-            <p>La firma ofrece servicios integrales que abarcan el diseño arquitectónico, mecánico e industrial, así como soluciones de desarrollo web, visualizaciones 3D y la migración de archivos físicos —incluyendo planos, mapas y documentación en papel—, a formatos digitales de alta precisión para su gestión y reutilización.</p>
-            
+            <p>Actualmente dirige su estudio que brinda servicios que incluyen diseño arquitectónico, mecánico e 
+            industrial, desarrollo web y la digitalización de archivos físicos hacia formatos digitales CAD, BIM y PDF,  
+            para optimizar su gestión y reutilización.
             <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
               <h3>Rescate Patrimonial Digital</h3>
-              <p>La digitalización de planos resulta esencial para la preservación, gestión y reutilización de información técnica contenida en documentos de gran formato, tales como planos arquitectónicos, mapas, diagramas de ingeniería o esquemas de infraestructura. Nuestro servicio facilita la conversión de soportes físicos (papel o tela), en archivos digitales de alta precisión, listos para consulta, archivo, edición o visualización mediante plataformas web.</p>
+              <p>La digitalización de documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de 
+              ingeniería o esquemas de infraestructura), resulta esencial para su preservación y gestión eficiente. 
+              Nuestro servicio facilita la migración de soportes físicos (papel), en archivos digitales listos para 
+              consulta, archivo, edición o visualización mediante plataformas web.</p>
             </div>
           </div>
           
@@ -763,15 +905,27 @@
           <h3>WhatsApp</h3>
           <p><a href="https://wa.me/5492345446330" target="_blank">+54 9 2345 44 6330</a></p>
         </div>
+        
         <div class="card" style="text-align: center;">
           <h3>Sitio Web</h3>
-          <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+          <p><a href="https://scanlabb.github.io/" target="_blank">scanlabb.github.io</a></p>
         </div>
+    
+          <div class="card" style="text-align: center;">
+          <h3>Director del Sitio Web</h3>
+          <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+        </div>  
+    
+    
+    
       </div>
     </section>
 
   </main>
 </div>
+
+
+
 
 <div class="wa-flotante" aria-label="Contactar por WhatsApp">
   <a href="https://wa.me/5492345446330?text=Hola%20Mario" target="_blank">
@@ -796,14 +950,30 @@
   // Configuración del worker para PDF.js
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+  // FUNCIÓN PARA COLAPSAR/MOSTRAR EL MENÚ
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+    mainContent.classList.toggle('collapsed');
+    
+    // Disparar un evento de resize para que los visores 3D, PDF y DXF ajusten su tamaño
+    setTimeout(() => { 
+      window.dispatchEvent(new Event('resize')); 
+    }, 250);
+  }
+
   // NAVEGACIÓN DE VISTAS
   function showView(viewId, event) {
     if(event) event.preventDefault();
     document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + viewId).classList.add('active');
     
+    // Limpieza de estado 'active' en todos los enlaces
     document.querySelectorAll('.menu-list a').forEach(a => a.classList.remove('active'));
-    if(event && event.target) event.target.classList.add('active');
+    // Usar currentTarget para asegurar que se marque el <a> aunque se haga clic en un <span> o <svg> interno
+    if(event && event.currentTarget) event.currentTarget.classList.add('active');
     
     setTimeout(() => { 
       window.dispatchEvent(new Event('resize')); 
