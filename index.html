@@ -18,8 +18,8 @@
       --text-muted: #94A3B8;
       --text-light: #FFFFFF;
       --glass-blur: 0px;
-      --sidebar-width: 160px;
-      --sidebar-collapsed-width: 50px; /* Nuevo ancho para el menú colapsado */
+      --sidebar-width: 150px;
+      --sidebar-collapsed-width: 50px;
       --cad-font: 'Lucida Console', 'Courier New', monospace;
     }
 
@@ -62,7 +62,7 @@
       overflow-x: hidden;              
       z-index: 1000;
       font-family: var(--cad-font);
-      transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease; /* Transición suave */
+      transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease; 
     }
     
     /* Estado colapsado del sidebar */
@@ -77,30 +77,24 @@
       border-bottom: 1px solid var(--accent-copper); 
       background: #000;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+      min-height: 45px;
     }
-    .nav-logo-link { display: block; text-decoration: none; }
-    .nav-logo-text { 
-      font-size: 0.9rem; 
-      font-weight: normal; 
-      color: var(--accent-copper); 
-      font-family: var(--cad-font);
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .nav-logo-text span { color: #FFF; }
-
+    
     /* Botón de colapsar menú */
     .sidebar-toggle {
       background: transparent;
       border: 1px solid var(--accent-copper);
       color: var(--accent-copper);
-      padding: 2px 6px;
+      padding: 4px 8px;
       cursor: pointer;
       font-family: var(--cad-font);
       font-size: 0.8rem;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .sidebar-toggle:hover { background: var(--accent-copper); color: #000; }
 
@@ -121,7 +115,7 @@
       gap: 8px;
       padding: 6px 12px; 
       color: #AAA; 
-      font-size: 0.80rem; 
+      font-size: 0.85rem; 
       font-weight: normal; 
       border-left: 3px solid transparent;
       font-family: var(--cad-font);
@@ -149,18 +143,17 @@
     }
 
     /* --- ESTILOS APLICADOS CUANDO EL MENÚ ESTÁ COLAPSADO --- */
-    .sidebar.collapsed .nav-logo-text,
     .sidebar.collapsed .menu-title,
     .sidebar.collapsed .menu-text {
       display: none; /* Oculta los textos */
     }
-    .sidebar.collapsed .sidebar-header {
-      padding: 10px 0;
-      justify-content: center;
-    }
     .sidebar.collapsed .menu-list a {
       justify-content: center;
       padding: 10px 0;
+    }
+    /* Asegurar separadores visibles en modo icono */
+    .sidebar.collapsed .menu-section {
+      border-bottom: 1px solid #222;
     }
 
     /* --- CONTENEDOR PRINCIPAL DERECHO --- */
@@ -176,7 +169,7 @@
         linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
       background-size: 20px 20px;
-      transition: margin-left 0.2s ease, width 0.2s ease; /* Transición suave */
+      transition: margin-left 0.2s ease, width 0.2s ease;
     }
     .main-content.expanded {
       margin-left: var(--sidebar-width);
@@ -232,12 +225,17 @@
       background-color: transparent; position: relative; gap: 20px;
     }
     .hero-left { z-index: 2; display: flex; flex-direction: column; justify-content: center; }
-    .hero-logo { width: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.6)); }
+    
+    /* Título principal como logo principal */
     .hero h1 { 
-      font-size: 3rem; margin-bottom: 10px; 
+      font-size: 4.5rem; 
+      margin-bottom: 10px; 
       background: linear-gradient(135deg, #FFFFFF 0%, #00E5FF 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1;
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      line-height: 1.1;
       font-family: var(--cad-font);
+      letter-spacing: 2px;
     }
     .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--cad-font); }
     .hero .profesion { font-size: 1rem; max-width: 500px; margin-bottom: 35px; color: var(--text-muted); }
@@ -404,7 +402,23 @@
       .cad-subtitle { text-align: left; }
     }
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
+      /* Ajustes Hero */
+      .hero h1 { font-size: 3rem; }
+      .hero h2 { font-size: 1rem; }
+      .hero .profesion { font-size: 0.9rem; margin-bottom: 20px; }
+      .btn { padding: 8px 15px; font-size: 0.75rem; }
+
+      /* Ajustes Visor Antes/Después en móvil */
+      .hero-right h3 { font-size: 0.9rem; margin-bottom: 5px; }
+      .visor-label { font-size: 0.6rem; padding: 2px 6px; top: 5px; }
+      .label-before { left: 5px; }
+      .label-after { right: 5px; }
+      .visor-handle { width: 24px; height: 24px; }
+      .visor-handle::before { font-size: 0.6rem; }
+      .desliza-hint { display: none; } /* Oculto en móvil para evitar superposiciones */
+    }
+    @media (max-width: 400px) {
+      .visor-label { display: none; } /* Oculto en pantallas muy pequeñas */
     }
   </style>
 </head>
@@ -414,9 +428,6 @@
   <!-- MENÚ LATERAL -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <a href="#" class="nav-logo-link" onclick="showView('inicio', event)">
-        <div class="nav-logo-text">SCANLABB <span>v1.0</span></div>
-      </a>
       <button class="sidebar-toggle" onclick="toggleSidebar()">[<>]</button>
     </div>
 
@@ -521,6 +532,18 @@
         </li>
       </ul>
     </div>
+
+    <!-- Sección final del menú para pantalla completa -->
+    <div class="menu-section" style="margin-top: auto;">
+      <ul class="menu-list">
+        <li>
+          <a href="#" onclick="toggleFullscreen(event)">
+            <svg class="menu-icon" id="fs-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <span class="menu-text">Pantalla Completa</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </aside>
 
   <!-- CONTENIDO PRINCIPAL -->
@@ -531,7 +554,6 @@
       <div class="hero-view">
         <div class="hero">
           <div class="hero-left">
-            <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onerror="this.style.display='none'">
             <h1>ScanLabb</h1>
             <h2>Digitalización y Restauración de Planos, Mapas y Documentación en Papel</h2>
             <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
@@ -733,7 +755,7 @@
     <section class="view-section" id="view-que-hacemos">
       <div class="cad-header">
         <h2 class="cad-title">> CÓMO PUEDO AYUDARTE</h2>
-        <p class="cad-subtitle">Soluciones de digitalización y Desarrollo Web </p>
+        <p class="cad-subtitle">Soluciones de digitalización, visualizaciones 3D y Desarrollo Web </p>
       </div>
       <div class="content-wrapper">
         <div class="cards-container">
@@ -860,22 +882,20 @@
         <div class="sobre-mi-layout">
           <div class="sobre-mi-texto">
             <p class="cita">"ScanLabb es un estudio de diseño y tecnología dirigido por Mario Molina, Constructor Civil 
-            (ISET-BA) y GeoInformático (UBA), con competencias para diseñar y dirigir la construcción de edificios e 
-            infraestructuras. Integra BIM, CAD, GIS y Geomática, para la gestion digital de proyectos. </p>
+            (ISET-BA) y GeoInformático (UBA) con competencia legal y técnica para diseñar, dirigir y construir edificios
+             e infraestructuras. Especializado en la Gestión Digital BIM, CAD, GIS y Geomática."</p>
 
-            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería y construcción, diseño y 
-            presentaciones visuales. Especialista en la transición tecnológica desde el dibujo tradicional hacia 
-            CAD, BIM e inteligencia artificial.</p>
+            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería e infraestructura, especializado 
+            en la transformación tecnológica, desde el dibujo tradicional hacia CAD, BIM e inteligencia artificial.</p>
 
-            <p>Actualmente dirige su estudio que brinda servicios que incluyen diseño arquitectónico, mecánico e 
-            industrial, desarrollo web y la digitalización de archivos físicos hacia formatos digitales CAD, BIM y PDF,  
-            para optimizar su gestión y reutilización.
+            <p>Brinda servicios integrales que incluyen diseño arquitectónico, mecánico e industrial, desarrollo web, 
+            visualizaciones 3D y la digitalización de archivos físicos hacia formatos CAD, BIM y PDF para optimizar 
+            su gestión y reutilización.</p>
+            
             <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
               <h3>Rescate Patrimonial Digital</h3>
-              <p>La digitalización de documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de 
-              ingeniería o esquemas de infraestructura), resulta esencial para su preservación y gestión eficiente. 
-              Nuestro servicio facilita la migración de soportes físicos (papel), en archivos digitales listos para 
-              consulta, archivo, edición o visualización mediante plataformas web.</p>
+              <p>La digitalización de documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de ingeniería o esquemas de infraestructura), resulta esencial para su preservación y gestión eficiente. Nuestro servicio facilita la migración de soportes físicos 
+(papel), en archivos digitales listos para consulta, archivo, edición o visualización mediante plataformas web.</p>
             </div>
           </div>
           
@@ -954,6 +974,7 @@
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('main-content');
+    
     sidebar.classList.toggle('collapsed');
     mainContent.classList.toggle('expanded');
     mainContent.classList.toggle('collapsed');
@@ -963,6 +984,33 @@
       window.dispatchEvent(new Event('resize')); 
     }, 250);
   }
+
+  // FUNCIÓN PARA PANTALLA COMPLETA DEL NAVEGADOR
+  function toggleFullscreen(event) {
+    event.preventDefault();
+    const icon = document.getElementById('fs-icon');
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
+
+  // ESCUCHAR CAMBIOS DE PANTALLA COMPLETA PARA ACTUALIZAR ÍCONO
+  document.addEventListener('fullscreenchange', () => {
+    const icon = document.getElementById('fs-icon');
+    if (document.fullscreenElement) {
+      // Ícono de "salir de pantalla completa"
+      icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
+    } else {
+      // Ícono de "entrar en pantalla completa"
+      icon.innerHTML = '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
+    }
+  });
 
   // NAVEGACIÓN DE VISTAS
   function showView(viewId, event) {
