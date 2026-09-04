@@ -226,17 +226,29 @@
     }
     .hero-left { z-index: 2; display: flex; flex-direction: column; justify-content: center; }
     
-    /* Título principal como logo principal */
+    /* Título principal como logo principal ======================================================== */
+    /* Logo principal y ocultar h1 ======================================================== */
+    .hero-logo {
+      width: 400px;
+      height: 72px;
+      object-fit: contain; /* Mantiene la proporción */
+      margin-bottom: 15px; /* Espacio hacia el texto inferior */
+    }
+    
+    /* Si el logo está visible, el h1 permanece oculto y libera el espacio */
     .hero h1 { 
-      font-size: 4.5rem; 
+      display: none; 
+      font-size: 3.5rem; 
       margin-bottom: 10px; 
-      background: linear-gradient(135deg, #FFFFFF 0%, #00E5FF 100%);
+      background: linear-gradient(0deg, #FFFFFF 0%, #00E5FF 100%);
       -webkit-background-clip: text; 
       -webkit-text-fill-color: transparent; 
       line-height: 1.1;
       font-family: var(--cad-font);
       letter-spacing: 2px;
     }
+    
+     
     .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--cad-font); }
     .hero .profesion { font-size: 1rem; max-width: 500px; margin-bottom: 35px; color: var(--text-muted); }
     
@@ -554,9 +566,15 @@
       <div class="hero-view">
         <div class="hero">
           <div class="hero-left">
-            <h1>ScanLabb</h1>
-            <h2>Digitalización y Restauración de Planos, Mapas y Documentación en Papel</h2>
-            <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
+        <!--   <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onerror="this.style.display='none'">    -->  
+            
+               <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onload="document.querySelector('.hero h1').style.display='none'" onerror="this.style.display='none'; document.querySelector('.hero h1').style.display='block'">   
+         
+            <h1>— ScanLabb — </h1>
+            <h2>Digitalización de Planos, Mapas y Documentación en Papel</h2>
+            <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos
+             a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos 
+             plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
             <div class="botones-hero">
               <a href="#" class="btn" onclick="showView('contacto', event)">Solicitar Consulta</a>
               <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Ver Servicios</a>
@@ -755,7 +773,7 @@
     <section class="view-section" id="view-que-hacemos">
       <div class="cad-header">
         <h2 class="cad-title">> CÓMO PUEDO AYUDARTE</h2>
-        <p class="cad-subtitle">Soluciones de digitalización, visualizaciones 3D y Desarrollo Web </p>
+        <p class="cad-subtitle">Soluciones de digitalización, 3D y Desarrollo Web </p>
       </div>
       <div class="content-wrapper">
         <div class="cards-container">
@@ -766,7 +784,16 @@
         
         <div class="text-block">
           <h3>Principales servicios</h3>
-          <p>Brindamos servicios integrales de diseño arquitectónico, mecánico e industrial, desarrollo web, visualización 3D y digitalización de archivos físicos. Convertimos planos, mapas y documentos en papel a formatos editables y compatibles con CAD, BIM, GIS y PDF.</p>
+          
+           <p>ScanLabb integra tecnologías CAD, BIM, CAE, GIS, Geomática y Desarrollo Web para ofrecer soluciones precisas 
+           y eficientes, entre ellas:</p>
+          <p>..</p>
+          <p>- Diseño y documentación de proyectos arquitectónicos, mecánicos e industriales. </p>
+          <p>- Digitalización y restauración de planos, mapas y documentación técnica histórica.</p>
+          <p>- Modelado y visualización 3D, incluyendo soluciones HBIM.</p>
+          <p>- Conversión de archivos físicos a formatos editables y compatibles con CAD, BIM, GIS y PDF.</p>
+          <p>- Desarrollo de plataformas y visualizaciones web interactivas.</p>
+          <p>- Asesoramiento en la reconversión y gestión digital de edificios e infraestructuras.</p>
         </div>
 
         <div class="text-block">
@@ -881,21 +908,26 @@
       <div class="content-wrapper">
         <div class="sobre-mi-layout">
           <div class="sobre-mi-texto">
-            <p class="cita">"ScanLabb es un estudio de diseño y tecnología dirigido por Mario Molina, Constructor Civil 
-            (ISET-BA) y GeoInformático (UBA) con competencia legal y técnica para diseñar, dirigir y construir edificios
-             e infraestructuras. Especializado en la Gestión Digital BIM, CAD, GIS y Geomática."</p>
+            <p class="cita">"ScanLabb es un estudio de diseño y tecnología especializado en documentación técnica, 
+            digitalización y visualización 3D para proyectos de arquitectura, ingeniería e infraestructura.</p>
+            
+            <p>Está dirigido por Mario Molina, Constructor Civil egresado del ISET-BA y especialista en SIG y Geomática 
+            por la FADU-UBA, quien cuenta con más de 35 años de experiencia en proyectos para empresas como Arcor, 
+            Philips, Whirlpool, Peabody, Philco, Daewoo y Midas.</p>
 
-            <p>Profesional con más de 35 años de experiencia en proyectos de ingeniería e infraestructura, especializado 
-            en la transformación tecnológica, desde el dibujo tradicional hacia CAD, BIM e inteligencia artificial.</p>
-
-            <p>Brinda servicios integrales que incluyen diseño arquitectónico, mecánico e industrial, desarrollo web, 
-            visualizaciones 3D y la digitalización de archivos físicos hacia formatos CAD, BIM y PDF para optimizar 
-            su gestión y reutilización.</p>
+            <p>Integramos tecnologías CAD, BIM, CAE, GIS, Geomática y Desarrollo Web para transformar planos, mapas y 
+            documentos físicos en información digital editable, compatible y reutilizable. Ofrecemos servicios de diseño, 
+            modelado 3D, restauración documental, soluciones HBIM y desarrollo de plataformas web interactivas.</p>
+            
+            <p>La experiencia de ScanLabb combina conocimiento técnico, visión constructiva y herramientas digitales 
+            para preservar, actualizar y optimizar la información de cada proyecto.</p>
+            
+            
             
             <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
               <h3>Rescate Patrimonial Digital</h3>
               <p>La digitalización de documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de ingeniería o esquemas de infraestructura), resulta esencial para su preservación y gestión eficiente. Nuestro servicio facilita la migración de soportes físicos 
-(papel), en archivos digitales listos para consulta, archivo, edición o visualización mediante plataformas web.</p>
+(papel), en archivos digitales listos para consulta, archivo, edición o visualización mediante el navegador web.</p>
             </div>
           </div>
           
@@ -932,7 +964,7 @@
         </div>
     
           <div class="card" style="text-align: center;">
-          <h3>Director del Sitio Web</h3>
+          <h3>Director de Scanlabb</h3>
           <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
         </div>  
     
