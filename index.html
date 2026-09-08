@@ -39,10 +39,7 @@
     a:hover { color: var(--accent-copper-hover); }
 
     /* --- LAYOUT FLEX PRINCIPAL --- */
-    .app-layout {
-      display: flex;
-      min-height: 100vh;
-    }
+    .app-layout { display: flex; min-height: 100vh; }
 
     /* --- SIDEBAR (MENÚ LATERAL ESTILO CAD 80s) --- */
     .sidebar {
@@ -55,8 +52,7 @@
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       height: 100vh;
       overflow-y: auto;
       overflow-x: hidden;              
@@ -64,8 +60,6 @@
       font-family: var(--cad-font);
       transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease; 
     }
-    
-    /* Estado colapsado del sidebar */
     .sidebar.collapsed {
       width: var(--sidebar-collapsed-width);
       min-width: var(--sidebar-collapsed-width);
@@ -76,93 +70,48 @@
       padding: 10px 12px; 
       border-bottom: 1px solid var(--accent-copper); 
       background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: flex; justify-content: center; align-items: center;
       min-height: 45px;
     }
-    
-    /* Botón de colapsar menú */
     .sidebar-toggle {
-      background: transparent;
-      border: 1px solid var(--accent-copper);
-      color: var(--accent-copper);
-      padding: 4px 8px;
-      cursor: pointer;
-      font-family: var(--cad-font);
-      font-size: 0.8rem;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper);
+      padding: 4px 8px; cursor: pointer; font-family: var(--cad-font); font-size: 0.8rem;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     }
     .sidebar-toggle:hover { background: var(--accent-copper); color: #000; }
 
     .menu-section { padding: 5px 0; border-bottom: 1px dashed #333; }
     .menu-title { 
-      font-size: 0.7rem; 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
-      color: #555; 
-      margin: 5px 12px 2px; 
-      font-family: var(--cad-font);
-      white-space: nowrap;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #555;
+      margin: 5px 12px 2px; font-family: var(--cad-font); white-space: nowrap;
     }
     .menu-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
     .menu-list a {
-      display: flex; 
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px; 
-      color: #AAA; 
-      font-size: 0.85rem; 
-      font-weight: normal; 
-      border-left: 3px solid transparent;
-      font-family: var(--cad-font);
-      transition: none;
-      white-space: nowrap;
-      overflow: hidden;
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px; color: #AAA; font-size: 0.85rem; font-weight: normal;
+      border-left: 3px solid transparent; font-family: var(--cad-font);
+      transition: none; white-space: nowrap; overflow: hidden;
     }
     .menu-list a:hover, .menu-list a.active {
-      background: var(--accent-copper); 
-      color: #000; 
-      border-left-color: #FFF;
-      text-shadow: none;
+      background: var(--accent-copper); color: #000;
+      border-left-color: #FFF; text-shadow: none;
     }
-
-    /* Iconos dentro del menú */
     .menu-icon {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      width: 16px; height: 16px; flex-shrink: 0;
+      fill: none; stroke: currentColor; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
     }
-
-    /* --- ESTILOS APLICADOS CUANDO EL MENÚ ESTÁ COLAPSADO --- */
     .sidebar.collapsed .menu-title,
-    .sidebar.collapsed .menu-text {
-      display: none; /* Oculta los textos */
-    }
-    .sidebar.collapsed .menu-list a {
-      justify-content: center;
-      padding: 10px 0;
-    }
-    /* Asegurar separadores visibles en modo icono */
-    .sidebar.collapsed .menu-section {
-      border-bottom: 1px solid #222;
-    }
+    .sidebar.collapsed .menu-text { display: none; }
+    .sidebar.collapsed .menu-list a { justify-content: center; padding: 10px 0; }
+    .sidebar.collapsed .menu-section { border-bottom: 1px solid #222; }
 
     /* --- CONTENEDOR PRINCIPAL DERECHO --- */
     .main-content {
       flex: 1;
       margin-left: var(--sidebar-width);
       width: calc(100% - var(--sidebar-width));
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       min-height: 100vh;
       background-color: #08090C;
       background-image: 
@@ -181,10 +130,7 @@
     }
 
     .view-section {
-      display: none;
-      flex: 1;
-      padding: 15px 20px; 
-      flex-direction: column;
+      display: none; flex: 1; padding: 15px 20px; flex-direction: column;
       animation: fadeIn 0.3s ease;
     }
     .view-section.active { display: flex; }
@@ -192,66 +138,30 @@
 
     /* --- BARRA DE COMANDOS --- */
     .cad-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 15px;
-      background: #000;
-      border: 1px solid var(--accent-copper);
-      margin-bottom: 10px; 
-      font-family: var(--cad-font);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 15px; background: #000; border: 1px solid var(--accent-copper);
+      margin-bottom: 10px; font-family: var(--cad-font);
     }
-    .cad-title { 
-      color: #FFF; 
-      font-size: 1rem; 
-      margin: 0; 
-      text-transform: uppercase; 
-      letter-spacing: 1px;
-    }
+    .cad-title { color: #FFF; font-size: 1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
     .cad-subtitle { 
-      color: var(--accent-copper); 
-      font-size: 0.8rem; 
-      margin: 0;
-      text-align: right;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--accent-copper); font-size: 0.8rem; margin: 0; text-align: right;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     /* --- HERO SPLIT SCREEN --- */
     .hero-view { max-width: 100%; margin: 0 auto; width: 100%; }
-    .hero {
-      display: grid; grid-template-columns: 1fr 1.4fr; align-items: center;
-      background-color: transparent; position: relative; gap: 20px;
-    }
+    .hero { display: grid; grid-template-columns: 1fr 1.4fr; align-items: center; background-color: transparent; position: relative; gap: 20px; }
     .hero-left { z-index: 2; display: flex; flex-direction: column; justify-content: center; }
-    
-    /* Título principal como logo principal ======================================================== */
-    /* Logo principal y ocultar h1 ======================================================== */
-    .hero-logo {
-      width: 400px;
-      height: 72px;
-      object-fit: contain; /* Mantiene la proporción */
-      margin-bottom: 15px; /* Espacio hacia el texto inferior */
-    }
-    
-    /* Si el logo está visible, el h1 permanece oculto y libera el espacio */
+    .hero-logo { width: 400px; height: 72px; object-fit: contain; margin-bottom: 15px; }
     .hero h1 { 
-      display: none; 
-      font-size: 3.5rem; 
-      margin-bottom: 10px; 
+      display: none; font-size: 3.5rem; margin-bottom: 10px;
       background: linear-gradient(0deg, #FFFFFF 0%, #00E5FF 100%);
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      line-height: 1.1;
-      font-family: var(--cad-font);
-      letter-spacing: 2px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.1; font-family: var(--cad-font); letter-spacing: 2px;
     }
-    
-     
     .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--cad-font); }
     .hero .profesion { font-size: 1rem; max-width: 500px; margin-bottom: 35px; color: var(--text-muted); }
-    
+
     .botones-hero { display: flex; gap: 15px; flex-wrap: wrap; }
     .btn {
       display: inline-block; padding: 10px 25px; background: var(--accent-copper); 
@@ -260,13 +170,10 @@
       text-transform: uppercase; letter-spacing: 1px; font-family: var(--cad-font);
     }
     .btn:hover { background: #FFF; border-color: #FFF; color: #000; }
-    .btn-outline { 
-      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper); 
-      box-shadow: none;
-    }
+    .btn-outline { background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper); box-shadow: none; }
     .btn-outline:hover { background: rgba(0, 229, 255, 0.1); color: #FFF; }
 
-    .hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: 10px; background: rgba(0, 0, 0, 0.5); border-radius: 0; border: 1px solid var(--accent-copper); }
+    .hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--accent-copper); }
     .hero-right h3 { color: var(--accent-copper); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-align:center; font-family: var(--cad-font); }
     .desliza-hint { margin-top: 10px; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--cad-font); }
     .desliza-hint::before { content: '>'; color: var(--accent-copper); font-weight: bold; }
@@ -307,13 +214,11 @@
     .card svg { width: 32px; height: 32px; fill: var(--accent-copper); margin-bottom: 15px; }
     .card h3 { color: var(--accent-copper); margin-bottom: 8px; font-size: 1.1rem; font-family: var(--cad-font); text-transform: uppercase; }
     .card p { color: var(--text-muted); font-size: 0.9rem; }
-    
-    /* Nueva clase para listas en infografías */
     .card-list { list-style: none; padding: 0; margin-top: 10px; }
     .card-list li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
     .card-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-family: var(--cad-font); }
 
-    /* --- VISOR ZOOM & PAN --- */
+    /* --- VISOR ZOOM & PAN (zp) --- */
     .zp-viewer{
       --zp-accent:#00E5FF; --zp-bg:#000; --zp-panel:#000; --zp-border:#00E5FF;
       --zp-text:#FFF; --zp-muted:#94A3B8; --zp-height:clamp(300px, 60vh, 620px);
@@ -325,6 +230,7 @@
     .zp-label-wrap{ text-align:center; }
     .zp-stage{ position:relative; overflow:hidden; height:var(--zp-height); border:1px solid var(--zp-border); border-radius:0; background-color:#050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size:20px 20px; cursor:grab; touch-action:none; user-select:none; }
     .zp-stage:active{ cursor:grabbing; }
+    .zp-stage:fullscreen{ height:100vh; border:none; }
     .zp-img{ position:absolute; top:0; left:0; max-width:none !important; width:auto; height:auto; transform-origin:0 0; pointer-events:none; }
     .zp-hint{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); padding:5px 10px; font-size:.7rem; color:var(--zp-muted); background:#000; border:1px solid #444; white-space:nowrap; pointer-events:none; transition:opacity .5s; }
     .zp-hint.zp-hide{ opacity:0; visibility:hidden; }
@@ -336,12 +242,7 @@
     .zp-sep{ width:1px; height:20px; background:var(--zp-border); margin:0 2px; }
 
     /* --- VISORES 3D Y ARCHIVOS --- */
-    .stl-viewer {
-      max-width: 1100px;
-      margin: 20px auto;
-      width: 100%;
-      font-family: var(--cad-font);
-    }
+    .stl-viewer { max-width: 1100px; margin: 20px auto; width: 100%; font-family: var(--cad-font); }
     .stl-stage {
       height: clamp(350px, 60vh, 620px);
       border: 1px solid var(--accent-copper);
@@ -351,31 +252,20 @@
       position: relative;
     }
     .stl-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      padding: 8px;
-      background: #000;
-      border: 1px solid var(--accent-copper);
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 8px;
+      background: #000; border: 1px solid var(--accent-copper);
     }
     .stl-btn {
-      padding: 6px 12px;
-      font-family: var(--cad-font);
-      font-size: 0.85rem;
-      color: var(--accent-copper);
-      background: #000;
-      border: 1px solid var(--accent-copper);
-      cursor: pointer;
-      text-transform: uppercase;
+      padding: 6px 12px; font-family: var(--cad-font); font-size: 0.85rem;
+      color: var(--accent-copper); background: #000; border: 1px solid var(--accent-copper);
+      cursor: pointer; text-transform: uppercase;
     }
     .stl-btn:hover { background: var(--accent-copper); color: #000; }
     .stl-color-label { color: #FFF; font-size: 0.8rem; }
     .stl-color-input { width: 30px; height: 30px; border: 1px solid var(--accent-copper); background: #000; cursor: pointer; padding: 2px; }
 
-    /* Textos y Servicios */
+    /* --- Textos y Servicios --- */
     .content-wrapper { max-width: 1000px; margin: 0 auto; width: 100%; }
     .sobre-mi-layout { display: flex; gap: 30px; align-items: flex-start; }
     .sobre-mi-texto { flex: 2; }
@@ -387,24 +277,109 @@
     .audiencia ul li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
     .audiencia ul li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; }
 
-    /* Estilos para bloques de texto y metodología */
     .methodology-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; padding: 25px; margin-top: 20px; }
     .methodology-block h3 { color: var(--text-light); font-family: var(--cad-font); margin-bottom: 15px; text-transform: uppercase; font-size: 1rem; }
     .methodology-block p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; }
     .methodology-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
     .methodology-list li { padding-left: 20px; position: relative; color: var(--text-light); font-family: var(--cad-font); font-size: 0.9rem; }
     .methodology-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-weight: bold; }
-    
+
     .text-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; border-left: 3px solid var(--accent-copper); padding: 20px; margin-bottom: 20px; margin-top: 20px; }
     .text-block h3 { color: var(--accent-copper); font-family: var(--cad-font); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
     .text-block p { color: var(--text-dark); font-size: 0.95rem; line-height: 1.6; }
 
-    /* Botón Flotante */
+    /* --- Botón Flotante --- */
     .wa-flotante { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
     .wa-flotante a { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #000; border: 1px solid #25D366; border-radius: 0; transition: none; }
     .wa-flotante a:hover { background: #25D366; }
     .wa-flotante a svg { width: 28px; height: 28px; fill: #25D366; }
     .wa-flotante a:hover svg { fill: #000; }
+
+    /* ================= CONTACTO: LOGO DESTACADO ================= */
+    .contacto-logo-wrap { text-align: center; margin-bottom: 10px; }
+    .contacto-logo {
+      width: 420px; max-width: 100%; height: 80px; object-fit: contain;
+      padding: 8px 14px; background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--accent-copper);
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+    }
+    .contacto-logo:hover { border-color: #FFF; box-shadow: 0 0 30px rgba(0, 229, 255, 0.45); }
+
+    /* ================= CONTACTO: FLYERS (BOTONES) ================= */
+    .flyers-title {
+      text-align: center; font-family: var(--cad-font); color: #555;
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .flyers-container {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px; max-width: 720px; margin: 0 auto 30px; width: 100%;
+    }
+    .flyer-btn {
+      display: flex; flex-direction: column;
+      background: rgba(0, 0, 0, 0.6); border: 1px solid #333; padding: 10px;
+      cursor: pointer; font-family: var(--cad-font); text-align: center;
+    }
+    .flyer-btn:hover { border-color: var(--accent-copper); background: #000; }
+    .flyer-btn:hover .flyer-caption { color: #FFF; }
+    .flyer-thumb {
+      width: 100%; height: 320px; object-fit: cover; display: block;
+      border: 1px solid var(--accent-copper); background: #111; margin-bottom: 10px;
+    }
+    .flyer-caption { color: var(--accent-copper); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .flyer-hint { color: #555; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ================= MODAL / VISOR DE FLYERS ================= */
+    .flyer-modal {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.92); z-index: 10000;
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px; animation: fadeIn 0.2s ease;
+    }
+    .flyer-modal.open { display: flex; }
+    .flyer-modal-bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 15px;
+      width: 100%; max-width: 640px; margin-bottom: 10px; font-family: var(--cad-font);
+    }
+    #flyer-modal-title {
+      color: var(--accent-copper); font-size: 0.85rem; letter-spacing: 2px;
+      text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .flyer-modal-close {
+      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper);
+      padding: 4px 10px; cursor: pointer; font-family: var(--cad-font); font-size: 0.8rem; flex-shrink: 0;
+    }
+    .flyer-modal-close:hover { background: var(--accent-copper); color: #000; }
+    .flyer-modal img {
+      display: block;
+      width: 92vw;
+      width: min(92vw, 640px);      /* marco amplio */
+      height: 78vh;
+      height: min(78vh, 820px);
+      object-fit: contain;          /* escala (amplía) sin deformar */
+      background: #000;
+      border: 1px solid var(--accent-copper);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .flyer-modal-actions { margin-top: 12px; }
+
+    /* ================= FOOTER ================= */
+    .site-footer { margin-top: auto; background: #000; border-top: 1px solid var(--accent-copper); font-family: var(--cad-font); }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+      padding: 12px 20px; max-width: 1200px; margin: 0 auto;
+    }
+    .footer-logo { height: 44px; width: auto; max-width: 200px; object-fit: contain; flex-shrink: 0; }
+    .footer-col { flex: 1; min-width: 230px; }
+    .footer-line { font-size: 0.72rem; letter-spacing: 1px; margin-bottom: 4px; color: var(--text-muted); }
+    .footer-line:last-child { margin-bottom: 0; }
+    .footer-brand { color: var(--text-light); text-transform: uppercase; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+    .footer-links a { color: var(--accent-copper); font-size: 0.72rem; text-transform: uppercase; }
+    .footer-links a:hover { color: #FFF; }
+    .footer-right { text-align: right; }
+    .footer-bottom { border-top: 1px dashed #222; padding: 6px 20px; text-align: center; color: #555; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
+    .footer-cursor::after { content: '_'; color: var(--accent-copper); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
 
     /* --- RESPONSIVE --- */
     @media (max-width: 900px) {
@@ -414,23 +389,26 @@
       .cad-subtitle { text-align: left; }
     }
     @media (max-width: 768px) {
-      /* Ajustes Hero */
       .hero h1 { font-size: 3rem; }
       .hero h2 { font-size: 1rem; }
       .hero .profesion { font-size: 0.9rem; margin-bottom: 20px; }
       .btn { padding: 8px 15px; font-size: 0.75rem; }
-
-      /* Ajustes Visor Antes/Después en móvil */
       .hero-right h3 { font-size: 0.9rem; margin-bottom: 5px; }
       .visor-label { font-size: 0.6rem; padding: 2px 6px; top: 5px; }
       .label-before { left: 5px; }
       .label-after { right: 5px; }
       .visor-handle { width: 24px; height: 24px; }
       .visor-handle::before { font-size: 0.6rem; }
-      .desliza-hint { display: none; } /* Oculto en móvil para evitar superposiciones */
+      .desliza-hint { display: none; }
+      /* Bloques nuevos */
+      .contacto-logo { height: 70px; }
+      .flyer-thumb { height: 260px; }
+      .footer-right { text-align: left; }
+      .footer-inner { gap: 12px; }
     }
     @media (max-width: 400px) {
-      .visor-label { display: none; } /* Oculto en pantallas muy pequeñas */
+      .visor-label { display: none; }
+      .flyer-thumb { height: 220px; }
     }
   </style>
 </head>
@@ -440,14 +418,14 @@
   <!-- MENÚ LATERAL -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <button class="sidebar-toggle" onclick="toggleSidebar()">[<>]</button>
+      <button class="sidebar-toggle" onclick="toggleSidebar()">[&lt;&gt;]</button>
     </div>
 
     <div class="menu-section">
       <h3 class="menu-title">-- MENU --</h3>
       <ul class="menu-list">
         <li>
-          <a href="#" onclick="showView('inicio', event)">
+          <a href="#" class="active" onclick="showView('inicio', event)">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 12L12 3l9 9v9h-6v-6H9v6H3v-9z"/></svg>
             <span class="menu-text">Inicio</span>
           </a>
@@ -545,8 +523,6 @@
       </ul>
     </div>
 
- 
-
     <!-- Sección final del menú para pantalla completa -->
     <div class="menu-section" style="margin-top: auto;">
       <ul class="menu-list">
@@ -568,13 +544,12 @@
       <div class="hero-view">
         <div class="hero">
           <div class="hero-left">
-        <!--   <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onerror="this.style.display='none'">    -->  
-            
-               <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo" onload="document.querySelector('.hero h1').style.display='none'" onerror="this.style.display='none'; document.querySelector('.hero h1').style.display='block'">   
-         
-            <h1>— ScanLabb — </h1>
+            <img src="img/mi_logo.png" alt="Logo ScanLabb" class="hero-logo"
+                 onload="document.querySelector('.hero h1').style.display='none'"
+                 onerror="this.style.display='none'; document.querySelector('.hero h1').style.display='block'">
+            <h1>— ScanLabb —</h1>
             <h2>Digitalización de Planos, Mapas y Documentación en Papel</h2>
-            <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertivos
+            <p class="profesion">Digitalizamos archivos históricos, recuperamos planos en papel y los convertimos
              a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos 
              plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
             <div class="botones-hero">
@@ -587,9 +562,9 @@
             <div class="visor-container">
               <span class="visor-label label-before">Restauración</span>
               <span class="visor-label label-after">Original</span>
-              <img src="img/antes.jpg" alt="Plano original en papel" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Original+Scan'">
+              <img src="img/antes.jpg" alt="Plano original en papel" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/00E5FF?text=Original+Scan'">
               <div class="visor-after-wrap">
-                <img src="img/despues.webp" alt="Plano restaurado digitalmente" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Restored+Digital'">
+                <img src="img/despues.webp" alt="Plano restaurado digitalmente" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/FFFFFF?text=Restored+Digital'">
               </div>
               <div class="visor-handle"></div>
               <div class="visor-overlay"></div>
@@ -610,9 +585,9 @@
         <div class="visor-container" style="max-width: 100%;">
           <span class="visor-label label-before">Digital</span>
           <span class="visor-label label-after">Original</span>
-          <img src="img/antes_02.jpg" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Scan+Original'">
+          <img src="img/antes_02.jpg" alt="Escaneado original" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/00E5FF?text=Scan+Original'">
           <div class="visor-after-wrap">
-            <img src="img/despues_02.jpg" alt="Vectorizado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Vectorizado'">
+            <img src="img/despues_02.jpg" alt="Vectorizado" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/FFFFFF?text=Vectorizado'">
           </div>
           <div class="visor-handle"></div>
           <div class="visor-overlay"></div>
@@ -630,9 +605,9 @@
         <div class="visor-container" style="max-width: 100%;">
           <span class="visor-label label-before">Render</span>
           <span class="visor-label label-after">Original</span>
-          <img src="img/proyecto_pe_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Perspectiva+Original'">
+          <img src="img/proyecto_pe_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/00E5FF?text=Perspectiva+Original'">
           <div class="visor-after-wrap">
-            <img src="img/proyecto_pe_01.webp" alt="Renderizado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Render+Final'">
+            <img src="img/proyecto_pe_01.webp" alt="Renderizado" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/FFFFFF?text=Render+Final'">
           </div>
           <div class="visor-handle"></div>
           <div class="visor-overlay"></div>
@@ -650,9 +625,9 @@
         <div class="visor-container" style="max-width: 100%;">
           <span class="visor-label label-before">Raster</span>
           <span class="visor-label label-after">Original</span>
-          <img src="img/proyecto_ct_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/00E5FF?text=Mapa+Original'">
+          <img src="img/proyecto_ct_00.webp" alt="Escaneado original" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/00E5FF?text=Mapa+Original'">
           <div class="visor-after-wrap">
-            <img src="img/proyecto_ct_02.webp" alt="Restaurado" class="visor-img" onerror="this.src='https://via.placeholder.com/800x500/000000/FFFFFF?text=Mapa+Restaurado'">
+            <img src="img/proyecto_ct_02.webp" alt="Restaurado" class="visor-img" onerror="this.src='https://placehold.co/800x500/000000/FFFFFF?text=Mapa+Restaurado'">
           </div>
           <div class="visor-handle"></div>
           <div class="visor-overlay"></div>
@@ -683,10 +658,10 @@
       
       <figure class="zp-viewer">
         <div class="zp-label-wrap">
-          <figcaption class="zp-label">Render digital (Zoom & Pan)</figcaption>
+          <figcaption class="zp-label">Render digital (Zoom &amp; Pan)</figcaption>
         </div>
         <div class="zp-stage">
-          <img class="zp-img" src="img/proyecto_pe_02.webp" alt="Plano reentintado" draggable="false" onerror="this.src='https://via.placeholder.com/1200x800/000000/00E5FF?text=Imagen+Alta+Resolucion'">
+          <img class="zp-img" src="img/proyecto_pe_02.webp" alt="Plano reentintado" draggable="false" onerror="this.src='https://placehold.co/1200x800/000000/00E5FF?text=Imagen+Alta+Resolucion'">
           <span class="zp-hint">Arrastra para mover · Rueda para zoom · Doble clic para ampliar</span>
         </div>
         <div class="zp-toolbar" role="toolbar">
@@ -701,28 +676,43 @@
       </figure>
     </section>
 
-    <!-- VISOR PDF -->
+    <!-- VISOR PDF (ZOOM & PAN) -->
     <section class="view-section" id="view-visor-pdf">
       <div class="cad-header">
         <h2 class="cad-title">> VISOR PDF</h2>
-        <p class="cad-subtitle">Documentación técnica en alta resolución</p>
+        <p class="cad-subtitle">Documentación técnica · Zoom y paneo</p>
       </div>
-      
+
       <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
-        
-        <!-- Área de visualización expandida -->
-        <div id="pdf-stage" style="flex: 1; width: 100%; border: 1px solid var(--accent-copper); overflow-y: auto; overflow-x: hidden; background: #050505; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 15px;">
-          <p style="color:var(--text-muted); font-family: var(--cad-font); text-align: center; margin-top: 50px;">[ Cargue un archivo PDF para visualizarlo ]</p>
-          <canvas id="pdf-canvas" style="display: none; max-width: 100%; height: auto; box-shadow: 0 0 15px rgba(0,229,255,0.1);"></canvas>
+
+        <!-- Área de visualización -->
+        <div id="pdf-stage" style="flex: 1; width: 100%; overflow: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image: linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px; position: relative; cursor: grab; padding: 15px 0;">
+          <p id="pdf-placeholder" style="color: var(--text-muted); font-family: var(--cad-font); text-align: center; margin-top: 50px;">[ Cargue un archivo PDF para visualizarlo ]</p>
+          <canvas id="pdf-canvas" style="display: none; margin: 0 auto; box-shadow: 0 0 15px rgba(0,229,255,0.1);"></canvas>
+          <span id="pdf-hint" style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); padding: 5px 10px; font-size: .7rem; color: #94A3B8; background: #000; border: 1px solid #444; white-space: nowrap; pointer-events: none; font-family: var(--cad-font); display: none;">Rueda = zoom · Arrastrar = mover · Doble clic = ampliar</span>
         </div>
-        
-        <!-- Barra de herramientas ABAJO -->
+
+        <!-- Barra de herramientas -->
         <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
           <label for="pdf-input" class="stl-btn">CARGAR .PDF</label>
           <input type="file" id="pdf-input" accept="application/pdf" style="display: none;">
+
+          <span class="zp-sep"></span>
+
           <button class="stl-btn" id="pdf-prev">PÁG. ANT.</button>
-          <button class="stl-btn" id="pdf-next">PÁG. SIG.</button>
           <span class="stl-color-label" id="pdf-page-info">Pág: 0 / 0</span>
+          <button class="stl-btn" id="pdf-next">PÁG. SIG.</button>
+
+          <span class="zp-sep"></span>
+
+          <button class="stl-btn" id="pdf-zoom-out">-</button>
+          <span class="stl-color-label" id="pdf-zoom-info">100%</span>
+          <button class="stl-btn" id="pdf-zoom-in">+</button>
+
+          <span class="zp-sep"></span>
+
+          <button class="stl-btn" id="pdf-fit-width">AJUSTAR</button>
+          <button class="stl-btn" id="pdf-zoom-reset">1:1</button>
         </div>
       </div>
     </section>
@@ -735,7 +725,9 @@
       </div>
       
       <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
-        <div id="dxf-stage" class="stl-stage" style="flex: 1; width: 100%; height: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px;"></div>
+        <div id="dxf-stage" class="stl-stage" style="flex: 1; width: 100%; height: auto;">
+          <span class="zp-hint" id="dxf-hint">Rueda = zoom · Arrastrar = mover</span>
+        </div>
         
         <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
           <label for="dxf-input" class="stl-btn">CARGAR .DXF</label>
@@ -753,7 +745,7 @@
       </div>
       
       <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
-        <div class="stl-stage" id="stl-stage" style="flex: 1; width: 100%; height: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px;"></div>
+        <div class="stl-stage" id="stl-stage" style="flex: 1; width: 100%; height: auto;"></div>
         
         <div class="stl-toolbar" style="margin-top: 8px; margin-bottom: 0;">
           <label for="stl-input" class="stl-btn">CARGAR .STL</label>
@@ -775,7 +767,7 @@
     <section class="view-section" id="view-que-hacemos">
       <div class="cad-header">
         <h2 class="cad-title">> CÓMO PUEDO AYUDARTE</h2>
-        <p class="cad-subtitle">Soluciones de digitalización, 3D y Desarrollo Web </p>
+        <p class="cad-subtitle">Soluciones de digitalización, 3D y Desarrollo Web</p>
       </div>
       <div class="content-wrapper">
         <div class="cards-container">
@@ -786,10 +778,8 @@
         
         <div class="text-block">
           <h3>Principales servicios</h3>
-          
-           <p>En ScanLabb combinamos CAD, BIM, GIS y desarrollo web para ofrecer soluciones claras y eficientes:</p>
-          <p>..</p>
-          <p>- Diseño y documentación de proyectos arquitectónicos, mecánicos e industriales. </p>
+          <p>En ScanLabb combinamos CAD, BIM, GIS y desarrollo web para ofrecer soluciones claras y eficientes:</p>
+          <p>- Diseño y documentación de proyectos arquitectónicos, mecánicos e industriales.</p>
           <p>- Digitalización y restauración de planos, mapas y documentación técnica histórica.</p>
           <p>- Modelado y visualización 3D, incluyendo soluciones HBIM.</p>
           <p>- Conversión de archivos físicos a formatos editables con CAD, BIM, GIS y PDF.</p>
@@ -909,36 +899,25 @@
       <div class="content-wrapper">
         <div class="sobre-mi-layout">
           <div class="sobre-mi-texto">
-            <p class="cita">"<strong>ScanLabb</strong> es un estudio especializado en servicios de diseño, digitalización de planos, 
-                 mapas y documentación técnica (conversión de archivos físicos a formatos digitales), además de 
-                 desarrollar plataformas web y herramientas propias de visualización 2D/3D orientadas a la gestión documental.</p>
+            <p class="cita">"<strong>ScanLabb</strong> es un estudio especializado en servicios de diseño, digitalización y restauración de planos, mapas, documentación técnica y desarrollo de plataformas web."</p>
            
-            <p>Está dirigido por <strong>Mario Molina</strong>, Constructor Civil (ISET-BA), GeoInformatico, especializado en SIG 
-              y en Gestión Digital CAD, CAE, BIM y Desarrollo Web. Posee más de tres décadas de experiencia en proyectos de 
-                 ingeniería e infraestructura, colaborando con diversas empresas nacionales y multinacionales de consumo 
-                 masivo y tecnología.</p>
+            <p>Está dirigido por <strong>Mario Molina</strong>, Constructor Civil (ISET-BA), GeoInformático (UBA), 
+            con más de tres décadas de experiencia en proyectos de ingeniería, colaborando con diversas empresas nacionales 
+            y multinacionales de consumo masivo y tecnología.</p>
 
-                 <p>Su campo de acción abarca: </p>
-                  <p>   • Digitalización de planos, mapas y documentos. <br>
-                        • Vectorización, restauración de planos y documentación técnica. <br>
-                        • Generación de planos arquitectonicos, mecánico e Industrial.</p>
+            <p>Su campo de acción abarca:</p>
+            <p>• Digitalización de planos, mapas y documentos.<br>
+               • Vectorización, restauración de planos y documentación técnica.<br>
+               • Generación de planos arquitectónicos, mecánicos e industriales.<br>
+               • Desarrollo de plataformas web visuales.<br>
+               • Desarrollo de herramientas para visualización 2D/3D.<br>
+               • Planos, empadronamiento, regularizaciones.<br>
+               • Diseño y dirección técnica de obras.</p>
 
-                  <p>   • Desarrollo de plataformas web visuales. <br>
-                        • Desarrollo de herramientas para visualización 2D/3D. <br>
-
-                  <p>   • Planos, empadronamiento, regularizaciones. <br>
-                        • Diseño y dirección técnica de obras.</p>
-             
-
-    
-          <p>  <h3>Áreas de aplicación</h3></p>
+            <h3 style="color: var(--accent-copper); font-family: var(--cad-font); font-size: 1rem; text-transform: uppercase; margin: 20px 0 10px;">Áreas de aplicación</h3>
             <p>Nuestro servicio está dirigido a instituciones, oficinas de arquitectura e ingeniería, archivos técnicos y organizaciones 
-              que necesiten conservar y gestionar información técnica de valor histórico u operativo.</p>         
- <!--  
-            <p>La experiencia de <strong>ScanLabb</strong> combina conocimiento técnico, visión constructiva y herramientas digitales 
-            para preservar y optimizar la información de cada proyecto.</p>  
- -->
-            
+              que necesiten conservar y gestionar información técnica de valor histórico u operativo.</p>
+
             <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
               <h3>Rescate Patrimonial Digital</h3>
               <p>Digitalizamos documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de ingeniería o esquemas 
@@ -946,11 +925,7 @@
                 para consulta, edición o visualización en el navegador web.</p>
             </div>
           </div>
-          
 
-    
-                   
-          
           <div class="audiencia">
             <h4>A quién ayudo</h4>
             <ul>
@@ -972,32 +947,91 @@
         <h2 class="cad-title">> CONTACTO</h2>
         <p class="cad-subtitle">Herramientas BIM, CAD y Web 3D/360</p>
       </div>
-      <div class="content-wrapper" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-        <div class="card" style="text-align: center;">
-          <h3>WhatsApp</h3>
-          <p><a href="https://wa.me/5492345446330" target="_blank">+54 9 2345 44 6330</a></p>
+      <div class="content-wrapper">
+
+        <!-- LOGO DESTACADO (igual al de Inicio) -->
+        <div class="contacto-logo-wrap">
+          <img src="img/mi_logo.png" alt="Logo ScanLabb" class="contacto-logo" onerror="this.style.display='none'">
         </div>
-        
-        <div class="card" style="text-align: center;">
-          <h3>Sitio Web</h3>
-          <p><a href="https://scanlabb.github.io/" target="_blank">scanlabb.github.io</a></p>
+
+        <!-- FLYERS (flyer_01 = Mario/Sobre Mí · flyer_02 = Servicios, según tus capturas) -->
+        <p class="flyers-title">-- FLYERS DISPONIBLES --</p>
+        <div class="flyers-container">
+
+          <button type="button" class="flyer-btn" onclick="openFlyer('img/flyer_01.webp', 'Sobre Mi', 'sobre-mi', 'IR A SOBRE MI')">
+            <img src="img/flyer_01.webp" alt="Flyer Sobre Mi" class="flyer-thumb"
+                 onerror="this.src='https://placehold.co/400x520/000000/00E5FF.png?text=FLYER+01'">
+            <span class="flyer-caption">&gt; SOBRE_MÍ</span>
+            <span class="flyer-hint">CLIC PARA AMPLIAR</span>
+          </button>
+
+          <button type="button" class="flyer-btn" onclick="openFlyer('img/flyer_02.webp', 'Servicios ScanLabb', 'servicios', 'IR A SERVICIOS')">
+            <img src="img/flyer_02.webp" alt="Flyer Servicios ScanLabb" class="flyer-thumb"
+                 onerror="this.src='https://placehold.co/400x520/000000/00E5FF.png?text=FLYER+02'">
+            <span class="flyer-caption">&gt; SERVICIOS [SCANLABB]</span>
+            <span class="flyer-hint">CLIC PARA AMPLIAR</span>
+          </button>
+
         </div>
-    
+
+        <!-- TARJETAS DE CONTACTO -->
+        <div class="cards-container">
           <div class="card" style="text-align: center;">
-          <h3>Diseño y Dirección</h3>
-          <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
-        </div>  
-    
-    
-    
+            <h3>WhatsApp</h3>
+            <p><a href="https://wa.me/5492345446330" target="_blank">+54 9 2345 44 6330</a></p>
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3>Sitio Web</h3>
+            <p><a href="https://scanlabb.github.io/" target="_blank">scanlabb.github.io</a></p>
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3>Diseño y Dirección</h3>
+            <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+          </div>
+        </div>
+
       </div>
     </section>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <img src="img/mi_logo.png" alt="ScanLabb" class="footer-logo" onerror="this.style.display='none'">
+        <div class="footer-col">
+          <p class="footer-line footer-brand">&gt; SCANLABB © <span id="footer-year">2025</span> · Digitalización y Rescate Patrimonial</p>
+          <nav class="footer-links footer-line" aria-label="Enlaces del sitio">
+            <a href="#" onclick="showView('inicio', event)">Inicio</a>
+            <a href="#" onclick="showView('servicios', event)">Servicios</a>
+            <a href="#" onclick="showView('sobre-mi', event)">Sobre mí</a>
+            <a href="#" onclick="showView('contacto', event)">Contacto</a>
+          </nav>
+          <p class="footer-line">Diseño y dirección: <a href="https://mariomolinacc.github.io" target="_blank" rel="noopener">Mario Molina</a> · Constructor Civil · GeoInformático</p>
+        </div>
+        <div class="footer-col footer-right">
+          <p class="footer-line"><a href="https://wa.me/5492345446330" target="_blank" rel="noopener">WhatsApp: +54 9 2345 44 6330</a></p>
+          <p class="footer-line"><a href="https://scanlabb.github.io/" target="_blank" rel="noopener">scanlabb.github.io</a></p>
+          <p class="footer-line">ScanLabb Terminal v1.0</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-cursor">&gt; Todos los derechos reservados · EOF</p>
+      </div>
+    </footer>
 
   </main>
 </div>
 
-
-
+<!-- MODAL / VISOR DE FLYERS -->
+<div class="flyer-modal" id="flyer-modal" onclick="if (event.target === this) closeFlyer()">
+  <div class="flyer-modal-bar">
+    <span id="flyer-modal-title">&gt; FLYER</span>
+    <button type="button" class="flyer-modal-close" onclick="closeFlyer()">[X] CERRAR</button>
+  </div>
+  <img id="flyer-modal-img" alt="Flyer ampliado">
+  <div class="flyer-modal-actions">
+    <button type="button" class="btn btn-outline" id="flyer-modal-go" data-view="" onclick="goFlyerSection(this, event)">IR A LA SECCIÓN</button>
+  </div>
+</div>
 
 <div class="wa-flotante" aria-label="Contactar por WhatsApp">
   <a href="https://wa.me/5492345446330?text=Hola%20Mario" target="_blank">
@@ -1015,474 +1049,908 @@
 <!-- Librería PDF.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-<!-- Librería DxfParser -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dxf-parser/1.1.2/dxf.parser.min.js"></script>
-
+<!-- ============ SCRIPT PRINCIPAL SCANLABB ============ -->
 <script>
-  // Configuración del worker para PDF.js
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+'use strict';
 
-  // FUNCIÓN PARA COLAPSAR/MOSTRAR EL MENÚ
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('main-content');
-    
-    sidebar.classList.toggle('collapsed');
-    mainContent.classList.toggle('expanded');
-    mainContent.classList.toggle('collapsed');
-    
-    // Disparar un evento de resize para que los visores 3D, PDF y DXF ajusten su tamaño
-    setTimeout(() => { 
-      window.dispatchEvent(new Event('resize')); 
-    }, 250);
+/* ================= NAVEGACIÓN ENTRE VISTAS ================= */
+function showView(viewId, event) {
+  if (event && event.preventDefault) event.preventDefault();
+  var target = document.getElementById('view-' + viewId);
+  if (!target) return;
+
+  var sections = document.querySelectorAll('.view-section');
+  for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
+  target.classList.add('active');
+
+  // Marca el ítem activo del menú
+  var links = document.querySelectorAll('.menu-list a');
+  for (var j = 0; j < links.length; j++) {
+    var oc = links[j].getAttribute('onclick') || '';
+    links[j].classList.toggle('active', oc.indexOf("'" + viewId + "'") !== -1);
   }
 
-  // FUNCIÓN PARA PANTALLA COMPLETA DEL NAVEGADOR
-  function toggleFullscreen(event) {
-    event.preventDefault();
-    const icon = document.getElementById('fs-icon');
-    if (!document.fullscreenElement) {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  }
+  // Vuelve al tope (instantáneo, sin scroll suave)
+  var de = document.documentElement;
+  var prev = de.style.scrollBehavior;
+  de.style.scrollBehavior = 'auto';
+  window.scrollTo(0, 0);
+  de.style.scrollBehavior = prev;
 
-  // ESCUCHAR CAMBIOS DE PANTALLA COMPLETA PARA ACTUALIZAR ÍCONO
-  document.addEventListener('fullscreenchange', () => {
-    const icon = document.getElementById('fs-icon');
-    if (document.fullscreenElement) {
-      // Ícono de "salir de pantalla completa"
-      icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
-    } else {
-      // Ícono de "entrar en pantalla completa"
-      icon.innerHTML = '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
+  // Ajustes de visores al mostrarse
+  if (viewId === 'visor-stl' && window.stlViewer) stlViewer.onShow();
+  if (viewId === 'visor-dxf' && window.dxfViewer) dxfViewer.onShow();
+  if (viewId === 'vis-3d'   && window.zpViewer)  zpViewer.onShow();
+
+  // Reajusta los comparadores antes/después de la vista activa
+  if (window.refreshComparadores) window.refreshComparadores();
+}
+
+/* ================= SIDEBAR ================= */
+function toggleSidebar() {
+  var sb = document.getElementById('sidebar');
+  var mc = document.getElementById('main-content');
+  var collapsed = sb.classList.toggle('collapsed');
+  mc.classList.toggle('collapsed', collapsed);
+  mc.classList.toggle('expanded', !collapsed);
+  // Reajustar visores después de la animación (200ms)
+  window.setTimeout(function () {
+    if (window.stlViewer) stlViewer.resize();
+    if (window.dxfViewer) dxfViewer.resize();
+  }, 250);
+}
+
+/* ================= PANTALLA COMPLETA ================= */
+function toggleFullscreen(event) {
+  if (event && event.preventDefault) event.preventDefault();
+  if (!document.fullscreenElement) {
+    var el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
+
+/* ================= VISOR ANTES / DESPUÉS ================= */
+(function initComparadores() {
+  var comps = [];
+
+  document.querySelectorAll('.visor-container').forEach(function (v) {
+    var overlay = v.querySelector('.visor-overlay');
+    var handle  = v.querySelector('.visor-handle');
+    var after   = v.querySelector('.visor-after-wrap');
+    var inner   = after ? after.querySelector('img') : null;
+    if (!overlay || !handle || !after) return;
+    comps.push(v);
+
+    var ratio = 0.5; // posición relativa del divisor (0 a 1)
+
+    /* La imagen interior SIEMPRE mide lo mismo que el contenedor:
+       el wrap (borde derecho) solo la RECORTA. Así no se "agrandaa"
+       al deslizar la barra. */
+    function sync() {
+      var w = v.clientWidth;
+      if (w <= 0) return;
+      if (inner) { inner.style.width = w + 'px'; inner.style.height = 'auto'; }
+      setPos(ratio * w);
     }
+
+    function setPos(px) {
+      var w = v.clientWidth;
+      if (w <= 0) return;
+      px = Math.max(8, Math.min(w - 8, px));
+      ratio = px / w;
+      after.style.width = px + 'px';
+      handle.style.left = px + 'px';
+    }
+
+    function posFromX(clientX) {
+      var r = v.getBoundingClientRect();
+      setPos(clientX - r.left);
+    }
+
+    var dragging = false;
+    overlay.addEventListener('mousedown', function (e) { dragging = true; posFromX(e.clientX); e.preventDefault(); });
+    handle.addEventListener('mousedown',  function (e) { dragging = true; e.preventDefault(); });
+    document.addEventListener('mousemove', function (e) { if (dragging) posFromX(e.clientX); });
+    document.addEventListener('mouseup',   function () { dragging = false; });
+
+    overlay.addEventListener('touchstart', function (e) { dragging = true; posFromX(e.touches[0].clientX); }, { passive: true });
+    overlay.addEventListener('touchmove',  function (e) {
+      if (dragging) { e.preventDefault(); posFromX(e.touches[0].clientX); }
+    }, { passive: false });
+    document.addEventListener('touchend',  function () { dragging = false; });
+
+    v._syncComparator = sync;
+    window.setTimeout(sync, 60);
   });
 
-  // NAVEGACIÓN DE VISTAS
-  function showView(viewId, event) {
-    if(event) event.preventDefault();
-    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-    document.getElementById('view-' + viewId).classList.add('active');
-    
-    // Limpieza de estado 'active' en todos los enlaces
-    document.querySelectorAll('.menu-list a').forEach(a => a.classList.remove('active'));
-    // Usar currentTarget para asegurar que se marque el <a> aunque se haga clic en un <span> o <svg> interno
-    if(event && event.currentTarget) event.currentTarget.classList.add('active');
-    
-    setTimeout(() => { 
-      window.dispatchEvent(new Event('resize')); 
-      if(viewId === 'visor-stl') initSTLViewer(); 
-      if(viewId === 'visor-dxf') initDXFViewer(); 
-    }, 100);
+  /* Reajusta todos los comparadores (vista mostrada o resize) */
+  window.refreshComparadores = function () {
+    comps.forEach(function (v) { if (v._syncComparator) v._syncComparator(); });
+  };
+  window.addEventListener('resize', window.refreshComparadores);
+})();
+
+/* ================= VISOR ZOOM & PAN (zp) ================= */
+var zpViewer = (function () {
+  var viewer = document.querySelector('.zp-viewer');
+  if (!viewer) return { onShow: function () {} };
+
+  var stage  = viewer.querySelector('.zp-stage');
+  var img    = viewer.querySelector('.zp-img');
+  var zoomEl = viewer.querySelector('[data-zp-role="zoom-level"]');
+  var hint   = viewer.querySelector('.zp-hint');
+
+  var MIN = 0.05, MAX = 12;
+  var scale = 1, tx = 0, ty = 0;
+  var imgReady = false, fitted = false, zpFs = false;
+
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + scale + ')';
+    if (zoomEl) zoomEl.textContent = Math.round(scale * 100) + '%';
+  }
+  function hideHint() { if (hint) hint.classList.add('zp-hide'); }
+
+  function fit() {
+    if (!imgReady) return;
+    var sw = stage.clientWidth, sh = stage.clientHeight;
+    if (sw < 10 || sh < 10) return;
+    var iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
+    scale = Math.max(MIN, Math.min(MAX, Math.min(sw / iw, sh / ih)));
+    tx = (sw - iw * scale) / 2;
+    ty = (sh - ih * scale) / 2;
+    fitted = true;
+    apply();
+  }
+  function reset() {
+    if (!imgReady) return;
+    var sw = stage.clientWidth, sh = stage.clientHeight;
+    if (sw < 10 || sh < 10) return;
+    var iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
+    scale = 1;
+    tx = (sw - iw) / 2;
+    ty = (sh - ih) / 2;
+    apply();
+  }
+  function zoomAt(cx, cy, factor) {
+    var r = stage.getBoundingClientRect();
+    var mx = cx - r.left, my = cy - r.top;
+    var ns = Math.max(MIN, Math.min(MAX, scale * factor));
+    if (ns === scale) return;
+    var px = (mx - tx) / scale;
+    var py = (my - ty) / scale;
+    scale = ns;
+    tx = mx - px * scale;
+    ty = my - py * scale;
+    apply();
+    hideHint();
+  }
+  function zoomCenter(f) {
+    var r = stage.getBoundingClientRect();
+    zoomAt(r.left + r.width / 2, r.top + r.height / 2, f);
   }
 
-  // VISOR ANTES Y DESPUÉS
-  const visorContainers = document.querySelectorAll('.visor-container');
-  visorContainers.forEach(container => {
-    const afterWrap = container.querySelector('.visor-after-wrap');
-    const handle = container.querySelector('.visor-handle');
-    const overlay = container.querySelector('.visor-overlay');
-    const afterContent = afterWrap.querySelector('img, svg'); 
-    let isResizing = false;
-
-    const adjustVisor = (clientX) => {
-      const rect = container.getBoundingClientRect();
-      let newWidth = clientX - rect.left;
-      if (newWidth < 0) newWidth = 0;
-      if (newWidth > rect.width) newWidth = rect.width;
-      
-      let percentage = (newWidth / rect.width) * 100;
-      afterWrap.style.width = percentage + '%';
-      handle.style.left = percentage + '%';
-      afterContent.style.width = rect.width + 'px';
-    };
-
-    overlay.addEventListener('mousedown', (e) => { isResizing = true; adjustVisor(e.clientX); });
-    document.addEventListener('mousemove', (e) => { if (isResizing) adjustVisor(e.clientX); });
-    document.addEventListener('mouseup', () => { isResizing = false; });
-
-    overlay.addEventListener('touchstart', (e) => { isResizing = true; adjustVisor(e.touches[0].clientX); }, { passive: true });
-    document.addEventListener('touchmove', (e) => { if (isResizing) adjustVisor(e.touches[0].clientX); }, { passive: true });
-    document.addEventListener('touchend', () => { isResizing = false; });
-
-    const initVisor = () => {
-      const rect = container.getBoundingClientRect();
-      afterContent.style.width = rect.width + 'px';
-    };
-    
-    window.addEventListener('load', initVisor);
-    window.addEventListener('resize', initVisor);
-    setTimeout(initVisor, 500);
+  /* Pan por arrastre */
+  var panning = false, lastX = 0, lastY = 0;
+  stage.addEventListener('mousedown', function (e) {
+    panning = true; lastX = e.clientX; lastY = e.clientY;
+    stage.style.cursor = 'grabbing';
+    e.preventDefault(); hideHint();
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!panning) return;
+    tx += e.clientX - lastX;
+    ty += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    apply();
+  });
+  window.addEventListener('mouseup', function () {
+    if (panning) { panning = false; stage.style.cursor = 'grab'; }
   });
 
-  // VISOR ZOOM & PAN
-  (function(){
-    'use strict';
-    var STEP = 1.25, MAX = 10, MIN = 0.6, PAD = 12;
-    function clamp(v, min, max){ return Math.min(max, Math.max(min, v)); }
-    function createViewer(root){
-      if (root.hasAttribute('data-zp-ready')) return;
-      root.setAttribute('data-zp-ready', '1');
-      var stage = root.querySelector('.zp-stage'), img = root.querySelector('.zp-img');
-      var label = root.querySelector('[data-zp-role="zoom-level"]'), hint = root.querySelector('.zp-hint');
-      var scale = 1, base = 1, tx = 0, ty = 0, imgW = 0, imgH = 0;
-      var pointers = new Map(), pan = null, pinch = null, tapTime = 0, tapX = 0, tapY = 0;
+  /* Rueda y doble clic */
+  stage.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.25 : 0.8);
+  }, { passive: false });
+  stage.addEventListener('dblclick', function (e) { zoomAt(e.clientX, e.clientY, 1.5); });
 
-      function size(){ var r = stage.getBoundingClientRect(); return { w: r.width, h: r.height }; }
-      function minScale(){ return MIN; } 
-      function calcBase(){ var s = size(); return Math.min((s.w - PAD*2)/imgW, (s.h - PAD*2)/imgH); }
-      function render(){ img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')'; if (label) label.textContent = Math.round(scale * 100) + '%'; }
-      function clampPan(){ var s = size(), rw = imgW * scale, rh = imgH * scale; tx = (rw <= s.w) ? (s.w - rw)/2 : clamp(tx, s.w - rw, 0); ty = (rh <= s.h) ? (s.h - rh)/2 : clamp(ty, s.h - rh, 0); }
-      function zoomAt(cx, cy, factor){ var ns = clamp(scale * factor, minScale(), MAX); var px = (cx - tx) / scale, py = (cy - ty) / scale; tx = cx - px * ns; ty = cy - py * ns; scale = ns; clampPan(); render(); }
-      function centerZoom(factor){ var s = size(); zoomAt(s.w/2, s.h/2, factor); }
-      function fit(){ 
-        if (!imgW) return;
-        base = calcBase();
-        scale = Math.max(base, MIN);
-        var s = size();
-        tx = (s.w - imgW * scale) / 2;
-        ty = (s.h - imgH * scale) / 2;
-        clampPan();
-        render();
+  /* Barra de herramientas */
+  viewer.querySelectorAll('[data-zp-action]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var action = btn.getAttribute('data-zp-action');
+      if (action === 'zoom-in') zoomCenter(1.25);
+      else if (action === 'zoom-out') zoomCenter(0.8);
+      else if (action === 'fit') fit();
+      else if (action === 'reset') reset();
+      else if (action === 'fullscreen') {
+        if (document.fullscreenElement === stage) document.exitFullscreen();
+        else if (stage.requestFullscreen) stage.requestFullscreen();
       }
-      function reset(){ scale = 1; clampPan(); render(); }
-      function hideHint(){ if (hint) hint.classList.add('zp-hide'); }
-
-      stage.addEventListener('pointerdown', function(e){
-        if (e.pointerType === 'mouse' && e.button !== 0) return;
-        stage.setPointerCapture(e.pointerId); pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        if (pointers.size === 1){ pan = { x: e.clientX, y: e.clientY, tx: tx, ty: ty }; pinch = null; } 
-        else if (pointers.size === 2){ var p = Array.from(pointers.values()); pinch = { dist: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y), scale: scale, tx: tx, ty: ty, midX: (p[0].x + p[1].x)/2, midY: (p[0].y + p[1].y)/2 }; pan = null; }
-        hideHint(); e.preventDefault();
-      });
-      stage.addEventListener('pointermove', function(e){
-        if (!pointers.has(e.pointerId)) return; pointers.set(e.pointerId, { x: e.clientX, y: e.clientY }); var rect = stage.getBoundingClientRect();
-        if (pointers.size === 1 && pan){ tx = pan.tx + (e.clientX - pan.x); ty = pan.ty + (e.clientY - pan.y); clampPan(); render(); } 
-        else if (pointers.size === 2 && pinch){ var p = Array.from(pointers.values()); var d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y); var ns = clamp(pinch.scale * d / pinch.dist, minScale(), MAX); var px = (pinch.midX - rect.left - pinch.tx) / pinch.scale; var py = (pinch.midY - rect.top - pinch.ty) / pinch.scale; var mx = (p[0].x + p[1].x)/2 - rect.left; var my = (p[0].y + p[1].y)/2 - rect.top; tx = mx - px * ns; ty = my - py * ns; scale = ns; clampPan(); render(); }
-      });
-      function endPointer(e){ pointers.delete(e.pointerId); if (pointers.size < 2) pinch = null; if (pointers.size === 1){ var p = Array.from(pointers.values())[0]; pan = { x: p.x, y: p.y, tx: tx, ty: ty }; } else if (pointers.size === 0){ pan = null; } }
-      stage.addEventListener('pointerup', function(e){ var rect = stage.getBoundingClientRect(); var now = Date.now(); if (now - tapTime < 320 && Math.hypot(e.clientX - tapX, e.clientY - tapY) < 32){ zoomAt(e.clientX - rect.left, e.clientY - rect.top, e.shiftKey ? 1/STEP : STEP); tapTime = 0; } else { tapTime = now; tapX = e.clientX; tapY = e.clientY; } endPointer(e); });
-      stage.addEventListener('pointercancel', endPointer);
-      stage.addEventListener('wheel', function(e){ e.preventDefault(); var dy = e.deltaY; if (e.deltaMode === 1) dy *= 33; else if (e.deltaMode === 2) dy *= 300; var rect = stage.getBoundingClientRect(); zoomAt(e.clientX - rect.left, e.clientY - rect.top, Math.exp(-dy * 0.0016)); hideHint(); }, { passive: false });
-      root.querySelectorAll('[data-zp-action]').forEach(function(btn){ btn.addEventListener('click', function(){ var a = btn.getAttribute('data-zp-action'); if (a === 'zoom-in') centerZoom(STEP); else if (a === 'zoom-out') centerZoom(1/STEP); else if (a === 'fit') fit(); else if (a === 'reset') reset(); else if (a === 'fullscreen') toggleFS(); hideHint(); }); });
-      function toggleFS(){ if (document.fullscreenElement === root) document.exitFullscreen(); else if (root.requestFullscreen) root.requestFullscreen(); }
-      document.addEventListener('fullscreenchange', function(){ var fs = document.fullscreenElement === root; root.classList.toggle('zp-fullscreen', fs); setTimeout(function(){ if (!imgW) return; var wasFit = Math.abs(scale - Math.max(base, MIN)) < 0.002; if (wasFit) fit(); else { base = calcBase(); clampPan(); render(); } }, 60); });
-      window.addEventListener('resize', function(){ if (!imgW) return; var wasFit = Math.abs(scale - Math.max(base, MIN)) < 0.002; if (wasFit) fit(); else { base = calcBase(); clampPan(); render(); } });
-      function start(){ imgW = img.naturalWidth; imgH = img.naturalHeight; fit(); }
-      if (img.complete && img.naturalWidth) start(); else img.addEventListener('load', start, { once: true });
-    }
-    function init(){ document.querySelectorAll('.zp-viewer').forEach(createViewer); }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-    window.ZoomPanViewer = { init: init };
-  })();
-
-  // --- VISOR PDF (PDF.js) ---
-  let pdfDoc = null, pageNum = 1, pageIsRendering = false, pageNumIsPending = null;
-
-  function renderPDFPage(num) {
-    pageIsRendering = true;
-    pdfDoc.getPage(num).then(function(page) {
-      const canvas = document.getElementById('pdf-canvas');
-      const ctx = canvas.getContext('2d');
-      
-      // Calcular escala dinámica para que encaje bien en el ancho de la pantalla
-      const container = document.getElementById('pdf-stage');
-      const desiredWidth = container.clientWidth - 40; // 40px de padding total
-      const unscaledViewport = page.getViewport({ scale: 1 });
-      const scale = Math.max(1, desiredWidth / unscaledViewport.width); // Mínimo escala 1 para no perder calidad
-      
-      const viewport = page.getViewport({ scale: scale });
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-      
-      const renderContext = { canvasContext: ctx, viewport: viewport };
-      const renderTask = page.render(renderContext);
-
-      renderTask.promise.then(function() {
-        pageIsRendering = false;
-        if (pageNumIsPending !== null) {
-          renderPDFPage(pageNumIsPending);
-          pageNumIsPending = null;
-        }
-      });
-      document.getElementById('pdf-page-info').textContent = `Pág: ${num} / ${pdfDoc.numPages}`;
+      hideHint();
     });
+  });
+
+  /* Fullscreen: reajustar al entrar/salir */
+  document.addEventListener('fullscreenchange', function () {
+    var isZp = document.fullscreenElement === stage;
+    if (isZp || zpFs) fit();
+    zpFs = isZp;
+  });
+
+  /* Carga de la imagen */
+  if (img.complete && img.naturalWidth) { imgReady = true; fit(); }
+  else img.addEventListener('load', function () { imgReady = true; fit(); });
+
+  return { onShow: function () { if (!fitted) fit(); } };
+})();
+
+/* ================= VISOR STL (Three.js) ================= */
+var stlViewer = (function () {
+  var stage = document.getElementById('stl-stage');
+  var input = document.getElementById('stl-input');
+  var colorInput = document.getElementById('stl-color');
+  var resetBtn = document.getElementById('stl-reset-view');
+  if (!stage) return { onShow: function () {}, resize: function () {} };
+
+  var renderer = null, scene, camera, controls, mesh = null, ready = false;
+
+  function ensure() {
+    if (ready) return true;
+    if (!window.THREE) return false;
+    ready = true;
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050505);
+
+    camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100000);
+    camera.position.set(120, 100, 180);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.domElement.style.display = 'block';
+    stage.appendChild(renderer.domElement);
+
+    if (THREE.OrbitControls) {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+    }
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x0a0a12, 0.85));
+    var key = new THREE.DirectionalLight(0xffffff, 0.75);
+    key.position.set(1, 1.4, 1.2);
+    scene.add(key);
+
+    var grid = new THREE.GridHelper(400, 40, 0x00E5FF, 0x1a3a4a);
+    grid.material.transparent = true;
+    grid.material.opacity = 0.35;
+    scene.add(grid);
+
+    resize();
+    animate();
+    return true;
   }
 
-  function queueRenderPDFPage(num) {
-    if (pageIsRendering) pageNumIsPending = num;
-    else renderPDFPage(num);
+  function resize() {
+    if (!renderer) return;
+    var r = stage.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;
+    renderer.setSize(r.width, r.height);
+    camera.aspect = r.width / r.height;
+    camera.updateProjectionMatrix();
   }
 
-  document.getElementById('pdf-input').addEventListener('change', function(event) {
-    const file = event.target.files[0];
+  function animate() {
+    requestAnimationFrame(animate);
+    if (!stage.offsetParent) return; // sección oculta: no renderiza
+    if (controls) controls.update();
+    renderer.render(scene, camera);
+  }
+
+  function frameObject() {
+    if (!controls) return;
+    if (!mesh) {
+      camera.position.set(120, 100, 180);
+      controls.target.set(0, 0, 0);
+      controls.update();
+      return;
+    }
+    mesh.geometry.computeBoundingBox();
+    var size = mesh.geometry.boundingBox.getSize(new THREE.Vector3());
+    var maxDim = Math.max(size.x, size.y, size.z) || 1;
+    var dist = maxDim * 1.9;
+    camera.position.set(dist * 0.7, dist * 0.55, dist);
+    controls.target.set(0, 0, 0);
+    camera.near = maxDim / 100;
+    camera.far = maxDim * 100;
+    camera.updateProjectionMatrix();
+    controls.update();
+  }
+
+  input.addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const typedarray = new Uint8Array(e.target.result);
-      pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-        pdfDoc = pdf;
-        pageNum = 1;
-        document.getElementById('pdf-canvas').style.display = 'block';
-        document.querySelector('#pdf-stage p').style.display = 'none';
-        document.getElementById('pdf-stage').scrollTop = 0; // Manda el scroll arriba
-        renderPDFPage(pageNum);
-      });
+    if (!ensure()) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var geometry = new THREE.STLLoader().parse(this.result);
+        geometry.computeVertexNormals();
+        geometry.center();
+        geometry.computeBoundingBox();
+
+        if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+
+        var material = new THREE.MeshPhongMaterial({
+          color: new THREE.Color(colorInput ? colorInput.value : '#00E5FF'),
+          shininess: 60,
+          specular: 0x222222
+        });
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.position.y = -geometry.boundingBox.min.y; // apoya el modelo en la grilla
+        scene.add(mesh);
+        frameObject();
+      } catch (err) {
+        console.error('[Visor STL] Error:', err);
+        alert('No se pudo cargar el STL: ' + (err.message || err));
+      }
+      e.target.value = '';
     };
     reader.readAsArrayBuffer(file);
   });
 
-  document.getElementById('pdf-prev').addEventListener('click', () => {
-    if (pageNum <= 1) return;
-    pageNum--;
-    queueRenderPDFPage(pageNum);
+  if (colorInput) colorInput.addEventListener('input', function () {
+    if (mesh) mesh.material.color.set(this.value);
   });
-  document.getElementById('pdf-next').addEventListener('click', () => {
-    if (pageNum >= pdfDoc.numPages) return;
-    pageNum++;
-    queueRenderPDFPage(pageNum);
-  });
+  if (resetBtn) resetBtn.addEventListener('click', frameObject);
 
-  // --- VISOR DXF (Three.js + DxfParser) ---
-  let dxfScene, dxfCamera, dxfRenderer, dxfControls, dxfAnimationId, dxfGroup;
+  window.addEventListener('resize', resize);
 
-  function initDXFViewer() {
-    const container = document.getElementById('dxf-stage');
-    if (!container || dxfRenderer) return;
+  return {
+    onShow: function () { if (ensure()) resize(); },
+    resize: resize
+  };
+})();
 
-    dxfScene = new THREE.Scene();
-    dxfScene.background = new THREE.Color(0x050505);
+/* ================= VISOR DXF (canvas 2D) ================= */
+var dxfViewer = (function () {
+  var stage = document.getElementById('dxf-stage');
+  var input = document.getElementById('dxf-input');
+  var resetBtn = document.getElementById('dxf-reset-view');
+  var hint = document.getElementById('dxf-hint');
+  if (!stage) return { onShow: function () {}, resize: function () {} };
 
-    dxfCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 5000);
-    dxfCamera.position.set(0, 0, 500);
+  var canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:absolute;top:0;left:0;cursor:grab;';
+  var ctx = canvas.getContext('2d');
+  stage.appendChild(canvas);
 
-    dxfRenderer = new THREE.WebGLRenderer({ antialias: true });
-    dxfRenderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(dxfRenderer.domElement);
+  var msg = document.createElement('p');
+  msg.textContent = '[ Cargue un archivo DXF para visualizarlo ]';
+  msg.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#94A3B8;font-family:var(--cad-font);font-size:.8rem;margin:0;pointer-events:none;white-space:nowrap;';
+  stage.appendChild(msg);
 
-    dxfControls = new THREE.OrbitControls(dxfCamera, dxfRenderer.domElement);
-    
-    const grid = new THREE.GridHelper(1000, 40, 0x00E5FF, 0x111111);
-    grid.rotation.x = Math.PI / 2;
-    dxfScene.add(grid);
+  var entities = [], bounds = null, hasDoc = false;
+  var view = { s: 1, ox: 0, oy: 0 };
 
-    function animate() {
-      dxfAnimationId = requestAnimationFrame(animate);
-      dxfControls.update();
-      dxfRenderer.render(dxfScene, dxfCamera);
-    }
-    animate();
-    window.addEventListener('resize', onDXFResize);
+  function sx(wx) { return wx * view.s + view.ox; }
+  function sy(wy) { return -wy * view.s + view.oy; }
+  function hideHint() { if (hint) hint.classList.add('zp-hide'); }
+
+  function resize() {
+    var r = stage.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;
+    var W = Math.floor(r.width), H = Math.floor(r.height);
+    if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+    draw();
   }
 
-  function onDXFResize() {
-    const container = document.getElementById('dxf-stage');
-    if (container && dxfCamera && dxfRenderer) {
-      dxfCamera.aspect = container.clientWidth / container.clientHeight;
-      dxfCamera.updateProjectionMatrix();
-      dxfRenderer.setSize(container.clientWidth, container.clientHeight);
+  function fitView() {
+    if (!bounds) return;
+    var w = (bounds.maxX - bounds.minX) || 1;
+    var h = (bounds.maxY - bounds.minY) || 1;
+    var pad = 50;
+    view.s = Math.min((canvas.width - pad * 2) / w, (canvas.height - pad * 2) / h);
+    if (!isFinite(view.s) || view.s <= 0) view.s = 1;
+    view.ox = canvas.width / 2 - (bounds.minX + w / 2) * view.s;
+    view.oy = canvas.height / 2 + (bounds.minY + h / 2) * view.s;
+    draw();
+  }
+
+  function cleanText(t) {
+    return String(t).replace(/\\P/g, ' ')
+      .replace(/\\[A-Za-z][^;]*;/g, '')
+      .replace(/[{}]/g, '')
+      .trim();
+  }
+
+  function arcPath(cx, cy, r, a1, a2) {
+    var A1 = a1 * Math.PI / 180, A2 = a2 * Math.PI / 180;
+    if (A2 < A1) A2 += Math.PI * 2;
+    var steps = Math.max(8, Math.ceil((A2 - A1) / (Math.PI / 48)));
+    for (var i = 0; i <= steps; i++) {
+      var a = A1 + (A2 - A1) * i / steps;
+      var X = sx(cx + r * Math.cos(a)), Y = sy(cy + r * Math.sin(a));
+      if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
     }
   }
 
-  document.getElementById('dxf-input').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    initDXFViewer();
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!entities.length) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const parser = new DxfParser();
-      try {
-        const dxf = parser.parseSync(e.target.result);
-        
-        if(dxfGroup) {
-          dxfScene.remove(dxfGroup);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#00E5FF';
+    ctx.beginPath();
+    entities.forEach(function (e) {
+      if (e.type === 'LINE') {
+        ctx.moveTo(sx(e.x1 || 0), sy(e.y1 || 0));
+        ctx.lineTo(sx(e.x2 || 0), sy(e.y2 || 0));
+      } else if (e.type === 'LWPOLYLINE' || e.type === 'POLYLINE') {
+        var v = e.verts || [];
+        if (v.length) {
+          ctx.moveTo(sx(v[0][0]), sy(v[0][1]));
+          for (var j = 1; j < v.length; j++) ctx.lineTo(sx(v[j][0]), sy(v[j][1]));
+          if (e.closed && v.length > 2) ctx.closePath();
         }
-        dxfGroup = new THREE.Group();
-        
-        const material = new THREE.LineBasicMaterial({ color: 0x00E5FF });
-
-        dxf.entities.forEach(entity => {
-          if (entity.type === 'LINE') {
-            const geometry = new THREE.BufferGeometry().setFromPoints([
-              new THREE.Vector3(entity.vertices[0].x, entity.vertices[0].y, 0),
-              new THREE.Vector3(entity.vertices[1].x, entity.vertices[1].y, 0)
-            ]);
-            dxfGroup.add(new THREE.Line(geometry, material));
-          } 
-          else if (entity.type === 'LWPOLYLINE' || entity.type === 'POLYLINE') {
-            const points = entity.vertices.map(v => new THREE.Vector3(v.x, v.y, 0));
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            dxfGroup.add(new THREE.Line(geometry, material));
-          } 
-          else if (entity.type === 'CIRCLE') {
-            const curve = new THREE.EllipseCurve(
-              entity.center.x, entity.center.y,
-              entity.radius, entity.radius,
-              0, 2 * Math.PI, false, 0
-            );
-            const points = curve.getPoints(50).map(p => new THREE.Vector3(p.x, p.y, 0));
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            dxfGroup.add(new THREE.Line(geometry, material));
-          }
-          else if (entity.type === 'ARC') {
-            const curve = new THREE.EllipseCurve(
-              entity.center.x, entity.center.y,
-              entity.radius, entity.radius,
-              entity.startAngle, entity.endAngle, false, 0
-            );
-            const points = curve.getPoints(50).map(p => new THREE.Vector3(p.x, p.y, 0));
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            dxfGroup.add(new THREE.Line(geometry, material));
-          }
-        });
-
-        dxfScene.add(dxfGroup);
-        
-        // Calcular bounding box para centrar la cámara
-        const box = new THREE.Box3().setFromObject(dxfGroup);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        
-        dxfControls.target.copy(center);
-        dxfCamera.position.set(center.x, center.y, center.z + Math.max(size.x, size.y) * 1.5);
-        dxfControls.update();
-
-      } catch (err) {
-        console.error("Error al leer DXF:", err);
-        alert("Error al cargar el DXF. Asegúrate de que sea un archivo válido.");
+      } else if (e.type === 'CIRCLE') {
+        arcPath(e.cx || 0, e.cy || 0, e.r || 0, 0, 360);
+      } else if (e.type === 'ARC') {
+        arcPath(e.cx || 0, e.cy || 0, e.r || 0, e.a1 || 0, e.a2 || 0);
       }
+    });
+    ctx.stroke();
+
+    // Textos y puntos
+    ctx.fillStyle = '#00E5FF';
+    entities.forEach(function (e) {
+      if (e.type === 'TEXT' || e.type === 'MTEXT') {
+        var size = Math.max(7, (e.h || 1) * view.s);
+        ctx.font = size + 'px monospace';
+        ctx.fillText(cleanText(e.text || ''), sx(e.x || 0), sy(e.y || 0));
+      } else if (e.type === 'POINT') {
+        ctx.fillRect(sx(e.x || 0) - 2, sy(e.y || 0) - 2, 4, 4);
+      }
+    });
+  }
+
+  /* ---------- Parser DXF (entidades comunes) ---------- */
+  function feed(e, code, val) {
+    var n = parseFloat(val);
+    switch (code) {
+      case 1:
+      case 3: e.text = (e.text || '') + val; break;
+      case 10:
+        if (e.type === 'LWPOLYLINE') { e._x = n; }
+        else { e.x1 = n; e.cx = n; e.x = n; }
+        break;
+      case 20:
+        if (e.type === 'LWPOLYLINE' && e._x !== undefined) { e.verts.push([e._x, n]); e._x = undefined; }
+        else { e.y1 = n; e.cy = n; e.y = n; }
+        break;
+      case 11: e.x2 = n; break;
+      case 21: e.y2 = n; break;
+      case 40: e.r = n; e.h = n; break;
+      case 50: e.a1 = n; break;
+      case 51: e.a2 = n; break;
+      case 70: e.flag = n; break;
+    }
+  }
+
+  function parseDxf(text) {
+    var raw = String(text).split(/\r\n|\r|\n/);
+    var pairs = [];
+    for (var i = 0; i < raw.length;) {
+      var c = raw[i].trim();
+      if (c === '') { i++; continue; }
+      var code = parseInt(c, 10);
+      if (isNaN(code)) { i++; continue; }
+      pairs.push([code, (raw[i + 1] || '').trim()]);
+      i += 2;
+    }
+
+    var ents = [];
+    var section = null, expectName = false;
+    var cur = null, poly = null;
+
+    function closeCur() {
+      if (!cur) return;
+      if (cur.__vertex) {
+        if (poly) poly.verts.push([cur.x || 0, cur.y || 0]);
+      } else {
+        ents.push(cur);
+        if (cur.type === 'POLYLINE') poly = cur;
+      }
+      cur = null;
+    }
+
+    for (var p = 0; p < pairs.length; p++) {
+      var code = pairs[p][0], val = pairs[p][1];
+      if (code === 0) {
+        closeCur();
+        if (val === 'SECTION') { expectName = true; }
+        else if (val === 'ENDSEC') { section = null; poly = null; }
+        else if (val === 'SEQEND') { poly = null; }
+        else if (section === 'ENTITIES') {
+          if (val === 'VERTEX' && poly) { cur = { __vertex: true }; }
+          else if (val === 'POLYLINE') { cur = { type: 'POLYLINE', verts: [], closed: false }; }
+          else if (val === 'LWPOLYLINE') { cur = { type: 'LWPOLYLINE', verts: [], closed: false }; }
+          else if (val === 'LINE' || val === 'CIRCLE' || val === 'ARC' ||
+                   val === 'POINT' || val === 'TEXT' || val === 'MTEXT') {
+            cur = { type: val };
+          } else { cur = null; }
+        }
+      } else if (expectName && code === 2) {
+        section = val; expectName = false;
+      } else if (cur) {
+        feed(cur, code, val);
+      }
+    }
+    closeCur();
+
+    // Polilíneas cerradas (bit 1 del código 70)
+    ents.forEach(function (e) {
+      if (e.type === 'LWPOLYLINE' || e.type === 'POLYLINE') e.closed = !!((e.flag || 0) & 1);
+    });
+    return ents;
+  }
+
+  function computeBounds() {
+    bounds = null;
+    entities.forEach(function (e) {
+      var pts = [];
+      if (e.type === 'LINE') pts = [[e.x1 || 0, e.y1 || 0], [e.x2 || 0, e.y2 || 0]];
+      else if (e.type === 'LWPOLYLINE' || e.type === 'POLYLINE') pts = e.verts || [];
+      else if (e.type === 'CIRCLE' || e.type === 'ARC') {
+        var r = e.r || 0;
+        pts = [[(e.cx || 0) - r, (e.cy || 0) - r], [(e.cx || 0) + r, (e.cy || 0) + r]];
+      }
+      else if (e.type === 'TEXT' || e.type === 'MTEXT' || e.type === 'POINT') pts = [[e.x || 0, e.y || 0]];
+      pts.forEach(function (p) {
+        if (!bounds) bounds = { minX: p[0], maxX: p[0], minY: p[1], maxY: p[1] };
+        else {
+          bounds.minX = Math.min(bounds.minX, p[0]); bounds.maxX = Math.max(bounds.maxX, p[0]);
+          bounds.minY = Math.min(bounds.minY, p[1]); bounds.maxY = Math.max(bounds.maxY, p[1]);
+        }
+      });
+    });
+  }
+
+  /* ---------- Carga ---------- */
+  input.addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        entities = parseDxf(this.result);
+        computeBounds();
+        hasDoc = entities.length > 0;
+        msg.style.display = hasDoc ? 'none' : '';
+        msg.textContent = hasDoc ? '' : '[ El DXF no contiene entidades dibujables ]';
+        resize();
+        fitView();
+      } catch (err) {
+        console.error('[Visor DXF]', err);
+        msg.style.display = '';
+        msg.textContent = '[ Error al leer el DXF ]';
+      }
+      e.target.value = '';
     };
     reader.readAsText(file);
   });
 
-  document.getElementById('dxf-reset-view').addEventListener('click', function() {
-    if (dxfControls && dxfCamera && dxfGroup) {
-      const box = new THREE.Box3().setFromObject(dxfGroup);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      
-      dxfControls.target.copy(center);
-      dxfCamera.position.set(center.x, center.y, center.z + Math.max(size.x, size.y) * 1.5);
-      dxfControls.update();
-    }
+  /* ---------- Zoom (rueda) y pan (arrastre) ---------- */
+  canvas.addEventListener('wheel', function (e) {
+    if (!hasDoc) return;
+    e.preventDefault();
+    var k = e.deltaY < 0 ? 1.2 : 1 / 1.2;
+    var r = canvas.getBoundingClientRect();
+    var mx = e.clientX - r.left, my = e.clientY - r.top;
+    view.ox = mx - (mx - view.ox) * k;
+    view.oy = my - (my - view.oy) * k;
+    view.s *= k;
+    draw();
+    hideHint();
+  }, { passive: false });
+
+  var dpan = null;
+  canvas.addEventListener('mousedown', function (e) {
+    if (!hasDoc) return;
+    dpan = { x: e.clientX, y: e.clientY, ox: view.ox, oy: view.oy };
+    canvas.style.cursor = 'grabbing';
+    e.preventDefault();
+    hideHint();
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!dpan) return;
+    view.ox = dpan.ox + (e.clientX - dpan.x);
+    view.oy = dpan.oy + (e.clientY - dpan.y);
+    draw();
+  });
+  window.addEventListener('mouseup', function () {
+    if (dpan) { dpan = null; canvas.style.cursor = 'grab'; }
   });
 
-  // --- VISOR STL (THREE.JS) ---
-  let stlScene, stlCamera, stlRenderer, stlControls, stlMesh, stlAnimationId;
+  if (resetBtn) resetBtn.addEventListener('click', fitView);
+  window.addEventListener('resize', resize);
 
-  function initSTLViewer() {
-    const container = document.getElementById('stl-stage');
-    if (!container || stlRenderer) return;
+  return {
+    onShow: function () { resize(); },
+    resize: resize
+  };
+})();
 
-    stlScene = new THREE.Scene();
-    stlScene.background = new THREE.Color(0x050505);
+/* ================= FLYERS: MODAL ================= */
+function openFlyer(src, title, view, label) {
+  var modal = document.getElementById('flyer-modal');
+  var img   = document.getElementById('flyer-modal-img');
+  var goBtn = document.getElementById('flyer-modal-go');
+  document.getElementById('flyer-modal-title').textContent = '> ' + title;
+  img.src = src;
+  img.alt = title;
+  if (view) {
+    goBtn.style.display = 'inline-block';
+    goBtn.setAttribute('data-view', view);
+    goBtn.textContent = label || 'IR A LA SECCIÓN';
+  } else {
+    goBtn.style.display = 'none';
+  }
+  modal.classList.add('open');
+}
+function closeFlyer() {
+  document.getElementById('flyer-modal').classList.remove('open');
+}
+function goFlyerSection(btn, e) {
+  var view = btn.getAttribute('data-view');
+  closeFlyer();
+  if (view) showView(view, e);
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' || e.keyCode === 27) closeFlyer();
+});
 
-    stlCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 10000);
-    stlCamera.position.set(0, 0, 100);
+/* ================= AÑO DEL FOOTER ================= */
+(function () {
+  var y = document.getElementById('footer-year');
+  if (y) y.textContent = new Date().getFullYear();
+})();
 
-    stlRenderer = new THREE.WebGLRenderer({ antialias: true });
-    stlRenderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(stlRenderer.domElement);
+/* ================= VISOR PDF · Zoom & Pan ================= */
+(function () {
+  'use strict';
 
-    stlControls = new THREE.OrbitControls(stlCamera, stlRenderer.domElement);
-    stlControls.enableDamping = true;
-    stlControls.dampingFactor = 0.1;
-    stlControls.maxDistance = 400;
+  var ZOOM_MIN = 0.25, ZOOM_MAX = 4, ZOOM_STEP = 1.25;
+  var MAX_PIXELS = 16.7e6; // tope de píxeles del lienzo (~4096x4096)
 
-    const ambientLight = new THREE.AmbientLight(0x404040, 2);
-    stlScene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    directionalLight.position.set(1, 1, 1).normalize();
-    stlScene.add(directionalLight);
+  var stage       = document.getElementById('pdf-stage');
+  var canvas      = document.getElementById('pdf-canvas');
+  var placeholder = document.getElementById('pdf-placeholder');
+  var hint        = document.getElementById('pdf-hint');
+  var input       = document.getElementById('pdf-input');
+  var btnPrev     = document.getElementById('pdf-prev');
+  var btnNext     = document.getElementById('pdf-next');
+  var pageInfo    = document.getElementById('pdf-page-info');
+  var btnIn       = document.getElementById('pdf-zoom-in');
+  var btnOut      = document.getElementById('pdf-zoom-out');
+  var zoomInfo    = document.getElementById('pdf-zoom-info');
+  var btnFit      = document.getElementById('pdf-fit-width');
+  var btnReset    = document.getElementById('pdf-zoom-reset');
 
-    const grid = new THREE.GridHelper(200, 20, 0x00E5FF, 0x111111);
-    grid.rotation.x = Math.PI / 2;
-    stlScene.add(grid);
-
-    function animate() {
-      stlAnimationId = requestAnimationFrame(animate);
-      stlControls.update();
-      stlRenderer.render(stlScene, stlCamera);
-    }
-    animate();
-
-    window.addEventListener('resize', onSTLResize);
+  if (!stage || !canvas) return;
+  if (!window.pdfjsLib) {
+    console.warn('[Visor PDF] PDF.js no cargado.');
+    return;
   }
 
-  function onSTLResize() {
-    const container = document.getElementById('stl-stage');
-    if (container && stlCamera && stlRenderer) {
-      stlCamera.aspect = container.clientWidth / container.clientHeight;
-      stlCamera.updateProjectionMatrix();
-      stlRenderer.setSize(container.clientWidth, container.clientHeight);
-    }
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  var pdfDoc = null, pageNum = 1, scale = 1;
+  var pageBaseW = 0, pageBaseH = 0;
+  var rendering = false, pending = null;
+  var offCanvas = document.createElement('canvas');
+
+  function updateInfo() {
+    pageInfo.textContent = pdfDoc ? ('Pág: ' + pageNum + ' / ' + pdfDoc.numPages) : 'Pág: 0 / 0';
+    zoomInfo.textContent = Math.round(scale * 100) + '%';
+  }
+  function hideHint() {
+    if (hint) { hint.style.transition = 'opacity .4s'; hint.style.opacity = '0'; }
   }
 
-  document.getElementById('stl-input').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+  /* ---------- render nítido, sin parpadeo ---------- */
+  function renderPage(num, done) {
+    if (!pdfDoc) { if (done) done(); return; }
+    if (rendering) { pending = { num: num, done: done }; return; }
+    rendering = true;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const loader = new THREE.STLLoader();
-      const geometry = loader.parse(e.target.result);
-      
-      if (stlMesh) {
-        stlScene.remove(stlMesh);
-        stlMesh.geometry.dispose();
-        stlMesh.material.dispose();
+    pdfDoc.getPage(num).then(function (page) {
+      var base = page.getViewport({ scale: 1 });
+      pageBaseW = base.width;
+      pageBaseH = base.height;
+
+      var s = scale;
+      var logicalW = pageBaseW * s;
+      var logicalH = pageBaseH * s;
+
+      // Tope de seguridad para planos gigantes
+      var renderScale = s;
+      if (logicalW * logicalH > MAX_PIXELS) {
+        renderScale = s * Math.sqrt(MAX_PIXELS / (logicalW * logicalH));
       }
 
-      const material = new THREE.MeshPhongMaterial({
-        color: document.getElementById('stl-color').value,
-        specular: 0x111111,
-        shininess: 50,
-        flatShading: false 
+      var viewport = page.getViewport({ scale: renderScale });
+      offCanvas.width  = Math.floor(viewport.width);
+      offCanvas.height = Math.floor(viewport.height);
+
+      return page.render({
+        canvasContext: offCanvas.getContext('2d'),
+        viewport: viewport
+      }).promise.then(function () {
+        canvas.width  = offCanvas.width;
+        canvas.height = offCanvas.height;
+        canvas.getContext('2d').drawImage(offCanvas, 0, 0);
+        canvas.style.width  = Math.floor(pageBaseW * scale) + 'px';
+        canvas.style.height = Math.floor(pageBaseH * scale) + 'px';
+        canvas.style.display = 'block';
       });
-      
-      stlMesh = new THREE.Mesh(geometry, material);
+    }).then(function () {
+      rendering = false;
+      if (placeholder) placeholder.style.display = 'none';
+      if (hint) hint.style.display = '';
+      updateInfo();
+      if (done) done();
+      if (pending) { var p = pending; pending = null; renderPage(p.num, p.done); }
+    }).catch(function (err) {
+      rendering = false;
+      console.error('[Visor PDF] Error al renderizar:', err);
+    });
+  }
 
-      geometry.computeBoundingBox();
-      const bbox = geometry.boundingBox;
-      const size = new THREE.Vector3().subVectors(bbox.max, bbox.min);
-      const center = new THREE.Vector3().addVectors(bbox.max, bbox.min).multiplyScalar(0.5);
-      
-      geometry.translate(-center.x, -center.y, -center.z);
-      
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 100 / maxDim;
-      geometry.scale(scale, scale, scale);
+  /* ---------- zoom (instantáneo + re-render) ---------- */
+  function applyScale(newScale, clientX, clientY) {
+    if (!pdfDoc) return;
+    newScale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, newScale));
+    if (Math.abs(newScale - scale) < 1e-9) { updateInfo(); return; }
 
-      stlScene.add(stlMesh);
+    if (pageBaseW) {
+      var rect = stage.getBoundingClientRect();
+      var offX = clientX - rect.left;
+      var offY = clientY - rect.top;
+      var px = (offX + stage.scrollLeft) / scale;
+      var py = (offY + stage.scrollTop)  / scale;
 
-      stlCamera.position.set(0, -150, 100);
-      stlControls.target.set(0, 0, 0);
-      stlControls.update();
+      scale = newScale;
+      canvas.style.width  = Math.floor(pageBaseW * scale) + 'px';
+      canvas.style.height = Math.floor(pageBaseH * scale) + 'px';
+
+      stage.scrollLeft = Math.max(0, px * scale - offX);
+      stage.scrollTop  = Math.max(0, py * scale - offY);
+    } else {
+      scale = newScale;
+    }
+
+    renderPage(pageNum);
+    updateInfo();
+    hideHint();
+  }
+
+  function zoomCenter(factor) {
+    var rect = stage.getBoundingClientRect();
+    applyScale(scale * factor,
+               rect.left + stage.clientWidth / 2,
+               rect.top  + stage.clientHeight / 2);
+  }
+
+  function fitWidth() {
+    if (!pdfDoc) return;
+    pdfDoc.getPage(pageNum).then(function (page) {
+      var baseW = page.getViewport({ scale: 1 }).width;
+      var avail = stage.clientWidth - 30;
+      scale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, avail / baseW));
+      renderPage(pageNum, function () {
+        stage.scrollLeft = 0;
+        stage.scrollTop  = 0;
+      });
+      updateInfo();
+    });
+  }
+
+  /* ---------- carga de archivo ---------- */
+  input.addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    e.target.value = '';
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      pdfjsLib.getDocument({ data: new Uint8Array(this.result) }).promise
+        .then(function (pdf) {
+          pdfDoc = pdf;
+          pageNum = 1;
+          pageBaseW = 0; pageBaseH = 0;
+          scale = 1;
+          if (hint) hint.style.opacity = '1';
+          if (placeholder) {
+            placeholder.style.display = '';
+            placeholder.textContent = '[ Cargue un archivo PDF para visualizarlo ]';
+          }
+          updateInfo();
+          fitWidth();
+        })
+        .catch(function (err) {
+          console.error('[Visor PDF] No se pudo abrir el archivo:', err);
+          if (placeholder) {
+            placeholder.style.display = '';
+            placeholder.textContent = '[ Error: el PDF no se pudo abrir ]';
+          }
+        });
     };
     reader.readAsArrayBuffer(file);
   });
 
-  document.getElementById('stl-color').addEventListener('input', function(event) {
-    if (stlMesh) {
-      stlMesh.material.color.set(event.target.value);
-    }
+  /* ---------- navegación ---------- */
+  btnPrev.addEventListener('click', function () {
+    if (pdfDoc && pageNum > 1) { pageNum--; renderPage(pageNum); }
+  });
+  btnNext.addEventListener('click', function () {
+    if (pdfDoc && pageNum < pdfDoc.numPages) { pageNum++; renderPage(pageNum); }
   });
 
-  document.getElementById('stl-reset-view').addEventListener('click', function() {
-    if (stlControls && stlCamera) {
-      stlCamera.position.set(0, -150, 100);
-      stlControls.target.set(0, 0, 0);
-      stlControls.update();
-    }
+  /* ---------- botones de zoom ---------- */
+  btnIn.addEventListener('click',  function () { zoomCenter(ZOOM_STEP); });
+  btnOut.addEventListener('click', function () { zoomCenter(1 / ZOOM_STEP); });
+  btnReset.addEventListener('click', function () { zoomCenter(1 / scale); });
+  btnFit.addEventListener('click', fitWidth);
+
+  /* ---------- rueda = zoom ---------- */
+  stage.addEventListener('wheel', function (e) {
+    if (!pdfDoc) return;
+    e.preventDefault();
+    applyScale(scale * (e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP), e.clientX, e.clientY);
+  }, { passive: false });
+
+  /* ---------- doble clic = ampliar ---------- */
+  stage.addEventListener('dblclick', function (e) {
+    if (!pdfDoc) return;
+    applyScale(scale * 1.5, e.clientX, e.clientY);
   });
+
+  /* ---------- arrastrar = paneo ---------- */
+  var panning = false, panX = 0, panY = 0, panSL = 0, panST = 0;
+
+  stage.addEventListener('mousedown', function (e) {
+    if (!pdfDoc || e.button !== 0) return;
+    panning = true;
+    panX = e.clientX;  panY = e.clientY;
+    panSL = stage.scrollLeft;  panST = stage.scrollTop;
+    stage.style.cursor = 'grabbing';
+    e.preventDefault();
+    hideHint();
+  });
+  window.addEventListener('mousemove', function (e) {
+    if (!panning) return;
+    stage.scrollLeft = panSL - (e.clientX - panX);
+    stage.scrollTop  = panST - (e.clientY - panY);
+  });
+  window.addEventListener('mouseup', function () {
+    if (!panning) return;
+    panning = false;
+    stage.style.cursor = 'grab';
+  });
+
+  updateInfo();
+})();
+
+/* Exponer visores para los hooks de showView / toggleSidebar */
+window.stlViewer = stlViewer;
+window.dxfViewer = dxfViewer;
+window.zpViewer  = zpViewer;
 </script>
 
 </body>
