@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre mí | Mario Molina | Constructor Civil</title>
+    
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---- Variables de color (modo claro) ---- */
+        :root {
+            --bg:#f0f2f5;--card:#ffffff;--text:#202122;--text-m:#54595d;
+            --accent:#3366cc;--accent-h:#2850a8;--wiki-b:#364d7c;
+            --border:#c8cdd3;--border-a:#a2a9b1;
+            --ib-hd:#c8d8ea;--ib-hd-t:#1a1a1a;--ib-sc:#e8ecf0;--ib-sc-t:#54595d;
+            --ib-th:#fafbfc;--ib-td:#eee;
+            --tag-bg:#edf2f8;--tag-bd:#cdd8e4;--tag-t:#364d7c;
+            --tag-hbg:#dce6f2;--tag-hbd:#b0c4de;
+            --line-b:#a4c0e4;--exp-bg:#fafbfc;--exp-h:#f3f6fa;
+            --bullet:#a4c0e4;--toc-bg:#f8f9fb;--tog-bg:#e8ecf0;
+            --tog-ic:"☀️";--sh-c:0 1px 4px rgba(0,0,0,.06),0 8px 30px rgba(0,0,0,.04);
+            --sh-ib:0 1px 3px rgba(0,0,0,.04);--img-p:#d0d5dc;--h1:#000;
+            --img-bd:#dde1e6;--tab-h:#eaecf0;--tab-a:var(--card);
+            --hdr-bg: #ffffff;
+        }
+
+        /* ---- Variables de color (modo oscuro - Por defecto) ---- */
+        [data-theme="dark"] {
+            --bg:#1c1d21;--card:#282930;--text:#c8cad0;--text-m:#94969e;
+            --accent:#7eaaff;--accent-h:#a0c4ff;--wiki-b:#8da6cc;
+            --border:#4a5a78;--border-a:#5a6f94;
+            --ib-hd:#2a3652;--ib-hd-t:#b0c8e8;--ib-sc:#2e3038;--ib-sc-t:#8a8d96;
+            --ib-th:#252630;--ib-td:#3a3d48;
+            --tag-bg:#2a3044;--tag-bd:#3e4e6a;--tag-t:#90b0d8;
+            --tag-hbg:#34405a;--tag-hbd:#506888;
+            --line-b:#4a6090;--exp-bg:#24252c;--exp-h:#2e2f38;
+            --bullet:#4a6090;--toc-bg:#22232a;--tog-bg:#2a2b32;
+            --tog-ic:"🌙";--sh-c:0 1px 6px rgba(0,0,0,.25),0 10px 40px rgba(0,0,0,.18);
+            --sh-ib:0 1px 4px rgba(0,0,0,.25);--img-p:#222330;--h1:#dce0e8;
+            --img-bd:#3a4a64;--tab-h:#2e2f38;--tab-a:var(--card);
+            --hdr-bg: #282930;
+        }
+
+        *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+
+        body {
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg); color:var(--text);
+            line-height:1.65; font-size:15px;
+            -webkit-font-smoothing:antialiased;
+            transition:background .4s,color .4s
+        }
+
+        /* --- Contenedor general full-width --- */
+        .wiki-wrapper { 
+            width: 100%; 
+            margin: 0 auto;
+            padding: 0 24px; /* Padding lateral para que no quede pegado en pantallas grandes */
+        }
+
+        /* --- Header Sticky --- */
+        .wiki-header-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--hdr-bg);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            backdrop-filter: blur(6px);
+        }
+
+        .wiki-header {
+            display:flex; align-items:flex-end; justify-content:space-between;
+            padding: 12px 24px; gap:16px; flex-wrap:wrap;
+            max-width: 1600px; /* Limita el contenido interno del header para que no se separe demasiado */
+            margin: 0 auto;
+        }
+        .wiki-logo {
+            font-family:'Libre Baskerville',Georgia,serif;
+            font-size:1.25rem; font-weight:700; color:var(--text);
+            text-decoration:none; padding-bottom:10px; white-space:nowrap;
+            transition:color .4s; letter-spacing:-.02em
+        }
+        .wiki-logo:hover { color:var(--accent) }
+        .wiki-nav { display:flex; gap:0; flex-shrink:0; padding-bottom: 0px; }
+        .wiki-tab {
+            display:block; padding:9px 18px; font-size:.84rem;
+            color:var(--text-m); text-decoration:none;
+            border:1px solid transparent; border-bottom:none;
+            border-radius:3px 3px 0 0; background:transparent;
+            transition:color .2s,background .2s,border-color .2s;
+            font-weight:400; position:relative; top:1px
+        }
+        .wiki-tab:hover { color:var(--text); background:var(--tab-h) }
+        .wiki-tab.active {
+            color:var(--text); background:var(--tab-a);
+            border-color:var(--border); font-weight:500
+        }
+
+        .wiki-container {
+            background:var(--card); padding:48px 52px;
+            box-shadow:var(--sh-c); border:1px solid var(--border);
+            border-radius:0 0 2px 2px; transition:background .4s,border-color .4s;
+            max-width: 1600px;
+            margin: 24px auto;
+        }
+
+        h1 {
+            font-family:'Libre Baskerville',Georgia,serif;
+            font-size:2.4rem; font-weight:700; color:var(--h1);
+            border-bottom:1px solid var(--border);
+            padding-bottom:6px; margin-bottom:4px;
+            line-height:1.15; transition:color .4s,border-color .4s
+        }
+        .role-sub {
+            font-size:1.05rem; color:var(--text-m);
+            font-weight:300; margin-bottom:28px; letter-spacing:-.01em
+        }
+
+        h2 {
+            font-family:'Libre Baskerville',Georgia,serif;
+            font-size:1.35rem; font-weight:700;
+            border-bottom:1px solid var(--border-a);
+            padding-bottom:5px; margin:36px 0 14px;
+            color:var(--h1); transition:color .4s,border-color .4s
+        }
+        h2 .se { font-family:'Inter',sans-serif; margin-right:6px; font-size:1.2rem; vertical-align:middle }
+
+        .toc {
+            display:inline-block; background:var(--toc-bg);
+            border:1px solid var(--border); border-radius:3px;
+            padding:14px 22px; margin-bottom:26px;
+            font-size:.88rem; min-width:260px; transition:background .4s,border-color .4s
+        }
+        .toc-t { font-weight:600; font-size:.95rem; margin-bottom:8px; text-align:center; color:var(--text) }
+        .toc ul { list-style:none } .toc li { padding:2px 0 }
+        .toc a { color:var(--accent); text-decoration:none } .toc a:hover { text-decoration:underline }
+        .toc .tn { margin-right:6px; color:var(--text-m) } .toc .te { margin-right:4px; font-size:.9rem; vertical-align:middle }
+
+        .infobox {
+            float:right; width:320px; border:1px solid var(--border-a);
+            background:var(--card); margin:0 0 20px 28px;
+            font-size:.84rem; line-height:1.55; border-radius:2px; overflow:hidden;
+            box-shadow:var(--sh-ib); transition:background .4s,border-color .4s
+        }
+        .infobox-photo { display:block; width:100%; height:auto; max-height:400px; object-fit:cover; object-position:center top; background:var(--img-p) }
+        .infobox-hd { background:var(--ib-hd); color:var(--ib-hd-t); text-align:center; font-weight:600; padding:12px 14px; font-size:1.05rem; font-family:'Libre Baskerville',Georgia,serif }
+        .infobox-sc { background:var(--ib-sc); color:var(--ib-sc-t); font-weight:600; text-align:center; padding:6px 10px; font-size:.82rem; text-transform:uppercase; letter-spacing:.04em }
+        .infobox table { width:100%; border-collapse:collapse }
+        .infobox th { text-align:left; padding:7px 10px; width:38%; vertical-align:top; background:var(--ib-th); border-bottom:1px solid var(--ib-td); font-weight:500; color:var(--text-m) }
+        .infobox td { padding:7px 10px; border-bottom:1px solid var(--ib-td); color:var(--text) }
+        .ib-body { padding:10px 12px } .ib-body>div { margin-bottom:10px } .ib-body>div:last-child { margin-bottom:0 }
+        .ey { font-weight:600; color:var(--accent); font-size:.8rem } .et { font-weight:500 } .ep { color:var(--text-m); font-size:.82rem }
+        .ib-flags { text-align:center; padding:12px 10px; font-size:1.3rem; letter-spacing:6px }
+        .ib-link a { color:var(--accent); text-decoration:none; display:inline-block; } .ib-link a:hover { text-decoration:underline }
+
+        .occ { list-style:none; padding:0 }
+        .occ li { padding:4px 0; border-bottom:1px dotted var(--ib-td); font-size:.82rem; line-height:1.4 }
+        .occ li:last-child { border-bottom:none; padding-bottom:0 }
+        .occ li::before { content:'▸ '; color:var(--accent); font-size:.7rem; margin-right:2px; }
+
+        .wiki-container p { margin-bottom:14px } .wiki-container p strong { color:var(--h1) }
+        .tl p { margin-bottom:6px; padding-left:4px } .tl p strong { color:var(--h1) }
+
+        .tc { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 18px }
+        .tag {
+            display:inline-block; background:var(--tag-bg); padding:4px 14px; border-radius:20px;
+            font-size:.78rem; border:1px solid var(--tag-bd); color:var(--tag-t); font-weight:500;
+            transition:background .25s,border-color .25s; cursor:default
+        }
+        .tag:hover { background:var(--tag-hbg); border-color:var(--tag-hbd) }
+
+        .el { list-style:none; padding:0 }
+        .el li { margin-bottom:16px; padding:10px 16px; border-left:3px solid var(--line-b); background:var(--exp-bg); border-radius:0 4px 4px 0; transition:background .25s }
+        .el li:hover { background:var(--exp-h) } .el li strong { color:var(--h1) }
+
+        .wb { list-style:none; padding:0 }
+        .wb li { padding:3px 0 3px 16px; position:relative; margin-bottom:4px }
+        .wb li::before { content:''; position:absolute; left:0; top:11px; width:6px; height:6px; background:var(--bullet); border-radius:50% }
+        .wb li strong { color:var(--h1) }
+
+        .clearfix::after { content:''; display:table; clear:both }
+
+        .btn {
+            display:inline-block; background:var(--accent); color:#fff; padding:12px 32px; border-radius:3px;
+            font-size:.92rem; font-weight:500; text-decoration:none;
+            transition:background .25s,transform .15s,box-shadow .25s;
+            box-shadow:0 2px 8px rgba(51,102,204,.2)
+        }
+        .btn:hover { background:var(--accent-h); transform:translateY(-1px); box-shadow:0 4px 14px rgba(51,102,204,.3) }
+        .btn:active { transform:translateY(0) }
+        .g-cta { text-align:center; margin-top:28px }
+
+        .refs { columns:3 260px; column-gap:18px; margin:0; padding:0; font-size:.82rem; line-height:1.55 }
+        .refs li { list-style:none; padding:5px 0 5px 4px; border-bottom:1px solid var(--ib-td); break-inside:avoid; break-after:auto }
+        .rt { font-weight:600; color:var(--wiki-b); letter-spacing:.02em } .rd { color:var(--text-m) } .rd em { font-style:normal; color:var(--text); opacity:.7 }
+
+        .wf { border-top:1px solid var(--border); margin-top:36px; padding-top:14px; font-size:.78rem; color:var(--text-m); text-align:center }
+
+        @media(max-width:860px) {
+            .wiki-wrapper { padding: 0 12px; } 
+            .wiki-container { padding:28px 20px; margin: 12px auto; }
+            h1 { font-size:1.8rem } .infobox { float:none; width:100%; margin:0 0 24px }
+            .infobox-photo { max-height:500px } .toc { width:100%; min-width:unset }
+            .wiki-header { padding: 10px 12px; } .wiki-tab { padding:8px 12px; font-size:.8rem }
+            .wiki-logo { font-size:1.1rem }
+        }
+        @media(max-width:480px) {
+            body { font-size:14px } h1 { font-size:1.55rem } h2 { font-size:1.15rem }
+            .refs { columns:1; column-gap:0 } .btn { width:100%; text-align:center; padding:12px 20px }
+            .wiki-header { flex-direction:column; align-items:flex-start }
+            .wiki-nav { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch } .wiki-tab { flex-shrink:0 }
+        }
+    </style>
+</head>
+
+<body data-theme="dark">
+
+    <div class="wiki-header-wrapper">
+        <header class="wiki-header">
+            <a href="index.html" class="wiki-logo">Diseño y Construcción</a>
+            <nav class="wiki-nav">
+                <a href="index.html" class="wiki-tab">Inicio</a>
+                <a href="proyectos.html" class="wiki-tab">Proyectos</a>               
+                <!-- Aquí la pestaña activa es Sobre mí -->
+                <a href="sobre_mi.html" class="wiki-tab active">Sobre mí</a>               
+                <a href="index.html#contacto" class="wiki-tab">Contacto</a>
+            </nav>
+        </header>
+    </div>
+
+    <div class="wiki-wrapper">
+        <div class="wiki-container">
+            <h1>Mario Molina</h1>
+            <div class="role-sub">Constructor Civil — Especializado en Diseño y Gestión Digital de Proyectos</div>
+           
+            <aside class="infobox">
+                <img src="img/mm_logo.jpg" alt="Mario Molina" class="infobox-photo">
+                <div class="infobox-hd">Información Profesional</div>
+                <table>
+                    <tr><th>Nombre</th><td>Mario Molina</td></tr>
+                    <tr><th>Nacimiento</th><td>(1964) Ciudad de Buenos Aires (CABA), Argentina</td></tr>
+                    <tr><th>Nacionalidad</th><td>🇦🇷 Argentino</td></tr>
+                    <tr><th>Ocupación</th><td><ul class="occ">
+                               <li>Constructor Civil</li>
+                               <li>Diseñador AEC/MEC</li>
+                               <li>Gerente de Ingeniería</li>
+                               <li>Director de Obras</li>
+                               <li>GeoInformático</li>
+                     </ul></td></tr>
+                    <tr><th>Experiencia</th><td>+35 años</td></tr>
+                    <tr><th>Sistemas (OS)</th><td>Linux, macOS y Windows</td></tr>
+                    <tr><th>Tecnologías</th><td>CAD, BIM, GIS y Geomática</td></tr>
+                    <tr><th>Sede 🌎</th><td>Ciudad de 25 de Mayo, Buenos Aires, Argentina</td></tr>
+                </table>
+                <div class="infobox-sc">Formación Académica</div>
+                <div class="ib-body">
+                    <div><span class="ey">2004</span><br><span class="et">Posgrado en SIG y Geomática</span><br><span class="ep">UBA · FADU · Buenos Aires</span></div>
+                    <div><span class="ey">1999</span><br><span class="et">Ingeniero de Sistemas MCSE</span><br><span class="ep">Instituto New Horizons · Buenos Aires</span></div>
+                    <div><span class="ey">1992</span><br><span class="et">Especialista en AutoCAD + AME 3D</span><br><span class="ep">AutoDesk · Buenos Aires</span></div>
+                    <div><span class="ey">1987</span><br><span class="et">Especialidad en Diseño Estructural</span><br><span class="ep">ISET · Buenos Aires</span></div>
+                    <div><span class="ey">1986</span><br><span class="et">Constructor Civil</span><br><span class="ep">ISET-BA · Buenos Aires</span></div>
+                    <div><span class="ey">1981</span><br><span class="et">Dibujante Técnico Industrial</span><br><span class="ep">E.N.E.T. N.º 1 · 25 de Mayo · Buenos Aires</span></div>
+                </div>
+                <div class="infobox-sc">Alcance Internacional</div>
+                <div class="ib-flags">🇦🇷 🇧🇷 🇨🇱 🇨🇳 🇰🇷</div>
+                <table>
+                    <tr><th>Sitio web</th><td class="ib-link"><a href="https://bio.site/mariomolina" target="_blank" rel="noopener noreferrer">bio.site/mariomolina</a></td></tr>
+                </table>
+            </aside>
+
+            <h2 id="biografia"><span class="se"></span>Biografía</h2>
+            <p><strong>Mario Molina</strong> es un <strong> Constructor Civil</strong>, <strong> Diseñador </strong> y 
+            <strong>GeoInformático </strong>argentino, con más de tres décadas de experiencia en proyectos de ingeniería, 
+            diseño y desarrollo tecnológico para empresas multinacionales líderes como <strong>—Arcor, Philips, Whirlpool, 
+            Peabody y Philco—</strong>, además de asesorar y dirigir proyectos de reconversión de activos industriales para 
+            —Daewoo, NewSan y Midas—. </p>
+            
+            <p>Su perfil integra competencias en GIS, CAD, CAE, BIM, Geomática y Desarrollo Web, permitiéndole gestionar 
+            el ciclo de vida completo de proyectos de edificación, desarrollo tecnológico, infraestructura y productos.</p>
+
+           <h3> Trayectoria </h3>
+            <p>Inició su trayectoria laboral como dibujante técnico industrial en los estudios del arquitecto Jorge Luis Vázquez, 
+            en 25 de Mayo, provincia de Buenos Aires, entre 1980 y 1982, y de Iribarne y Asociados, en la Ciudad Autónoma de 
+            Buenos Aires, entre 1982 y 1986. <br>
+           <p>Esta primera etapa le permitió incorporarse tempranamente al ámbito de la arquitectura, la ingeniería 
+            y la documentación técnica, antes de completar sus estudios superiores en diseño y construcción civil.</p>
+            
+              <p>Luego de finalizar su formación de constructor civil, desarrolló su carrera en distintos roles vinculados 
+              con la ingeniería y el diseño, entre ellos dibujante proyectista, diseñador, gerente de ingeniería y 
+              director de proyectos de construcción. </p>            
+              
+             <p>Estas experiencias incluyeron proyectos desarrollados en Brasil, Chile, China y Corea del Sur, y 
+             consolidaron su capacidad para resolver desafíos técnicos, logísticos y organizacionales en entornos 
+             multiculturales y equipos interdisciplinarios.</p>
+
+             <p>Actualmente. dirige su estudio especializado en diseño, digitalización y restauración de documentos 
+             técnicos, además del desarrollo de plataformas web.</p>
+
+                 
+
+          <p><h3>Formación académica</h3></p>
+                 
+                   <p>🌐<strong> Especialización en Sistemas de Información Geográfica</strong> <br>
+                      Escuela de Posgrado, FADU-UBA | 2004</br> 
+                      Área de especialización GIS: adquisición y procesamiento de datos geoespaciales, imágenes satelitales y 
+                      aéreas, sistemas globales de navegación por satélite —GNSS— y análisis espacial aplicado a la 
+                      gestión del territorio. </p>
+                      
+                  <p>🏛️<strong> Constructor Civil </strong><br>
+                     Institulo Superior de Diseño y Construccíon, ISET-BA | CONET-RA | 1986. <br> 
+                     Campo de acción: El título habilita para realizar de forma independiente el diseño, cálculo, 
+                     dirección y administración de obras edilicias y sus instalaciones, conforme a la normativa vigente.</p> 
+                     
+                    <p>📐<strong> Dibujante Técnico Industrial </strong> <br>
+                     Escuela Técnica Nacional, ENET | 25 de Mayo, BA. | 1981. <br>
+                     Áreas de competencia: Actúa como nexo entre la ingeniería y la fabricación, trabajando en tres áreas 
+                     principales: <strong>Civil </strong> (planos de infraestructura, topografía y redes de servicios), 
+                     <strong>Mecánico </strong> (diseño de partes para automotriz, naval y metalmecánica) e <strong>Industrial </strong>
+                     (diseño de layouts de plantas, automatización eléctrica y sistemas de tuberías).</p>
+             
+                  <p>⚙️ <strong>Certificaciones / Competencias complementarias </strong><br>  
+                       • Actualización permanente en tecnologías CAD, CAE, BIM, geomática, desarrollo software y OS. <br>
+                       • Certificación en Ingenieria de Sistemas MCSE | Instituto New Horizons, BA | Patrocinado por Philco, 1999.<br>
+                       • Certificación Planificación, Control y Gestión de Proyectos | SAP Argentina | Patrocinado por Philco, 1999.<br>
+                       • Especialización en AutoCAD + AME Solid 3D | AutoDesk, Buenos Aires| Patrocinado por Whirlpool, 1992.</p>
+
+           
+            <p><h3>Experiencia profesional</h3></p>
+            
+            <p>Su trayectoria abarca: <br>
+               <ul class="wb">
+               <li><strong>1988 - 1989:</strong> Proyectista de infraestructura, complejo <strong> Arcor </strong> San Luis  
+                 (diseño y construcción de plantas y oficinas industriales).</li>
+                <li><strong>1989 - 1995:</strong> Diseñador de Ingeniería de desarrollo CAD/CAE | <strong> Philips y Whirlpool </strong> 
+                | San Luis.</li>
+                <li><strong>1996 - 2002:</strong> Diseñador de Ingeniería de desarrollo CAD/CAE | <strong> Peabody y Philco </strong> 
+                | Buenos Aires.</l>
+                <li><strong>2002 - 2010:</strong> Asume el rol de Gerente de Ingeniería en Philco, con responsabilidad directa sobre 
+                 equipos multidisciplinarios (ingeniería, producción, calidad) y operaciones, reportando a la Gerencia General.</li>
+                <li><strong>2010 - 2022:</strong>  Estudio Mario Molina se especializa en el diseño, construcción y asesoría 
+                independiente para inversores, family offices y empresa como Daewoo, Newsan y Midas, en la dirección de proyectos de 
+                reconversión de infraestructura.</li>
+                <li><strong>2023 - Presente:</strong> Lidera ScanLabb, estudio especializado en servicios de diseño, 
+                 digitalización y restauración de documentación técnica (planos, mapas), incluyendo desarrollo de plataformas web 
+                 y herramientas de visualización.</li>
+            </ul>
+
+            <h2 id="tecnologia"><span class="se"></span>Transformación Digital</h2>
+               <ul class="wb">
+                <li>1992: Se especializa y usa — AutoCAD + AME — y herramientas 3D CAD/CAE, Pro Engineer (1995) y Catia (2004), en proyectos de multinacionales.</li> 
+                <li>1995: Integra la impresión 3D (estereolitografía, FDM y sinterizado), estereolitografía o SLA (resina curada por luz), FDM (extrusión de plástico), y sinterizado selectivo por láser o SLS (polvo fundido).), para maquetas y prototipos.</li>
+                <li>2000: Automatizó la gestión de documentos en cuatro plantas (en diferentes provincias) y redes de proveedores (dentro y fuera del pais) con la 
+                    integración de SAP/R3 con AutoCAD y Pro/E.
+               </ul>
+           
+            <h2 id="infraestructura"><span class="se"></span>Infraestructura y Entorno de Trabajo</h2>
+            <p>· Trabaja con estaciones multisistemas (Debian, macOS y Windows). <br>
+               · Para clientes corporativos utiliza AutoCAD, Civil 3D, Revit, Sketchup y SAP según cada proyecto. <br>
+               · Para clientes privados emplea FreeCAD, Blender, BonsaiBIM, QCAD y QGIS sobre Debian, reduciendo costos sin perder precisión. <br>
+               · Mantiene compatibilidad con formatos IFC, DWG y RVT. <br>
+               · Crea plataformas web para visualizaciones 2D/3D y herramientas orientadas al control documental.</p>
+
+            <h2 id="internacional"><span class="se"></span>Trayectoria Internacional</h2>
+            <p>Gracias a su alianza con empresas como Daewoo, Newsan, Midas, ha participado activamente en proyectos de innovación y reconversión tecnológica en mercados competitivos como <strong>Brasil, Chile, China y Corea del Sur</strong>, consolidando su capacidad para resolver desafíos técnicos y logísticos en entornos exigentes y de escala global.</p>
+
+            <div class="clearfix"></div>
+
+            <h2><strong> ¿Tienes un proyecto en mente? </strong> <br></h2> 
+            <p>Contáctame para una consulta inicial sin compromiso. </p>
+
+            <div class="g-cta">
+                <a href="index.html#contacto" class="btn">Mis canales de contacto →</a>
+            </div>
+ 
+            <h2>↓</h2>
+
+            <p> <strong>“Mi enfoque combina la experiencia tradicional con la innovación digital, priorizando la calidad, los plazos y la transparencia en cada etapa del proyecto."</strong> </p> 
+
+            <h2 id="referencias"><span class="se">📖</span>Referencias</h2>
+            <ul class="refs">
+                <li><span class="rt">AEC</span> <span class="rd">Arquitectura, Ingeniería y Construcción. <em>Architecture, Engineering &amp; Construction</em></span></li>
+                <li><span class="rt">CAD</span> <span class="rd">Diseño Asistido por Computadora. <em>Computer-Aided Design</em></span></li>
+                <li><span class="rt">CAM</span> <span class="rd">Fabricación Asistida por Computadora. <em>Computer-Aided Manufacturing</em></span></li>
+                <li><span class="rt">CAE</span> <span class="rd">Ingeniería Asistida por Computadora. <em>Computer-Aided Engineering</em></span></li>
+                <li><span class="rt">BIM</span> <span class="rd">Modelado de Información para la Construcción. <em>Building Information Modeling</em></span></li>
+                <li><span class="rt">GIS / SIG</span> <span class="rd">Sistema de Información Geográfica. <em>Geographic Information System</em></span></li>
+                <li><span class="rt">Open Source</span> <span class="rd">Código Abierto — software cuyo código fuente está disponible para ser utilizado, modificado y distribuido libremente.</span></li>
+                <li><span class="rt">MCSE</span> <span class="rd">Ingeniero de Sistemas Certificado por Microsoft. <em>Microsoft Certified Systems Engineer</em></span></li>
+                <li><span class="rt">UFSC</span> <span class="rd">Universidad Federal de Santa Catarina. <em>Florianópolis, SC, Brasil</em></span></li>
+                <li><span class="rt">UBA</span> <span class="rd">Universidad de Buenos Aires.</span></li>
+                <li><span class="rt">CONET</span> <span class="rd">Consejo Nacional de Educación Técnica.</span></li>
+                <li><span class="rt">SAP</span> <span class="rd">Sistemas, Aplicaciones y Productos — software de planificación de recursos empresariales.</span></li>
+            </ul>
+
+            <footer
+               class="wf"> <p>© 2026 Mario Molina - Diseño y Construcción - Todos los derechos reservados · Buenos Aires, Argentina</p>
+               <!-- / <a href="https://mariomolinacc.github.io" target="_blank">🌐 Web Design by MM</a>  /  -->
+               <a href="https://mariomolinacc.github.io" target="_blank" style="color: cyan; text-decoration: none; font-size: 12px; font-family: Arial, sans-serif;">🌐 ScanLabb desarrollo web | update: 2026-09-10 T23:12:00Z</a> 
+            </footer>
+        
+        </div>
+    </div>
+
+</body>
+</html>
+
