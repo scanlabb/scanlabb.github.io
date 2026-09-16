@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora | Mario Molina — Constructor Civil</title>
+    <style>
+        :root {
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --text: #202122;
+            --text-muted: #54595d;
+            --accent: #3366cc;
+            --accent-hover: #2850a8;
+            --wiki-blue: #364d7c;
+            --border: #c8cdd3;
+            --border-accent: #a2a9b1;
+            --infobox-header: #c8d8ea;
+            --infobox-header-text: #1a1a1a;
+            --infobox-section: #e8ecf0;
+            --infobox-section-text: #54595d;
+            --infobox-th-bg: #fafbfc;
+            --infobox-td-border: #eee;
+            --tag-bg: #edf2f8;
+            --tag-border: #cdd8e4;
+            --tag-text: #364d7c;
+            --tag-hover-bg: #dce6f2;
+            --tag-hover-border: #b0c4de;
+            --line-blue: #a4c0e4;
+            --exp-bg: #fafbfc;
+            --exp-hover: #f3f6fa;
+            --bullet-color: #a4c0e4;
+            --toc-bg: #f8f9fb;
+            --toggle-bg: #e8ecf0;
+            --toggle-icon: "☀️";
+            --shadow-card: 0 1px 4px rgba(0,0,0,0.06), 0 8px 30px rgba(0,0,0,0.04);
+            --shadow-infobox: 0 1px 3px rgba(0,0,0,0.04);
+            --img-placeholder: #d0d5dc;
+            --h1-color: #000;
+            --img-border: #dde1e6;
+            --tab-hover: #eaecf0;
+            --tab-active-bg: var(--card);
+            --input-bg: #fff;
+            --input-border: #c8cdd3;
+            --input-focus-border: #3366cc;
+            --input-text: #202122;
+            --wa-green: #25D366;
+            --wa-green-hover: #1ebe57;
+            --wa-dark: #128C7E;
+            --cta-blue: #1a3a6e;
+            --cta-blue-light: #234b8a;
+            --hdr-bg: #ffffff;
+        }
+        [data-theme="dark"] {
+            --bg: #1c1d21;
+            --card: #282930;
+            --text: #c8cad0;
+            --text-muted: #94969e;
+            --accent: #7eaaff;
+            --accent-hover: #a0c4ff;
+            --wiki-blue: #8da6cc;
+            --border: #4a5a78;
+            --border-accent: #5a6f94;
+            --infobox-header: #2a3652;
+            --infobox-header-text: #b0c8e8;
+            --infobox-section: #2e3038;
+            --infobox-section-text: #8a8d96;
+            --infobox-th-bg: #252630;
+            --infobox-td-border: #3a3d48;
+            --tag-bg: #2a3044;
+            --tag-border: #3e4e6a;
+            --tag-text: #90b0d8;
+            --tag-hover-bg: #34405a;
+            --tag-hover-border: #506888;
+            --line-blue: #4a6090;
+            --exp-bg: #24252c;
+            --exp-hover: #2e2f38;
+            --bullet-color: #4a6090;
+            --toc-bg: #22232a;
+            --toggle-bg: #2a2b32;
+            --toggle-icon: "🌙";
+            --shadow-card: 0 1px 6px rgba(0,0,0,0.25), 0 10px 40px rgba(0,0,0,0.18);
+            --shadow-infobox: 0 1px 4px rgba(0,0,0,0.25);
+            --img-placeholder: #222330;
+            --h1-color: #dce0e8;
+            --img-border: #3a4a64;
+            --tab-hover: #2e2f38;
+            --tab-active-bg: var(--card);
+            --input-bg: #1e1f26;
+            --input-border: #4a5a78;
+            --input-focus-border: #7eaaff;
+            --input-text: #c8cad0;
+            --wa-green: #2ee06e;
+            --wa-green-hover: #25D366;
+            --wa-dark: #1aaf9f;
+            --cta-blue: #162844;
+            --cta-blue-light: #1d3560;
+            --hdr-bg: #282930;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg); color: var(--text);
+            line-height: 1.65; font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- Contenedor general full-width --- */
+        .wiki-wrapper { 
+            width: 100%; 
+            margin: 0 auto;
+            padding: 0 24px; 
+        }
+
+        /* --- Header Sticky --- */
+        .wiki-header-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--hdr-bg);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            backdrop-filter: blur(6px);
+        }
+        .wiki-header {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            padding: 12px 24px; margin-bottom: 0; gap: 16px; flex-wrap: wrap;
+            max-width: 1600px; 
+            margin: 0 auto;
+        }
+        .wiki-logo {
+            font-family: "New York", Georgia, "Times New Roman", serif;
+            font-size: 1.25rem; font-weight: 700; color: var(--text);
+            text-decoration: none; padding-bottom: 10px; white-space: nowrap;
+            transition: color 0.4s; letter-spacing: -0.02em;
+        }
+        .wiki-logo:hover { color: var(--accent); }
+        .wiki-nav { display: flex; gap: 0; flex-shrink: 0; }
+        .wiki-tab {
+            display: block; padding: 9px 18px; font-size: 0.84rem;
+            color: var(--text-muted); text-decoration: none;
+            border: 1px solid transparent; border-bottom: none;
+            border-radius: 3px 3px 0 0; background: transparent;
+            transition: color 0.2s, background 0.2s, border-color 0.2s;
+            font-weight: 400; position: relative; top: 1px;
+        }
+        .wiki-tab:hover { color: var(--text); background: var(--tab-hover); }
+        .wiki-tab.active {
+            color: var(--text); background: var(--tab-active-bg);
+            border-color: var(--border); font-weight: 500;
+        }
+
+        .wiki-container {
+            background: var(--card); padding: 48px 52px;
+            box-shadow: var(--shadow-card); border: 1px solid var(--border);
+            border-radius: 0 0 2px 2px;
+            transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s;
+            max-width: 1600px;
+            margin: 24px auto;
+        }
+
+        h1 {
+            font-family: "New York", Georgia, "Times New Roman", serif;
+            font-size: 2.4rem; font-weight: 700; color: var(--h1-color);
+            border-bottom: 1px solid var(--border); padding-bottom: 6px;
+            margin-bottom: 4px; line-height: 1.15;
+            transition: color 0.4s, border-color 0.4s;
+        }
+        .role-subtitle {
+            font-size: 1.05rem; color: var(--text-muted); font-weight: 300;
+            margin-bottom: 28px; letter-spacing: -0.01em; transition: color 0.4s;
+        }
+
+        /* ── Estilos específicos del Blog ── */
+        .post-entry {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s, border-color 0.4s;
+        }
+        .post-entry:last-child { border-bottom: none; }
+        .post-entry:hover { background: var(--exp-hover); border-radius: 4px; padding-left: 12px; padding-right: 12px; margin-left: -12px; margin-right: -12px;}
+
+        .post-header {
+            display: flex; align-items: baseline; gap: 16px;
+            margin-bottom: 8px; flex-wrap: wrap;
+        }
+        .date { 
+            font-family: monospace; 
+            color: var(--accent); 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: color 0.4s;
+        }
+        .meta-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .meta-tag { 
+            font-size: 0.7rem; 
+            color: var(--tag-text);
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            text-transform: uppercase; 
+            padding: 3px 8px;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: background 0.4s, border-color 0.4s, color 0.4s;
+        }
+        .meta-tag:hover {
+            background: var(--tag-hover-bg);
+            border-color: var(--tag-hover-border);
+        }
+
+        .post-content h2 { 
+            margin: 0 0 10px 0; 
+            font-family: "New York", Georgia, "Times New Roman", serif;
+            font-size: 1.4rem; font-weight: 700; 
+            color: var(--h1-color);
+            border: none; padding: 0;
+            transition: color 0.4s;
+        }
+        .post-content h2 a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+        .post-content h2 a:hover { color: var(--accent); text-decoration: underline; }
+
+        .excerpt { 
+            color: var(--text-muted); 
+            font-size: 0.95rem; 
+            line-height: 1.6;
+            margin-bottom: 16px;
+            transition: color 0.4s;
+        }
+
+        /* ── Media en el Blog (Imagen y Video) ── */
+        .post-media {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 16px;
+        }
+        .post-media.has-both {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .post-image-container {
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            background: var(--exp-bg);
+            transition: border-color 0.4s, background 0.4s;
+        }
+        .post-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .post-image-container:hover img {
+            transform: scale(1.03);
+        }
+        .post-image-caption {
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: var(--infobox-th-bg);
+            transition: color 0.4s, border-color 0.4s, background 0.4s;
+        }
+
+        .post-video-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            background: #000;
+            aspect-ratio: 16/9;
+        }
+        .post-video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+
+        .wiki-footer {
+            border-top: 1px solid var(--border); margin-top: 36px; padding-top: 14px;
+            font-size: 0.78rem; color: var(--text-muted); text-align: center;
+            transition: border-color 0.4s, color 0.4s;
+        }
+
+        /* ── WhatsApp flotante ── */
+        .wa-float {
+            position: fixed; bottom: 24px; right: 24px; z-index: 999;
+            width: 58px; height: 58px; border-radius: 50%;
+            background: var(--wa-green); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 18px rgba(37,211,102,0.4);
+            transition: transform 0.2s, box-shadow 0.2s; text-decoration: none;
+        }
+        .wa-float:hover { transform: scale(1.12); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+        .wa-float:active { transform: scale(0.95); }
+        .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+
+        @media (max-width: 860px) {
+            .wiki-wrapper { padding: 0 12px; }
+            .wiki-container { padding: 28px 20px; margin: 12px auto; }
+            h1 { font-size: 1.8rem; }
+            .wiki-header { padding: 10px 12px; }
+            .wiki-tab { padding: 8px 12px; font-size: 0.8rem; }
+            .wiki-logo { font-size: 1.1rem; }
+            .post-media.has-both { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            body { font-size: 14px; }
+            h1 { font-size: 1.55rem; }
+            .post-content h2 { font-size: 1.2rem; }
+            .wiki-header { flex-direction: column; align-items: flex-start; }
+            .wiki-nav { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .wiki-tab { flex-shrink: 0; }
+            .post-entry:hover { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0;}
+            .wa-float { bottom: 18px; right: 18px; width: 52px; height: 52px; }
+            .wa-float svg { width: 26px; height: 26px; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+<!-- Botón flotante WhatsApp -->
+<a href="https://wa.me/5492345446330?text=Hola%20Mario%2C%20te%20escribo%20desde%20tu%20web.%20Me%20gustar%C3%ADa%20consultarte%20sobre%20un%20proyecto." class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="wiki-header-wrapper">
+    <header class="wiki-header">
+        <a href="index.html" class="wiki-logo">Diseño y Construcción</a>
+        <nav class="wiki-nav">
+            <a href="index.html" class="wiki-tab">Inicio</a>
+            <a href="proyectos.html" class="wiki-tab">Proyectos</a>
+            <a href="blog.html" class="wiki-tab active">Bitácora</a>
+            <a href="sobre_mi.html" class="wiki-tab">Sobre mí</a>            
+            <a href="index.html#contacto" class="wiki-tab">Contacto</a>
+        </nav>
+    </header>
+</div>
+
+<div class="wiki-wrapper">
+    <div class="wiki-container">
+
+        <h1>Bitácora Técnica</h1>
+        <div class="role-subtitle">Blog y recursos educativos sobre diseño, construcción y tecnología.</div>
+
+        <!-- ── Post 1 (Solo Texto) ── -->
+        <!--
+        <article class="post-entry">
+            <div class="post-header">
+                <span class="date">2024-MAY</span>
+                <div class="meta-tags">
+                    <span class="meta-tag">Tecnología</span>
+                    <span class="meta-tag">Diseño y Construcción</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <h2><a href="#">Conoce más sobre el mundo de la construcción civil, arquitectura y tecnologías de diseño</a></h2>
+                <p class="excerpt">--.</p>
+            </div>
+        </article>
+        -->
+        <!-- ── Fin Post 1 (Solo Texto) ── -->
+
+        <!-- ── Post 2 (Con Imagen) ── -->
+        <article class="post-entry">
+            <div class="post-header">
+                <span class="date">2026-MAY-16</span>
+                <div class="meta-tags">
+                    <span class="meta-tag">Tecnología</span>
+                    <span class="meta-tag">Diseño y construcción</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <h2><a href="#">Conoce más sobre el mundo de la construcción civil, arquitectura y tecnologías de diseño</a></h2>
+                <p class="excerpt">--</p>
+                
+                <!-- Imagen del Post -->
+                <div class="post-media">
+                    <div class="post-image-container">
+                        <img src="blog/hero.jpg" alt="Esquema de interoperabilidad BIM">
+                        <div class="post-image-caption">Fig. 1: Render panoramico. </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- ── Fin Post 2 (Con Imagen) ── -->
+
+        <!-- ── Post 3 (Con Imagen y Video de YouTube) ── -->
+        <article class="post-entry">
+            <div class="post-header">
+                <span class="date">2026-MAY-16</span>
+                <div class="meta-tags">
+                    <span class="meta-tag">Carrera</span>
+                    <span class="meta-tag">Constructor Civil</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <h2><a href="#">Constructor Civil</a></h2>
+                <p class="excerpt">¿Qué hace un Constructor Civil en Argentina?<br>
+El Constructor Civil (o Ingeniero Constructor, según la univesidad o institución educativa, y/o país) es un profesional titulado especializado en la planificación, diseño, gestión y ejecución de proyectos de construcción. Con una formación que combina conocimientos técnicos y administrativos, con habilitación legal para diseñar, dirigir y construir viviendas, edificios e infraestructuras, dentro de su marco legal y normativa vigente.<br>
+¿Dónde se estudia? <br>
+La carrera se imparte en universidades e institutos técnicos, con una duración de 4 a 5 años. Un ejemplo es la Carrera de Constructor en la FCEFyN, en la Escuela de Ingeniería Civil de la Universidad Nacional de Córdoba, Argentina.</p>
+                
+                <!-- Media: Imagen y Video -->
+                <div class="post-media has-both">
+                    <div class="post-image-container">
+                        <img src="blog/constructor_civil.jpg" alt="Constructor Civil (Imagen)">
+                        <div class="post-image-caption">Fig. 2: Imagen en terreno .</div>
+                    </div>
+                    
+                    <div class="post-video-container">
+                        <!-- Iframe directo con la URL /embed/ -->
+                        <iframe src="https://www.youtube.com/embed/zdMWCPLA5Vs" title="Carrera de Constructor UNC" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- ── Fin Post 3 (Con Imagen y Video de YouTube) ── -->
+
+        <!-- ── Post 4 (Con Imagen y Video de YouTube) ── -->
+        <article class="post-entry">
+            <div class="post-header">
+                <span class="date">2026-MAY-16</span>
+                <div class="meta-tags">
+                    <span class="meta-tag">SIG / GIS</span>
+                    <span class="meta-tag">Sistema de información geográfica</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <h2><a href="#">¿Que son los SIG?</a></h2>
+                <p class="excerpt">--<br>
+Un SIG (o GIS por sus siglas en inglés, Geographic Information System) es un sistema informático que integra hardware, software, datos geográficos y personas para capturar, almacenar, analizar y representar todo tipo de información relacionada con ubicaciones en la Tierra.<br>
+<br><!-- Deja un renglon -->
+¿Dónde se estudia? <br>
+La formación en SIG/GIS se puede obtener a través de carreras universitarias como Geografía, Ingeniería Geomática, Topografía o Ingeniería Civil, así como a través de posgrados, maestrías y cursos especializados. Instituciones como la Universidad Nacional de La Plata, la Universidad de Buenos Aires y la Universidad Nacional de Córdoba ofrecen programas relacionados en Argentina.</p>
+                
+                <!-- Media: Imagen y Video -->
+                <div class="post-media has-both">
+                    <div class="post-image-container">
+                        <img src="blog/mapa_mundo.jpg" alt="Constructor Civil (Imagen)">
+                        <div class="post-image-caption">Fig. 4: Mapa del mundo .</div>
+                    </div>
+                    
+                    <div class="post-video-container">
+                        <!-- Iframe directo con la URL /embed/ -->
+                        <iframe src="https://www.youtube.com/embed/-L1KcItYbLQ?si=YQuUnGngwg81sngn" title="¿Que son los SIG?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- ── Fin Post 4 (Con Imagen y Video de YouTube) ── -->
+
+        <footer class="wiki-footer">
+            <p>© 2026 Mario Molina - Diseño y Construcción - Todos los derechos reservados · Buenos Aires, Argentina</p>
+            <!-- <a href="https://mariomolinacc.github.io" target="_blank">🌐 Design by MM_ScanLab/a>  -->
+             <span class="icono"> 🌐 </span>
+             <a href="https://mariomolinacc.github.io" target="_blank" style="color: white; text-decoration: none; font-size: 11px; font-family: Arial, sans-serif;"> Diseño Web MM_ScanLab</a>
+             <!-- <a href="https://mariomolinacc.github.io" target="_blank" style="color: white;"> Diseño Web MM ScanLab</a>  -->
+        </footer>
+
+    </div>
+</div>
+
+</body>
+</html>
+
