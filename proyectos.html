@@ -5,68 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyectos - Mario Molina</title>
     <style>
-        /* El CSS es exactamente el mismo, solo lo pego aquí para que tengas el archivo completo */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; line-height: 1.6; }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-        nav { background: #1a1a1a; padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.8rem; font-weight: bold; color: #fff; text-decoration: none; }
-        .logo span { color: #3498db; }
-        .menu { display: flex; list-style: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: #050505; color: #E2E8F0; line-height: 1.6; }
+        
+        /* container ahora es full-width para que las imágenes lleguen a los bordes */
+        .container { width: 100%; max-width: 100%; padding: 0; margin: 0 auto; }
+        
+        nav { background: #000; padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #00E5FF; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: #FFFFFF; text-decoration: none; }
+        .logo span { color: #00E5FF; }
+        .menu { display: flex; list-style: none; align-items: center; }
         .menu li { margin-left: 25px; }
-        .menu a { color: #b0b0b0; text-decoration: none; transition: color 0.3s; }
-        .menu a:hover { color: #3498db; }
-        .menu .active { color: #3498db; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
-        .hero { background: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.85)), url('https://raw.githubusercontent.com/mariomolina-mm-ar/mysite/main/images/construccion-proyecto.webp'); background-position: center; background-size: cover; height: 50vh; display: flex; align-items: center; text-align: center; color: white; border-bottom: 1px solid #333; }
+        .menu a { color: #94A3B8; text-decoration: none; transition: color 0.3s; }
+        .menu a:hover { color: #00E5FF; }
+        .menu .active { color: #00E5FF; border-bottom: 2px solid #00E5FF; padding-bottom: 5px; }
+        
+        /* Estilo del botón FullScreen */
+        .fs-btn { 
+            background: transparent; 
+            border: 1px solid #00E5FF; 
+            color: #00E5FF; 
+            padding: 6px 10px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s ease;
+            margin-left: 15px; /* Separación de Contacto */
+        }
+        .fs-btn:hover { background: #00E5FF; color: #000; }
+        .fs-btn svg { width: 18px; height: 18px; fill: currentColor; }
+        .fs-btn .icon-exit { display: none; } /* Oculto por defecto */
+        .fs-btn.active .icon-enter { display: none; } /* Oculto el de entrar */
+        .fs-btn.active .icon-exit { display: block; } /* Muestro el de salir */
+        
+        .hero { background: linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.85)), url('https://raw.githubusercontent.com/mariomolina-mm-ar/mysite/main/images/construccion-proyecto.webp'); background-position: center; background-size: cover; height: 50vh; display: flex; align-items: center; text-align: center; color: white; border-bottom: 1px solid #00E5FF; }
         .hero-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.2rem; opacity: 0.9; }
-        .trabajos { padding: 80px 0; background: #121212; }
-        .trabajos h2 { text-align: center; margin-bottom: 50px; color: #ffffff; position: relative; padding-bottom: 15px; font-size: 2.5rem; }
-        .trabajos h2:after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: #3498db; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); color: #FFFFFF; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; color: #94A3B8; }
+        
+        .trabajos { padding: 80px 0; background: #050505; }
+        .trabajos h2 { text-align: center; margin-bottom: 50px; color: #FFFFFF; position: relative; padding-bottom: 15px; font-size: 2.5rem; max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 20px; padding-right: 20px; }
+        .trabajos h2:after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: #00E5FF; }
+        
         .proyectos { display: grid; grid-template-columns: 1fr; gap: 60px; }
-        .proyecto { background: #1e1e1e; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; border: 1px solid #2a2a2a; max-width: 100%; }
-        .proyecto:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2); border-color: #3498db; }
-        .proyecto-info { padding: 25px; background: linear-gradient(to bottom, #1e1e1e, #181818); border-bottom: 1px solid #2a2a2a; }
-        .proyecto-info h3 { color: #ffffff; margin-bottom: 15px; font-size: 1.5rem; font-weight: 600; }
-        .proyecto-info p { color: #b0b0b0; margin-bottom: 20px; line-height: 1.5; }
-        .imagenes { padding: 0; background: #181818; }
-        .imagen { margin-bottom: 20px; border-radius: 0; overflow: hidden; position: relative; border-bottom: 1px solid #2a2a2a; }
+        .proyecto { background: #08090C; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; border: 1px solid #1a1a1a; max-width: 100%; }
+        .proyecto:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 229, 255, 0.15); border-color: #00E5FF; }
+        
+        .proyecto-info { padding: 25px; background: linear-gradient(to bottom, #08090C, #000000); border-bottom: 1px solid #1a1a1a; max-width: 1200px; margin: 0 auto; }
+        .proyecto-info h3 { color: #FFFFFF; margin-bottom: 15px; font-size: 1.5rem; font-weight: 600; }
+        .proyecto-info p { color: #94A3B8; margin-bottom: 20px; line-height: 1.5; }
+        
+        .imagenes { padding: 0; background: #000000; width: 100%; }
+        .imagen { margin-bottom: 20px; overflow: hidden; position: relative; border-bottom: 1px solid #1a1a1a; width: 100%; }
         .imagen:last-child { margin-bottom: 0; border-bottom: none; }
-        .imagen img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        
+        /* Las imágenes se adaptan cubriendo todo el ancho */
+        .imagen img { 
+            width: 100%; 
+            height: auto; /* Altura automática para que no se recorte NADA de la imagen */
+            display: block; 
+            transition: transform 0.5s ease; 
+        }
         .imagen:hover img { transform: scale(1.02); }
-        .etiqueta { background: #3498db; color: white; padding: 6px 14px; border-radius: 0 0 8px 0; position: absolute; top: 0; left: 0; font-size: 0.85rem; font-weight: bold; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-        .contenedor { position: relative; overflow: hidden; }
+        
+        .etiqueta { background: #00E5FF; color: #000000; padding: 6px 14px; border-radius: 0 0 8px 0; position: absolute; top: 0; left: 0; font-size: 0.85rem; font-weight: bold; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .contenedor { position: relative; overflow: hidden; width: 100%; }
         .contenedor::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0) 70%, rgba(0,0,0,0.7) 100%); opacity: 0; transition: opacity 0.3s ease; z-index: 1; }
         .imagen:hover .contenedor::before { opacity: 1; }
-        footer { background: #1a1a1a; color: #b0b0b0; padding: 40px 0; text-align: center; border-top: 1px solid #333; }
+        
+        footer { background: #000; color: #94A3B8; padding: 40px 0; text-align: center; border-top: 1px solid #00E5FF; }
+        
+        /* Estilos para el menú inferior */
+        .footer-nav { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #1a1a1a; }
+        .footer-nav ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0; }
+        .footer-nav a { color: #94A3B8; text-decoration: none; font-size: 1rem; transition: color 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-nav a:hover { color: #00E5FF; }
+        
         .social-links { display: flex; gap: 20px; margin-bottom: 20px; justify-content: center; }
-        .social-links a { color: #b0b0b0; font-size: 1.5rem; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); }
-        .social-links a:hover { color: #3498db; background: rgba(52, 152, 219, 0.1); transform: translateY(-3px); }
+        .social-links a { color: #94A3B8; font-size: 1.5rem; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+        .social-links a:hover { color: #00E5FF; background: rgba(0, 229, 255, 0.1); transform: translateY(-3px); }
         .social-links svg { width: 20px; height: 20px; fill: currentColor; }
-        .copyright { font-size: 0.9rem; color: #808080; }
-        @media (max-width: 768px) { .nav-container { flex-direction: column; } .menu { margin-top: 15px; flex-wrap: wrap; justify-content: center; } .menu li { margin: 5px 10px; } .hero h1 { font-size: 2.5rem; } .trabajos h2 { font-size: 2rem; } .proyectos { gap: 40px; } }
-        @media (min-width: 1024px) { .container { width: 95%; max-width: none; } }
+        .copyright { font-size: 0.9rem; color: #555; }
+        
+        @media (max-width: 768px) { 
+            .nav-container { flex-direction: column; } 
+            .menu { margin-top: 15px; flex-wrap: wrap; justify-content: center; } 
+            .menu li { margin: 5px 10px; } 
+            .hero h1 { font-size: 2.5rem; } 
+            .trabajos h2 { font-size: 2rem; } 
+            .proyectos { gap: 40px; } 
+            .footer-nav ul { gap: 15px; } 
+            .footer-nav a { font-size: 0.85rem; }
+            /* En móvil, el botón FS se va a la derecha del todo con el resto del menú */
+            .menu { align-items: center; } 
+        }
     </style>
 </head>
 <body>
 
-
-    <!-- Navegación (sin cambios) -->
+    <!-- Navegación Superior -->
     <nav>
-        <div class="container nav-container">
+        <div class="nav-container">
             <a href="index.html" class="logo">Mario<span>Molina</span></a>
             <ul class="menu">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="proyectos.html"class="active">Proyectos</a></li>
-                 <li><a href="sobre_mi.html">Sobre Mí</a></li>               
+                <li><a href="proyectos.html" class="active">Proyectos</a></li>
+                <li><a href="sobre_mi.html">Sobre Mí</a></li>               
                 <li><a href="index.html#contacto">Contacto</a></li>
+                <!-- Botón FullScreen -->
+                <li>
+                    <button class="fs-btn" id="fsToggle" aria-label="Pantalla Completa" title="Activar/Desactivar Pantalla Completa">
+                        <!-- Icono Expandir -->
+                        <svg class="icon-enter" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                        <!-- Icono Contraer -->
+                        <svg class="icon-exit" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero (URL corregida) -->
+    <!-- Hero -->
     <section class="hero">
         <div class="hero-content">
             <h1>Mis Dibujos de Proyectos</h1>
@@ -74,16 +136,14 @@
         </div>
     </section>
 
-    <!-- Galería de Proyectos (URLs corregidas) -->
+    <!-- Galería de Proyectos -->
     <section class="trabajos">
         <div class="container">
             <h2>Portafolio</h2>
             
             <div id="galeria-proyectos" class="proyectos">
                 
-                <!-- ======================================== -->
                 <!-- PROYECTO 1 -->
-                <!-- ======================================== -->
                 <div class="proyecto">
                     <div class="proyecto-info">
                         <h3>Proyecto Residencial y Comercial</h3>
@@ -92,37 +152,26 @@
                     <div class="imagenes">
                         <div class="imagen">
                             <div class="contenedor">
-                                <span class="etiqueta">Dibujo</span>
+                                <span class="etiqueta">Dibujo manual</span>
                                 <img src="img/proyecto_pe_00.webp" alt="Dibujo Punta del Este">
                             </div>
                         </div>
-                        <div class="image
-                        </div>
-                        
-                            <div class="imagenes">
                         <div class="imagen">
                             <div class="contenedor">
-                                <span class="etiqueta">Dibujo</span>
-                                <img src="img/proyecto_pe_01.webp" alt="Dibujo Punta del Este">
+                                <span class="etiqueta">Render diuno</span>
+                                <img src="img/proyecto_pe_01.webp" alt="Dibujo Punta del Este 2">
                             </div>
                         </div>
-                        <div class="image
-                        </div>  
-                        
-                       
-                        
                         <div class="imagen">
                             <div class="contenedor">
-                                <span class="etiqueta">Render N</span>
+                                <span class="etiqueta">Render atardecer</span>
                                 <img src="img/proyecto_pe_02.webp" alt="Render Noche Punta del Este">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ======================================== -->
                 <!-- PROYECTO 2 -->
-                <!-- ======================================== -->
                 <div class="proyecto">
                     <div class="proyecto-info">
                         <h3>Diseño Residencial</h3>
@@ -154,7 +203,7 @@
                 <!-- == ZONA DE COPIA Y PEGA - AÑADE NUEVOS PROYECTOS AQUÍ == -->
                 <!-- ======================================================= -->
                 
-                <!-- EJEMPLO: Proyecto 3 -->
+                <!-- PROYECTO 3 -->
                 <div class="proyecto">
                     <div class="proyecto-info">
                         <h3>Proyecto Residencial</h3>
@@ -182,7 +231,7 @@
                     </div>
                 </div>
                 
-                <!-- EJEMPLO: Proyecto 4 -->
+                <!-- PROYECTO 4 -->
                 <div class="proyecto">
                     <div class="proyecto-info">
                         <h3>Proyecto Residencial</h3>
@@ -211,17 +260,27 @@
                 </div>
 
                 <!-- ======================================================= -->
-                <!-- == FIN DE LA ZONA DE COPIA Y PEGA                        == -->
-                <!-- == Pega los nuevos proyectos justo antes de esta línea.   == -->
+                <!-- == FIN DE LA ZONA DE COPIA Y PEGA                      == -->
                 <!-- ======================================================= -->
 
             </div> 
         </div>
     </section>
 
-    <!-- Footer (sin cambios) -->
+    <!-- Footer con Menú Inferior Integrado -->
     <footer>
-        <div class="container">
+        <div class="nav-container" style="display: block; text-align: center;">
+            
+            <!-- Menú inferior -->
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="proyectos.html">Proyectos</a></li>
+                    <li><a href="sobre_mi.html">Sobre Mí</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            
             <div class="social-links">
                 <a href="#" aria-label="LinkedIn">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
@@ -236,12 +295,51 @@
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                 </a>
             </div>
-            <p class="copyright">© 2023 Mario Molina - Diseño y Construcción - Todos los derechos reservados – Buenos Aires, Argentina 🌎.</p>
+            <p class="copyright">© 2025 Mario Molina - Diseño y Construcción - Todos los derechos reservados – Buenos Aires, Argentina 🌎.</p>
              <span class="icono"> 🌐 </span>
              <a href="https://mariomolinacc.github.io" target="_blank" style="color: cyan; text-decoration: none; font-size: 12px; font-family: Arial, sans-serif;"> Diseño Web MM_ScanLab</a>
         </div>
     </footer>
+
+    <!-- Script para funcionalidad FullScreen -->
+    <script>
+        const fsToggle = document.getElementById('fsToggle');
+        const docElement = document.documentElement;
+
+        fsToggle.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                // Activa pantalla completa
+                if (docElement.requestFullscreen) {
+                    docElement.requestFullscreen();
+                } else if (docElement.mozRequestFullScreen) { // Firefox
+                    docElement.mozRequestFullScreen();
+                } else if (docElement.webkitRequestFullscreen) { // Chrome, Safari y Opera
+                    docElement.webkitRequestFullscreen();
+                } else if (docElement.msRequestFullscreen) { // IE/Edge
+                    docElement.msRequestFullscreen();
+                }
+            } else {
+                // Desactiva pantalla completa
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        });
+
+        // Listener para cambiar el icono si el usuario presiona ESC o cambia manualmente
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fsToggle.classList.add('active');
+            } else {
+                fsToggle.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
-
-
