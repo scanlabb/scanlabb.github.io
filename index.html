@@ -485,13 +485,13 @@
       <h3 class="menu-title">-- PROYECTOS --</h3>
       <ul class="menu-list">
         <li>
-          <a href="#" onclick="showView('desarrollo-web', event)">
+          <a href="proyectosweb.html">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
             <span class="menu-text">Diseño Web</span>
           </a>
         </li>
         <li>
-          <a href="#" onclick="showView('vis-3d', event)">
+          <a href="proyectos.html">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 2.83L19.17 12 12 19.17 4.83 12 12 4.83z"/></svg>
             <span class="menu-text">Renders 3D</span>
           </a>
@@ -518,6 +518,12 @@
           <a href="#" onclick="showView('visor-stl', event)">
             <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 2.76-2.24 5-5 5-2.76 0-5-2.24-5-5 0-2.76 2.24-5 5-5m0-4C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 0v18m-9-9h18" /></svg>
             <span class="menu-text">Visor STL</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showView('visor-jpg', event)">
+            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span class="menu-text">Visor Webp</span>
           </a>
         </li>
       </ul>
@@ -553,8 +559,10 @@
              a formatos modernos compatibles y editables con (CAD, BIM, GIS) y PDF multisistemas. Desarrollamos 
              plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
             <div class="botones-hero">
-              <a href="proyectos.html" class="btn btn-outline">Ver proyectos</a>
-              <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Ver Servicios</a>
+              <a href="proyectos.html" class="btn btn-outline">Visualizaciones 3D</a>
+              <a href="proyectos.html" class="btn btn-outline">Proyectos Web</a>
+              <a href="https://mariomolinacc.github.io/" class="btn btn-outline">Trayectoria</a>
+                            <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Servicios</a>
             </div>
           </div>
           <div class="hero-right">
@@ -635,24 +643,10 @@
       </div>
     </section>
 
-    <!-- DESARROLLO WEB -->
-    <section class="view-section" id="view-desarrollo-web">
+    <!-- VISOR JPG/WEBP -->
+    <section class="view-section" id="view-visor-jpg">
       <div class="cad-header">
-        <h2 class="cad-title">> DESARROLLO WEB</h2>
-        <p class="cad-subtitle">Tecnologías 3D y plataformas interactivas</p>
-      </div>
-      <div class="content-wrapper">
-        <div class="cards-container">
-          <div class="card"><h3>Plataformas 3D</h3><p>Integración de modelos BIM en web.</p></div>
-          <div class="card"><h3>Recorridos 360°</h3><p>Tours virtuales inmersivos.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VISUALIZACIONES 3D -->
-    <section class="view-section" id="view-vis-3d">
-      <div class="cad-header">
-        <h2 class="cad-title">> VISUALIZACIONES 3D</h2>
+        <h2 class="cad-title">> VISOR JPG / WEBP</h2>
         <p class="cad-subtitle">Explora los detalles técnicos en alta resolución</p>
       </div>
       
@@ -904,7 +898,7 @@
            
             <p>Está dirigido por <strong>Mario Molina</strong>, Constructor Civil (ISET-BA), GeoInformático (UBA), 
             con más de tres décadas de experiencia en proyectos de ingeniería, colaborando con diversas empresas nacionales 
-            y multinacionales de consumo masivo y tecnología.</p>
+            y multinacionales.</p>
 
             <p>Su campo de acción abarca:</p>
             <p>• Digitalización de planos, mapas y documentos.<br>
@@ -917,7 +911,7 @@
             <p></p>
 
             <p>  <div class="botones-hero">
-              <a href="sobre_mi.html" class="btn btn-outline">Ver trayectoria</a>
+              <a href="mariomolina.github.io" class="btn btn-outline">Ver trayectoria</a>
               <a href="proyectos.html" class="btn btn-outline"">Ver Proyectos</a>
             </div></p>
             
@@ -1017,7 +1011,7 @@
           </div>
           <div class="card" style="text-align: center;">
             <h3>Diseño y Dirección</h3>
-            <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+            <p><a href="mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
           </div>
         </div>
 
@@ -1084,6 +1078,28 @@
 <script>
 'use strict';
 
+/* ================= AJUSTE DINÁMICO DE URLS (PARA EVITAR BLOQUEOS ENTRE SITIOS) ================= */
+// Esto asegura que los enlaces internos siempre apunten al dominio correcto, 
+// ya sea scanlabb.github.io o mariomolina.github.io sin importar dónde se aloje el index.html
+(function() {
+  var currentHost = window.location.hostname; // Obtiene el dominio actual (ej: scanlabb.github.io)
+  var pathArray = window.location.pathname.split('/');
+  var repoName = pathArray[1] ? pathArray[1].replace(/\/$/, '') : ''; // Obtiene el nombre del repo si existe
+  
+  // Construir la ruta base dinámica
+  var basePath = currentHost;
+  if (repoName && repoName !== 'index.html' && currentHost.indexOf('github.io') !== -1) {
+    basePath = currentHost + '/' + repoName;
+  }
+
+  // Actualizar enlaces internos del HTML (proyectos.html, sobre_mi.html)
+  document.querySelectorAll('a[href^="proyectos.html"], a[href^="sobre_mi.html"]').forEach(function(link) {
+    var originalFile = link.getAttribute('href');
+    // Asegura que use el dominio actual dinámicamente
+    link.setAttribute('href', 'https://' + basePath + '/' + originalFile);
+  });
+})();
+
 /* ================= NAVEGACIÓN ENTRE VISTAS ================= */
 function showView(viewId, event) {
   if (event && event.preventDefault) event.preventDefault();
@@ -1111,7 +1127,7 @@ function showView(viewId, event) {
   // Ajustes de visores al mostrarse
   if (viewId === 'visor-stl' && window.stlViewer) stlViewer.onShow();
   if (viewId === 'visor-dxf' && window.dxfViewer) dxfViewer.onShow();
-  if (viewId === 'vis-3d'   && window.zpViewer)  zpViewer.onShow();
+  if (viewId === 'visor-jpg' && window.zpViewer)  zpViewer.onShow();
 
   // Reajusta los comparadores antes/después de la vista activa
   if (window.refreshComparadores) window.refreshComparadores();
@@ -1131,16 +1147,20 @@ function toggleSidebar() {
   }, 250);
 }
 
-/* ================= PANTALLA COMPLETA ================= */
+/* ================= PANTALLA COMPLETA (PROTEGIDA CONTRA BLOQUEOS) ================= */
 function toggleFullscreen(event) {
   if (event && event.preventDefault) event.preventDefault();
-  if (!document.fullscreenElement) {
-    var el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  } else {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  try {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      var el = document.documentElement;
+      if (el.requestFullscreen) el.requestFullscreen().catch(function(e){ console.warn("Pantalla completa bloqueada:", e); });
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  } catch(e) {
+    console.warn("Pantalla completa no permitida en este contexto:", e);
   }
 }
 
@@ -1158,9 +1178,6 @@ function toggleFullscreen(event) {
 
     var ratio = 0.5; // posición relativa del divisor (0 a 1)
 
-    /* La imagen interior SIEMPRE mide lo mismo que el contenedor:
-       el wrap (borde derecho) solo la RECORTA. Así no se "agrandaa"
-       al deslizar la barra. */
     function sync() {
       var w = v.clientWidth;
       if (w <= 0) return;
@@ -1198,7 +1215,6 @@ function toggleFullscreen(event) {
     window.setTimeout(sync, 60);
   });
 
-  /* Reajusta todos los comparadores (vista mostrada o resize) */
   window.refreshComparadores = function () {
     comps.forEach(function (v) { if (v._syncComparator) v._syncComparator(); });
   };
@@ -1264,7 +1280,6 @@ var zpViewer = (function () {
     zoomAt(r.left + r.width / 2, r.top + r.height / 2, f);
   }
 
-  /* Pan por arrastre */
   var panning = false, lastX = 0, lastY = 0;
   stage.addEventListener('mousedown', function (e) {
     panning = true; lastX = e.clientX; lastY = e.clientY;
@@ -1282,14 +1297,12 @@ var zpViewer = (function () {
     if (panning) { panning = false; stage.style.cursor = 'grab'; }
   });
 
-  /* Rueda y doble clic */
   stage.addEventListener('wheel', function (e) {
     e.preventDefault();
     zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.25 : 0.8);
   }, { passive: false });
   stage.addEventListener('dblclick', function (e) { zoomAt(e.clientX, e.clientY, 1.5); });
 
-  /* Barra de herramientas */
   viewer.querySelectorAll('[data-zp-action]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var action = btn.getAttribute('data-zp-action');
@@ -1298,21 +1311,21 @@ var zpViewer = (function () {
       else if (action === 'fit') fit();
       else if (action === 'reset') reset();
       else if (action === 'fullscreen') {
-        if (document.fullscreenElement === stage) document.exitFullscreen();
-        else if (stage.requestFullscreen) stage.requestFullscreen();
+        try {
+          if (document.fullscreenElement === stage) document.exitFullscreen();
+          else if (stage.requestFullscreen) stage.requestFullscreen().catch(function(e){ console.warn("FS bloqueado:", e); });
+        } catch(e) {}
       }
       hideHint();
     });
   });
 
-  /* Fullscreen: reajustar al entrar/salir */
   document.addEventListener('fullscreenchange', function () {
     var isZp = document.fullscreenElement === stage;
     if (isZp || zpFs) fit();
     zpFs = isZp;
   });
 
-  /* Carga de la imagen */
   if (img.complete && img.naturalWidth) { imgReady = true; fit(); }
   else img.addEventListener('load', function () { imgReady = true; fit(); });
 
@@ -1377,7 +1390,7 @@ var stlViewer = (function () {
 
   function animate() {
     requestAnimationFrame(animate);
-    if (!stage.offsetParent) return; // sección oculta: no renderiza
+    if (!stage.offsetParent) return; 
     if (controls) controls.update();
     renderer.render(scene, camera);
   }
@@ -1422,7 +1435,7 @@ var stlViewer = (function () {
           specular: 0x222222
         });
         mesh = new THREE.Mesh(geometry, material);
-        mesh.position.y = -geometry.boundingBox.min.y; // apoya el modelo en la grilla
+        mesh.position.y = -geometry.boundingBox.min.y;
         scene.add(mesh);
         frameObject();
       } catch (err) {
@@ -1536,7 +1549,6 @@ var dxfViewer = (function () {
     });
     ctx.stroke();
 
-    // Textos y puntos
     ctx.fillStyle = '#00E5FF';
     entities.forEach(function (e) {
       if (e.type === 'TEXT' || e.type === 'MTEXT') {
@@ -1549,7 +1561,6 @@ var dxfViewer = (function () {
     });
   }
 
-  /* ---------- Parser DXF (entidades comunes) ---------- */
   function feed(e, code, val) {
     var n = parseFloat(val);
     switch (code) {
@@ -1623,7 +1634,6 @@ var dxfViewer = (function () {
     }
     closeCur();
 
-    // Polilíneas cerradas (bit 1 del código 70)
     ents.forEach(function (e) {
       if (e.type === 'LWPOLYLINE' || e.type === 'POLYLINE') e.closed = !!((e.flag || 0) & 1);
     });
@@ -1651,7 +1661,6 @@ var dxfViewer = (function () {
     });
   }
 
-  /* ---------- Carga ---------- */
   input.addEventListener('change', function (e) {
     var file = e.target.files && e.target.files[0];
     if (!file) return;
@@ -1675,7 +1684,6 @@ var dxfViewer = (function () {
     reader.readAsText(file);
   });
 
-  /* ---------- Zoom (rueda) y pan (arrastre) ---------- */
   canvas.addEventListener('wheel', function (e) {
     if (!hasDoc) return;
     e.preventDefault();
@@ -1756,7 +1764,7 @@ document.addEventListener('keydown', function (e) {
   'use strict';
 
   var ZOOM_MIN = 0.25, ZOOM_MAX = 4, ZOOM_STEP = 1.25;
-  var MAX_PIXELS = 16.7e6; // tope de píxeles del lienzo (~4096x4096)
+  var MAX_PIXELS = 16.7e6; 
 
   var stage       = document.getElementById('pdf-stage');
   var canvas      = document.getElementById('pdf-canvas');
@@ -1778,8 +1786,8 @@ document.addEventListener('keydown', function (e) {
     return;
   }
 
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  // Configurar el worker de forma segura (evita bloqueos de CORS en github.io)
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
   var pdfDoc = null, pageNum = 1, scale = 1;
   var pageBaseW = 0, pageBaseH = 0;
@@ -1794,7 +1802,6 @@ document.addEventListener('keydown', function (e) {
     if (hint) { hint.style.transition = 'opacity .4s'; hint.style.opacity = '0'; }
   }
 
-  /* ---------- render nítido, sin parpadeo ---------- */
   function renderPage(num, done) {
     if (!pdfDoc) { if (done) done(); return; }
     if (rendering) { pending = { num: num, done: done }; return; }
@@ -1809,7 +1816,6 @@ document.addEventListener('keydown', function (e) {
       var logicalW = pageBaseW * s;
       var logicalH = pageBaseH * s;
 
-      // Tope de seguridad para planos gigantes
       var renderScale = s;
       if (logicalW * logicalH > MAX_PIXELS) {
         renderScale = s * Math.sqrt(MAX_PIXELS / (logicalW * logicalH));
@@ -1843,7 +1849,6 @@ document.addEventListener('keydown', function (e) {
     });
   }
 
-  /* ---------- zoom (instantáneo + re-render) ---------- */
   function applyScale(newScale, clientX, clientY) {
     if (!pdfDoc) return;
     newScale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, newScale));
@@ -1892,7 +1897,6 @@ document.addEventListener('keydown', function (e) {
     });
   }
 
-  /* ---------- carga de archivo ---------- */
   input.addEventListener('change', function (e) {
     var file = e.target.files && e.target.files[0];
     if (!file) return;
@@ -1925,7 +1929,6 @@ document.addEventListener('keydown', function (e) {
     reader.readAsArrayBuffer(file);
   });
 
-  /* ---------- navegación ---------- */
   btnPrev.addEventListener('click', function () {
     if (pdfDoc && pageNum > 1) { pageNum--; renderPage(pageNum); }
   });
@@ -1933,26 +1936,22 @@ document.addEventListener('keydown', function (e) {
     if (pdfDoc && pageNum < pdfDoc.numPages) { pageNum++; renderPage(pageNum); }
   });
 
-  /* ---------- botones de zoom ---------- */
   btnIn.addEventListener('click',  function () { zoomCenter(ZOOM_STEP); });
   btnOut.addEventListener('click', function () { zoomCenter(1 / ZOOM_STEP); });
   btnReset.addEventListener('click', function () { zoomCenter(1 / scale); });
   btnFit.addEventListener('click', fitWidth);
 
-  /* ---------- rueda = zoom ---------- */
   stage.addEventListener('wheel', function (e) {
     if (!pdfDoc) return;
     e.preventDefault();
     applyScale(scale * (e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP), e.clientX, e.clientY);
   }, { passive: false });
 
-  /* ---------- doble clic = ampliar ---------- */
   stage.addEventListener('dblclick', function (e) {
     if (!pdfDoc) return;
     applyScale(scale * 1.5, e.clientX, e.clientY);
   });
 
-  /* ---------- arrastrar = paneo ---------- */
   var panning = false, panX = 0, panY = 0, panSL = 0, panST = 0;
 
   stage.addEventListener('mousedown', function (e) {
@@ -1986,4 +1985,3 @@ window.zpViewer  = zpViewer;
 
 </body>
 </html>
-
