@@ -5,50 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ScanLabb | Digitalización y Rescate Patrimonial</title>
   <style>
-    /* --- MODO CAD 80s (Terminal / DOS) --- */
+    /* =======================================================================
+       PANEL MAESTRO PARAMÉTRICO (DESIGN TOKENS)
+       Modifica estas variables para alterar toda la página instantáneamente.
+       ======================================================================= */
     :root {
-      --primary-dark: #000000;
-      --section-grey: #0B0E14;
-      --bg-white: #050505;
-      --bg-light: #11141C;
-      --accent-copper: #00E5FF; /* Cyan brillante clásico */
-      --accent-copper-hover: #5BF2FF;
-      --accent-secondary: #7B2FF7;
-      --text-dark: #E2E8F0;
-      --text-muted: #94A3B8;
-      --text-light: #FFFFFF;
-      --glass-blur: 0px;
-      --sidebar-width: 150px;
-      --sidebar-collapsed-width: 50px;
-      --cad-font: 'Lucida Console', 'Courier New', monospace;
+      /* 1. SISTEMA DE COLORES */
+      --color-acento: #00E5FF;              /* Cyan brillante clásico (Autocad) */
+      --color-acento-hover: #5BF2FF;        /* Hover del acento */
+      --color-acento-hover-bg: rgba(0, 229, 255, 0.1); /* Fondo hover sutil */
+      --color-secundario: #7B2FF7;          /* Morado para detalles */
+      --color-fondo-principal: #050505;     /* Fondo del body y main content */
+      --color-fondo-secundario: #08090C;    /* Fondo de tarjetas y modal */
+      --color-fondo-menu: #000000;          /* Fondo del sidebar y footer */
+      --color-texto-claro: #FFFFFF;         /* Títulos */
+      --color-texto-base: #E2E8F0;          /* Texto general */
+      --color-texto-tenue: #94A3B8;         /* Texto de párrafos y menús */
+      --color-texto-apagado: #555555;       /* Texto de copyright */
+      --color-borde-fino: #333333;          /* Bordes de separación */
+      --color-borde-hover: #222222;         /* Borde de secciones colapsadas */
+      
+      /* 2. TIPOGRAFÍAS */
+      --fuente-cad: 'Lucida Console', 'Courier New', monospace;
+      --fuente-web: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --tamano-hero-h1: 3.5rem;
+      --tamano-titulo-h2: 1.2rem;
+      --tamano-titulo-h3: 1.1rem;
+      --tamano-texto-base: 1rem;
+      
+      /* 3. MEDIDAS Y ESPACIOS */
+      --ancho-menu: 150px;
+      --ancho-menu-colapsado: 50px;
+      --ancho-maximo-vista: 1100px;
+      --ancho-maximo-contenido: 1000px;
+      --altura-hero: auto; /* antes 50vh, ajustado para flujo natural */
+      --altura-visor-principal: clamp(300px, 60vh, 620px);
+      --padding-tarjetas: 20px;
+      --padding-secciones: 15px 20px;
+      --margen-entre-tarjetas: 15px;
+      
+      /* 4. EFECTOS Y SOMBRAS */
+      --sombra-glow-1: 0 0 20px rgba(0,229,255,0.1);
+      --sombra-glow-2: 0 0 30px rgba(0,229,255,0.3);
+      --sombra-glow-3: 0 0 25px rgba(0,229,255,0.15);
+      --tamano-grid-fondo: 20px; /* Tamaño de la cuadrícula de fondo */
     }
+    /* =======================================================================
+       FIN DEL PANEL MAESTRO
+       ======================================================================= */
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      background-color: var(--bg-white);
-      color: var(--text-dark);
+      font-family: var(--fuente-web);
+      background-color: var(--color-fondo-principal);
+      color: var(--color-texto-base);
       line-height: 1.6;
       overflow-x: hidden; 
     }
 
     h1, h2, h3 { letter-spacing: 0.5px; font-weight: 600; }
-    a { color: var(--accent-copper); text-decoration: none; transition: none; }
-    a:hover { color: var(--accent-copper-hover); }
+    a { color: var(--color-acento); text-decoration: none; transition: none; }
+    a:hover { color: var(--color-acento-hover); }
 
     /* --- LAYOUT FLEX PRINCIPAL --- */
     .app-layout { display: flex; min-height: 100vh; }
 
-    /* --- SIDEBAR (MENÚ LATERAL ESTILO CAD 80s) --- */
+    /* --- SIDEBAR (MENÚ LATERAL ESTILO DOS) --- */
     .sidebar {
-      width: var(--sidebar-width);
-      min-width: var(--sidebar-width); 
-      max-width: var(--sidebar-width); 
+      width: var(--ancho-menu);
+      min-width: var(--ancho-menu); 
+      max-width: var(--ancho-menu); 
       flex-shrink: 0;                  
-      background: #000000;
-      border-right: 1px solid var(--accent-copper);
+      background: var(--color-fondo-menu);
+      border-right: 1px solid var(--color-acento);
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -57,80 +88,79 @@
       overflow-y: auto;
       overflow-x: hidden;              
       z-index: 1000;
-      font-family: var(--cad-font);
+      font-family: var(--fuente-cad);
       transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease; 
     }
     .sidebar.collapsed {
-      width: var(--sidebar-collapsed-width);
-      min-width: var(--sidebar-collapsed-width);
-      max-width: var(--sidebar-collapsed-width);
+      width: var(--ancho-menu-colapsado);
+      min-width: var(--ancho-menu-colapsado);
+      max-width: var(--ancho-menu-colapsado);
     }
 
     .sidebar-header { 
       padding: 10px 12px; 
-      border-bottom: 1px solid var(--accent-copper); 
-      background: #000;
+      border-bottom: 1px solid var(--color-acento); 
+      background: var(--color-fondo-menu);
       display: flex; justify-content: center; align-items: center;
       min-height: 45px;
     }
     .sidebar-toggle {
-      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper);
-      padding: 4px 8px; cursor: pointer; font-family: var(--cad-font); font-size: 0.8rem;
+      background: transparent; border: 1px solid var(--color-acento); color: var(--color-acento);
+      padding: 4px 8px; cursor: pointer; font-family: var(--fuente-cad); font-size: 0.8rem;
       flex-shrink: 0; display: flex; align-items: center; justify-content: center;
     }
-    .sidebar-toggle:hover { background: var(--accent-copper); color: #000; }
+    .sidebar-toggle:hover { background: var(--color-acento); color: var(--color-fondo-menu); }
 
-    .menu-section { padding: 5px 0; border-bottom: 1px dashed #333; }
+    .menu-section { padding: 5px 0; border-bottom: 1px dashed var(--color-borde-fino); }
     .menu-title { 
-      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #555;
-      margin: 5px 12px 2px; font-family: var(--cad-font); white-space: nowrap;
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-texto-apagado);
+      margin: 5px 12px 2px; font-family: var(--fuente-cad); white-space: nowrap;
     }
     .menu-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
     .menu-list a {
       display: flex; align-items: center; gap: 8px;
       padding: 6px 12px; color: #AAA; font-size: 0.85rem; font-weight: normal;
-      border-left: 3px solid transparent; font-family: var(--cad-font);
+      border-left: 3px solid transparent; font-family: var(--fuente-cad);
       transition: none; white-space: nowrap; overflow: hidden;
     }
     .menu-list a:hover, .menu-list a.active {
-      background: var(--accent-copper); color: #000;
-      border-left-color: #FFF; text-shadow: none;
+      background: var(--color-acento); color: var(--color-fondo-menu);
+      border-left-color: var(--color-texto-claro); text-shadow: none;
     }
+    /* Sustitución de SVG por Símbolos ASCII */
     .menu-icon {
-      width: 16px; height: 16px; flex-shrink: 0;
-      fill: none; stroke: currentColor; stroke-width: 2;
-      stroke-linecap: round; stroke-linejoin: round;
+      width: 16px; flex-shrink: 0; text-align: center; font-weight: bold; font-size: 1rem;
     }
     .sidebar.collapsed .menu-title,
     .sidebar.collapsed .menu-text { display: none; }
     .sidebar.collapsed .menu-list a { justify-content: center; padding: 10px 0; }
-    .sidebar.collapsed .menu-section { border-bottom: 1px solid #222; }
+    .sidebar.collapsed .menu-section { border-bottom: 1px solid var(--color-borde-hover); }
 
     /* --- CONTENEDOR PRINCIPAL DERECHO --- */
     .main-content {
       flex: 1;
-      margin-left: var(--sidebar-width);
-      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--ancho-menu);
+      width: calc(100% - var(--ancho-menu));
       display: flex; flex-direction: column;
       min-height: 100vh;
-      background-color: #08090C;
+      background-color: var(--color-fondo-secundario);
       background-image: 
         linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
-      background-size: 20px 20px;
+      background-size: var(--tamano-grid-fondo) var(--tamano-grid-fondo);
       transition: margin-left 0.2s ease, width 0.2s ease;
     }
     .main-content.expanded {
-      margin-left: var(--sidebar-width);
-      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--ancho-menu);
+      width: calc(100% - var(--ancho-menu));
     }
     .main-content.collapsed {
-      margin-left: var(--sidebar-collapsed-width);
-      width: calc(100% - var(--sidebar-collapsed-width));
+      margin-left: var(--ancho-menu-colapsado);
+      width: calc(100% - var(--ancho-menu-colapsado));
     }
 
     .view-section {
-      display: none; flex: 1; padding: 15px 20px; flex-direction: column;
+      display: none; flex: 1; padding: var(--padding-secciones); flex-direction: column;
       animation: fadeIn 0.3s ease;
     }
     .view-section.active { display: flex; }
@@ -139,12 +169,12 @@
     /* --- BARRA DE COMANDOS --- */
     .cad-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 8px 15px; background: #000; border: 1px solid var(--accent-copper);
-      margin-bottom: 10px; font-family: var(--cad-font);
+      padding: 8px 15px; background: var(--color-fondo-menu); border: 1px solid var(--color-acento);
+      margin-bottom: 10px; font-family: var(--fuente-cad);
     }
-    .cad-title { color: #FFF; font-size: 1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+    .cad-title { color: var(--color-texto-claro); font-size: 1rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
     .cad-subtitle { 
-      color: var(--accent-copper); font-size: 0.8rem; margin: 0; text-align: right;
+      color: var(--color-acento); font-size: 0.8rem; margin: 0; text-align: right;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
@@ -154,160 +184,157 @@
     .hero-left { z-index: 2; display: flex; flex-direction: column; justify-content: center; }
     .hero-logo { width: 400px; height: 72px; object-fit: contain; margin-bottom: 15px; }
     .hero h1 { 
-      display: none; font-size: 3.5rem; margin-bottom: 10px;
-      background: linear-gradient(0deg, #FFFFFF 0%, #00E5FF 100%);
+      display: none; font-size: var(--tamano-hero-h1); margin-bottom: 10px;
+      background: linear-gradient(0deg, var(--color-texto-claro) 0%, var(--color-acento) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      line-height: 1.1; font-family: var(--cad-font); letter-spacing: 2px;
+      line-height: 1.1; font-family: var(--fuente-cad); letter-spacing: 2px;
     }
-    .hero h2 { font-size: 1.2rem; color: var(--text-light); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--cad-font); }
-    .hero .profesion { font-size: 1rem; max-width: 500px; margin-bottom: 35px; color: var(--text-muted); }
+    .hero h2 { font-size: var(--tamano-titulo-h2); color: var(--color-texto-claro); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; font-family: var(--fuente-cad); }
+    .hero .profesion { font-size: var(--tamano-texto-base); max-width: 500px; margin-bottom: 35px; color: var(--color-texto-tenue); }
 
     .botones-hero { display: flex; gap: 15px; flex-wrap: wrap; }
     .btn {
-      display: inline-block; padding: 10px 25px; background: var(--accent-copper); 
-      color: #000; font-size: 0.85rem; font-weight: 700; border-radius: 0; 
-      box-shadow: none; transition: none; border: 1px solid var(--accent-copper); cursor: pointer; 
-      text-transform: uppercase; letter-spacing: 1px; font-family: var(--cad-font);
+      display: inline-block; padding: 10px 25px; background: var(--color-acento); 
+      color: var(--color-fondo-menu); font-size: 0.85rem; font-weight: 700; border-radius: 0; 
+      box-shadow: none; transition: none; border: 1px solid var(--color-acento); cursor: pointer; 
+      text-transform: uppercase; letter-spacing: 1px; font-family: var(--fuente-cad);
     }
-    .btn:hover { background: #FFF; border-color: #FFF; color: #000; }
-    .btn-outline { background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper); box-shadow: none; }
-    .btn-outline:hover { background: rgba(0, 229, 255, 0.1); color: #FFF; }
+    .btn:hover { background: var(--color-texto-claro); border-color: var(--color-texto-claro); color: var(--color-fondo-menu); }
+    .btn-outline { background: transparent; border: 1px solid var(--color-acento); color: var(--color-acento); box-shadow: none; }
+    .btn-outline:hover { background: var(--color-acento-hover-bg); color: var(--color-texto-claro); }
 
-    .hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--accent-copper); }
-    .hero-right h3 { color: var(--accent-copper); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-align:center; font-family: var(--cad-font); }
-    .desliza-hint { margin-top: 10px; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--cad-font); }
-    .desliza-hint::before { content: '>'; color: var(--accent-copper); font-weight: bold; }
+    .hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: stretch; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--color-acento); }
+    .hero-right h3 { color: var(--color-acento); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; text-align:center; font-family: var(--fuente-cad); }
+    .desliza-hint { margin-top: 10px; color: var(--color-texto-tenue); font-size: 0.8rem; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--fuente-cad); }
+    .desliza-hint::before { content: '>'; color: var(--color-acento); font-weight: bold; }
 
     /* --- VISOR ANTES Y DESPUÉS --- */
     .visor-container {
       width: 100%; max-width: 100%; position: relative; overflow: hidden;
-      border: 1px solid var(--accent-copper); box-shadow: 0 0 20px rgba(0,229,255,0.1); margin-bottom: 10px;
+      border: 1px solid var(--color-acento); box-shadow: var(--sombra-glow-1); margin-bottom: 10px;
     }
     .visor-img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; background: #111; }
     .visor-after-wrap {
       position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden;
-      border-right: 1px solid var(--accent-copper); transition: width 0.05s linear; 
+      border-right: 1px solid var(--color-acento); transition: width 0.05s linear; 
     }
     .visor-after-wrap img, .visor-after-wrap svg.visor-img { width: 100%; max-width: none; height: auto; } 
     .visor-label {
-      position: absolute; top: 10px; padding: 4px 10px; background: #000;
-      color: var(--accent-copper); font-size: 0.7rem; font-weight: normal; letter-spacing: 1px; text-transform: uppercase;
-      border: 1px solid var(--accent-copper); z-index: 10; pointer-events: none; font-family: var(--cad-font);
+      position: absolute; top: 10px; padding: 4px 10px; background: var(--color-fondo-menu);
+      color: var(--color-acento); font-size: 0.7rem; font-weight: normal; letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--color-acento); z-index: 10; pointer-events: none; font-family: var(--fuente-cad);
     }
-    .label-before { left: 10px; color: #FFF; }
-    .label-after { right: 10px; color: var(--accent-copper); }
+    .label-before { left: 10px; color: var(--color-texto-claro); }
+    .label-after { right: 10px; color: var(--color-acento); }
     .visor-handle {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px;
-      background: #000; border-radius: 0; box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
-      display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; border: 1px solid var(--accent-copper);
+      background: var(--color-fondo-menu); border-radius: 0; box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+      display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; border: 1px solid var(--color-acento);
     }
-    .visor-handle::before { content: '<>'; color: var(--accent-copper); font-size: 0.8rem; font-weight: bold; }
+    .visor-handle::before { content: '<>'; color: var(--color-acento); font-size: 0.8rem; font-weight: bold; }
     .visor-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: ew-resize; z-index: 5; }
 
     /* --- ESTILOS GENERALES DE VISTAS --- */
-    .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; max-width: 1200px; margin-left:auto; margin-right:auto; width: 100%; }
+    .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--margen-entre-tarjetas); margin-bottom: 30px; max-width: var(--ancho-maximo-vista); margin-left:auto; margin-right:auto; width: 100%; }
     .card { 
-      background: rgba(0, 0, 0, 0.6); padding: 20px; border-radius: 0; 
-      border: 1px solid #333; box-shadow: none; transition: none; text-align: left; 
+      background: rgba(0, 0, 0, 0.6); padding: var(--padding-tarjetas); border-radius: 0; 
+      border: 1px solid var(--color-borde-fino); box-shadow: none; transition: none; text-align: left; 
     }
-    .card:hover { border-color: var(--accent-copper); background: #000; }
-    .card svg { width: 32px; height: 32px; fill: var(--accent-copper); margin-bottom: 15px; }
-    .card h3 { color: var(--accent-copper); margin-bottom: 8px; font-size: 1.1rem; font-family: var(--cad-font); text-transform: uppercase; }
-    .card p { color: var(--text-muted); font-size: 0.9rem; }
+    .card:hover { border-color: var(--color-acento); background: var(--color-fondo-menu); }
+    .card h3 { color: var(--color-acento); margin-bottom: 8px; font-size: var(--tamano-titulo-h3); font-family: var(--fuente-cad); text-transform: uppercase; }
+    .card p { color: var(--color-texto-tenue); font-size: 0.9rem; }
     .card-list { list-style: none; padding: 0; margin-top: 10px; }
-    .card-list li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
-    .card-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-family: var(--cad-font); }
+    .card-list li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--color-texto-tenue); font-size: 0.9rem; }
+    .card-list li::before { content: '>'; color: var(--color-acento); position: absolute; left: 0; font-family: var(--fuente-cad); }
 
     /* --- VISOR ZOOM & PAN (zp) --- */
     .zp-viewer{
-      --zp-accent:#00E5FF; --zp-bg:#000; --zp-panel:#000; --zp-border:#00E5FF;
-      --zp-text:#FFF; --zp-muted:#94A3B8; --zp-height:clamp(300px, 60vh, 620px);
-      max-width:1100px; margin:20px auto; width: 100%;
-      font-family: var(--cad-font);
+      max-width: var(--ancho-maximo-vista); margin:20px auto; width: 100%;
+      font-family: var(--fuente-cad);
     }
     .zp-viewer *{ box-sizing:border-box; }
-    .zp-label{ display:inline-block; margin:0 auto 12px; padding:5px 12px; font-size:.75rem; letter-spacing:1px; text-transform:uppercase; color:var(--zp-accent); text-align:center; background:#000; border:1px solid var(--zp-border); border-radius:0; }
+    .zp-label{ display:inline-block; margin:0 auto 12px; padding:5px 12px; font-size:.75rem; letter-spacing:1px; text-transform:uppercase; color:var(--color-acento); text-align:center; background:var(--color-fondo-menu); border:1px solid var(--color-acento); border-radius:0; }
     .zp-label-wrap{ text-align:center; }
-    .zp-stage{ position:relative; overflow:hidden; height:var(--zp-height); border:1px solid var(--zp-border); border-radius:0; background-color:#050505; background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size:20px 20px; cursor:grab; touch-action:none; user-select:none; }
+    .zp-stage{ position:relative; overflow:hidden; height:var(--altura-visor-principal); border:1px solid var(--color-acento); border-radius:0; background-color:var(--color-fondo-principal); background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size:var(--tamano-grid-fondo) var(--tamano-grid-fondo); cursor:grab; touch-action:none; user-select:none; }
     .zp-stage:active{ cursor:grabbing; }
     .zp-stage:fullscreen{ height:100vh; border:none; }
     .zp-img{ position:absolute; top:0; left:0; max-width:none !important; width:auto; height:auto; transform-origin:0 0; pointer-events:none; }
-    .zp-hint{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); padding:5px 10px; font-size:.7rem; color:var(--zp-muted); background:#000; border:1px solid #444; white-space:nowrap; pointer-events:none; transition:opacity .5s; }
+    .zp-hint{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); padding:5px 10px; font-size:.7rem; color:var(--color-texto-tenue); background:var(--color-fondo-menu); border:1px solid var(--color-borde-fino); white-space:nowrap; pointer-events:none; transition:opacity .5s; }
     .zp-hint.zp-hide{ opacity:0; visibility:hidden; }
-    .zp-toolbar{ display:flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:10px; padding:8px; background:var(--zp-panel); border:1px solid var(--zp-border); border-radius:0; }
-    .zp-btn{ min-width:38px; padding:6px 10px; font:inherit; font-size:.85rem; font-weight:normal; color:var(--zp-accent); background:#000; border:1px solid var(--zp-border); border-radius:0; cursor:pointer; transition:none; }
-    .zp-btn:hover{ background:var(--zp-accent); color:#000; }
+    .zp-toolbar{ display:flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap; margin-top:10px; padding:8px; background:var(--color-fondo-menu); border:1px solid var(--color-acento); border-radius:0; }
+    .zp-btn{ min-width:38px; padding:6px 10px; font:inherit; font-size:.85rem; font-weight:normal; color:var(--color-acento); background:var(--color-fondo-menu); border:1px solid var(--color-acento); border-radius:0; cursor:pointer; transition:none; }
+    .zp-btn:hover{ background:var(--color-acento); color:var(--color-fondo-menu); }
     .zp-btn--wide{ font-size:.75rem; letter-spacing:1px; text-transform:uppercase; }
-    .zp-zoom{ min-width:50px; text-align:center; font-size:.8rem; color:var(--zp-text); padding:6px 4px; background:#000; border:1px solid #444; border-radius:0; }
-    .zp-sep{ width:1px; height:20px; background:var(--zp-border); margin:0 2px; }
+    .zp-zoom{ min-width:50px; text-align:center; font-size:.8rem; color:var(--color-texto-claro); padding:6px 4px; background:var(--color-fondo-menu); border:1px solid var(--color-borde-fino); border-radius:0; }
+    .zp-sep{ width:1px; height:20px; background:var(--color-acento); margin:0 2px; }
 
     /* --- VISORES 3D Y ARCHIVOS --- */
-    .stl-viewer { max-width: 1100px; margin: 20px auto; width: 100%; font-family: var(--cad-font); }
+    .stl-viewer { max-width: var(--ancho-maximo-vista); margin: 20px auto; width: 100%; font-family: var(--fuente-cad); }
     .stl-stage {
-      height: clamp(350px, 60vh, 620px);
-      border: 1px solid var(--accent-copper);
-      background-color: #050505;
+      height: var(--altura-visor-principal);
+      border: 1px solid var(--color-acento);
+      background-color: var(--color-fondo-principal);
       background-image:linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px);
-      background-size: 20px 20px;
+      background-size: var(--tamano-grid-fondo) var(--tamano-grid-fondo);
       position: relative;
     }
     .stl-toolbar {
       display: flex; align-items: center; justify-content: center;
       gap: 10px; flex-wrap: wrap; margin-top: 10px; padding: 8px;
-      background: #000; border: 1px solid var(--accent-copper);
+      background: var(--color-fondo-menu); border: 1px solid var(--color-acento);
     }
     .stl-btn {
-      padding: 6px 12px; font-family: var(--cad-font); font-size: 0.85rem;
-      color: var(--accent-copper); background: #000; border: 1px solid var(--accent-copper);
+      padding: 6px 12px; font-family: var(--fuente-cad); font-size: 0.85rem;
+      color: var(--color-acento); background: var(--color-fondo-menu); border: 1px solid var(--color-acento);
       cursor: pointer; text-transform: uppercase;
     }
-    .stl-btn:hover { background: var(--accent-copper); color: #000; }
-    .stl-color-label { color: #FFF; font-size: 0.8rem; }
-    .stl-color-input { width: 30px; height: 30px; border: 1px solid var(--accent-copper); background: #000; cursor: pointer; padding: 2px; }
+    .stl-btn:hover { background: var(--color-acento); color: var(--color-fondo-menu); }
+    .stl-color-label { color: var(--color-texto-claro); font-size: 0.8rem; }
+    .stl-color-input { width: 30px; height: 30px; border: 1px solid var(--color-acento); background: var(--color-fondo-menu); cursor: pointer; padding: 2px; }
 
     /* --- Textos y Servicios --- */
-    .content-wrapper { max-width: 1000px; margin: 0 auto; width: 100%; }
+    .content-wrapper { max-width: var(--ancho-maximo-contenido); margin: 0 auto; width: 100%; }
     .sobre-mi-layout { display: flex; gap: 30px; align-items: flex-start; }
     .sobre-mi-texto { flex: 2; }
-    .sobre-mi-texto p { font-size: 1rem; line-height: 1.6; margin-bottom: 15px; }
-    .sobre-mi-texto .cita { border-left: 2px solid var(--accent-copper); padding-left: 15px; margin-bottom: 20px; color: var(--text-muted); }
-    .audiencia { flex: 1; background: #000; padding: 20px; border: 1px solid var(--accent-copper); border-radius: 0; }
-    .audiencia h4 { color: var(--accent-copper); margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; font-family: var(--cad-font); }
+    .sobre-mi-texto p { font-size: var(--tamano-texto-base); line-height: 1.6; margin-bottom: 15px; }
+    .sobre-mi-texto .cita { border-left: 2px solid var(--color-acento); padding-left: 15px; margin-bottom: 20px; color: var(--color-texto-tenue); }
+    .audiencia { flex: 1; background: var(--color-fondo-menu); padding: var(--padding-tarjetas); border: 1px solid var(--color-acento); border-radius: 0; }
+    .audiencia h4 { color: var(--color-acento); margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; font-family: var(--fuente-cad); }
     .audiencia ul { list-style: none; }
-    .audiencia ul li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--text-muted); font-size: 0.9rem; }
-    .audiencia ul li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; }
+    .audiencia ul li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--color-texto-tenue); font-size: 0.9rem; }
+    .audiencia ul li::before { content: '>'; color: var(--color-acento); position: absolute; left: 0; }
 
-    .methodology-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; padding: 25px; margin-top: 20px; }
-    .methodology-block h3 { color: var(--text-light); font-family: var(--cad-font); margin-bottom: 15px; text-transform: uppercase; font-size: 1rem; }
-    .methodology-block p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; }
+    .methodology-block { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--color-borde-fino); padding: 25px; margin-top: 20px; }
+    .methodology-block h3 { color: var(--color-texto-claro); font-family: var(--fuente-cad); margin-bottom: 15px; text-transform: uppercase; font-size: 1rem; }
+    .methodology-block p { color: var(--color-texto-tenue); margin-bottom: 15px; font-size: 0.95rem; }
     .methodology-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-    .methodology-list li { padding-left: 20px; position: relative; color: var(--text-light); font-family: var(--cad-font); font-size: 0.9rem; }
-    .methodology-list li::before { content: '>'; color: var(--accent-copper); position: absolute; left: 0; font-weight: bold; }
+    .methodology-list li { padding-left: 20px; position: relative; color: var(--color-texto-claro); font-family: var(--fuente-cad); font-size: 0.9rem; }
+    .methodology-list li::before { content: '>'; color: var(--color-acento); position: absolute; left: 0; font-weight: bold; }
 
-    .text-block { background: rgba(0, 0, 0, 0.6); border: 1px solid #333; border-left: 3px solid var(--accent-copper); padding: 20px; margin-bottom: 20px; margin-top: 20px; }
-    .text-block h3 { color: var(--accent-copper); font-family: var(--cad-font); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
-    .text-block p { color: var(--text-dark); font-size: 0.95rem; line-height: 1.6; }
+    .text-block { background: rgba(0, 0, 0, 0.6); border: 1px solid var(--color-borde-fino); border-left: 3px solid var(--color-acento); padding: var(--padding-tarjetas); margin-bottom: 20px; margin-top: 20px; }
+    .text-block h3 { color: var(--color-acento); font-family: var(--fuente-cad); font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
+    .text-block p { color: var(--color-texto-base); font-size: 0.95rem; line-height: 1.6; }
 
     /* --- Botón Flotante --- */
     .wa-flotante { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
-    .wa-flotante a { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #000; border: 1px solid #25D366; border-radius: 0; transition: none; }
+    .wa-flotante a { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: var(--color-fondo-menu); border: 1px solid #25D366; border-radius: 0; transition: none; }
     .wa-flotante a:hover { background: #25D366; }
     .wa-flotante a svg { width: 28px; height: 28px; fill: #25D366; }
-    .wa-flotante a:hover svg { fill: #000; }
+    .wa-flotante a:hover svg { fill: var(--color-fondo-menu); }
 
     /* ================= CONTACTO: LOGO DESTACADO ================= */
     .contacto-logo-wrap { text-align: center; margin-bottom: 10px; }
     .contacto-logo {
       width: 420px; max-width: 100%; height: 80px; object-fit: contain;
       padding: 8px 14px; background: rgba(0, 0, 0, 0.6);
-      border: 1px solid var(--accent-copper);
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.15);
+      border: 1px solid var(--color-acento);
+      box-shadow: var(--sombra-glow-3);
     }
-    .contacto-logo:hover { border-color: #FFF; box-shadow: 0 0 30px rgba(0, 229, 255, 0.45); }
+    .contacto-logo:hover { border-color: var(--color-texto-claro); box-shadow: var(--sombra-glow-2); }
 
     /* ================= CONTACTO: FLYERS (BOTONES) ================= */
     .flyers-title {
-      text-align: center; font-family: var(--cad-font); color: #555;
+      text-align: center; font-family: var(--fuente-cad); color: var(--color-texto-apagado);
       font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
     }
     .flyers-container {
@@ -316,17 +343,17 @@
     }
     .flyer-btn {
       display: flex; flex-direction: column;
-      background: rgba(0, 0, 0, 0.6); border: 1px solid #333; padding: 10px;
-      cursor: pointer; font-family: var(--cad-font); text-align: center;
+      background: rgba(0, 0, 0, 0.6); border: 1px solid var(--color-borde-fino); padding: 10px;
+      cursor: pointer; font-family: var(--fuente-cad); text-align: center;
     }
-    .flyer-btn:hover { border-color: var(--accent-copper); background: #000; }
-    .flyer-btn:hover .flyer-caption { color: #FFF; }
+    .flyer-btn:hover { border-color: var(--color-acento); background: var(--color-fondo-menu); }
+    .flyer-btn:hover .flyer-caption { color: var(--color-texto-claro); }
     .flyer-thumb {
       width: 100%; height: 320px; object-fit: cover; display: block;
-      border: 1px solid var(--accent-copper); background: #111; margin-bottom: 10px;
+      border: 1px solid var(--color-acento); background: #111; margin-bottom: 10px;
     }
-    .flyer-caption { color: var(--accent-copper); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
-    .flyer-hint { color: #555; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
+    .flyer-caption { color: var(--color-acento); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .flyer-hint { color: var(--color-texto-apagado); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
 
     /* ================= MODAL / VISOR DE FLYERS ================= */
     .flyer-modal {
@@ -338,17 +365,17 @@
     .flyer-modal.open { display: flex; }
     .flyer-modal-bar {
       display: flex; align-items: center; justify-content: space-between; gap: 15px;
-      width: 100%; max-width: 640px; margin-bottom: 10px; font-family: var(--cad-font);
+      width: 100%; max-width: 640px; margin-bottom: 10px; font-family: var(--fuente-cad);
     }
     #flyer-modal-title {
-      color: var(--accent-copper); font-size: 0.85rem; letter-spacing: 2px;
+      color: var(--color-acento); font-size: 0.85rem; letter-spacing: 2px;
       text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .flyer-modal-close {
-      background: transparent; border: 1px solid var(--accent-copper); color: var(--accent-copper);
-      padding: 4px 10px; cursor: pointer; font-family: var(--cad-font); font-size: 0.8rem; flex-shrink: 0;
+      background: transparent; border: 1px solid var(--color-acento); color: var(--color-acento);
+      padding: 4px 10px; cursor: pointer; font-family: var(--fuente-cad); font-size: 0.8rem; flex-shrink: 0;
     }
-    .flyer-modal-close:hover { background: var(--accent-copper); color: #000; }
+    .flyer-modal-close:hover { background: var(--color-acento); color: var(--color-fondo-menu); }
     .flyer-modal img {
       display: block;
       width: 92vw;
@@ -356,29 +383,29 @@
       height: 78vh;
       height: min(78vh, 820px);
       object-fit: contain;          /* escala (amplía) sin deformar */
-      background: #000;
-      border: 1px solid var(--accent-copper);
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+      background: var(--color-fondo-menu);
+      border: 1px solid var(--color-acento);
+      box-shadow: var(--sombra-glow-2);
     }
     .flyer-modal-actions { margin-top: 12px; }
 
     /* ================= FOOTER ================= */
-    .site-footer { margin-top: auto; background: #000; border-top: 1px solid var(--accent-copper); font-family: var(--cad-font); }
+    .site-footer { margin-top: auto; background: var(--color-fondo-menu); border-top: 1px solid var(--color-acento); font-family: var(--fuente-cad); }
     .footer-inner {
       display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
       padding: 12px 20px; max-width: 1200px; margin: 0 auto;
     }
     .footer-logo { height: 44px; width: auto; max-width: 200px; object-fit: contain; flex-shrink: 0; }
     .footer-col { flex: 1; min-width: 230px; }
-    .footer-line { font-size: 0.72rem; letter-spacing: 1px; margin-bottom: 4px; color: var(--text-muted); }
+    .footer-line { font-size: 0.72rem; letter-spacing: 1px; margin-bottom: 4px; color: var(--color-texto-tenue); }
     .footer-line:last-child { margin-bottom: 0; }
-    .footer-brand { color: var(--text-light); text-transform: uppercase; }
+    .footer-brand { color: var(--color-texto-claro); text-transform: uppercase; }
     .footer-links { display: flex; flex-wrap: wrap; gap: 4px 12px; }
-    .footer-links a { color: var(--accent-copper); font-size: 0.72rem; text-transform: uppercase; }
-    .footer-links a:hover { color: #FFF; }
+    .footer-links a { color: var(--color-acento); font-size: 0.72rem; text-transform: uppercase; }
+    .footer-links a:hover { color: var(--color-texto-claro); }
     .footer-right { text-align: right; }
-    .footer-bottom { border-top: 1px dashed #222; padding: 6px 20px; text-align: center; color: #555; font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
-    .footer-cursor::after { content: '_'; color: var(--accent-copper); animation: blink 1s steps(1) infinite; }
+    .footer-bottom { border-top: 1px dashed var(--color-borde-fino); padding: 6px 20px; text-align: center; color: var(--color-texto-apagado); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
+    .footer-cursor::after { content: '_'; color: var(--color-acento); animation: blink 1s steps(1) infinite; }
     @keyframes blink { 50% { opacity: 0; } }
 
     /* --- RESPONSIVE --- */
@@ -426,31 +453,31 @@
       <ul class="menu-list">
         <li>
           <a href="#" class="active" onclick="showView('inicio', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 12L12 3l9 9v9h-6v-6H9v6H3v-9z"/></svg>
+            <span class="menu-icon">1</span>
             <span class="menu-text">Inicio</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('servicios', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6 4.8 2.4 7.4L12 16.8 6 21.6l2.4-7.4-6-4.8h7.6L12 2z"/></svg>
+            <span class="menu-icon">2</span>
             <span class="menu-text">Servicios</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('que-hacemos', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span class="menu-icon">3</span>
             <span class="menu-text">Qué hacemos</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('sobre-mi', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span class="menu-icon">4</span>
             <span class="menu-text">Acerca de</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('contacto', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span class="menu-icon">5</span>
             <span class="menu-text">Contacto</span>
           </a>
         </li>
@@ -462,19 +489,19 @@
       <ul class="menu-list">
         <li>
           <a href="#" onclick="showView('scan-dxf', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            <span class="menu-icon">A</span>
             <span class="menu-text">DXF/SVG</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('scan-render', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span class="menu-icon">B</span>
             <span class="menu-text">Render</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('scan-raster', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM10 5l4 1.4v12.6L10 17V5z"/></svg>
+            <span class="menu-icon">C</span>
             <span class="menu-text">Raster</span>
           </a>
         </li>
@@ -486,13 +513,13 @@
       <ul class="menu-list">
         <li>
           <a href="proyectosweb.html">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+            <span class="menu-icon">D</span>
             <span class="menu-text">Diseño Web</span>
           </a>
         </li>
         <li>
           <a href="proyectos.html">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 2.83L19.17 12 12 19.17 4.83 12 12 4.83z"/></svg>
+            <span class="menu-icon">E</span>
             <span class="menu-text">Renders 3D</span>
           </a>
         </li>
@@ -504,25 +531,25 @@
       <ul class="menu-list">
         <li>
           <a href="#" onclick="showView('visor-pdf', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            <span class="menu-icon">F</span>
             <span class="menu-text">Visor PDF</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('visor-dxf', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M9 17l3-3 3 3M9 7l3 3 3-3" /></svg>
+            <span class="menu-icon">G</span>
             <span class="menu-text">Visor DXF</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('visor-stl', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 2.76-2.24 5-5 5-2.76 0-5-2.24-5-5 0-2.76 2.24-5 5-5m0-4C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 0v18m-9-9h18" /></svg>
+            <span class="menu-icon">H</span>
             <span class="menu-text">Visor STL</span>
           </a>
         </li>
         <li>
           <a href="#" onclick="showView('visor-jpg', event)">
-            <svg class="menu-icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span class="menu-icon">I</span>
             <span class="menu-text">Visor Webp</span>
           </a>
         </li>
@@ -534,7 +561,7 @@
       <ul class="menu-list">
         <li>
           <a href="#" onclick="toggleFullscreen(event)">
-            <svg class="menu-icon" id="fs-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <span class="menu-icon">[ ]</span>
             <span class="menu-text">ScanLabb v1</span>
           </a>
         </li>
@@ -560,9 +587,9 @@
              plataformas web 3D y visores interactivos para arquitectura, ingeniería y gestión patrimonial.</p>
             <div class="botones-hero">
               <a href="proyectos.html" class="btn btn-outline">Visualizaciones 3D</a>
-              <a href="proyectos.html" class="btn btn-outline">Proyectos Web</a>
+        <!--      <a href="proyectosweb.html" class="btn btn-outline">Proyectos Web</a>   -->
               <a href="https://mariomolinacc.github.io/" class="btn btn-outline">Trayectoria</a>
-                            <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Servicios</a>
+              <a href="#" class="btn btn-outline" onclick="showView('servicios', event)">Servicios</a>
             </div>
           </div>
           <div class="hero-right">
@@ -680,10 +707,10 @@
       <div class="stl-viewer" style="max-width: 100%; margin: 0; height: calc(100vh - 115px); display: flex; flex-direction: column;">
 
         <!-- Área de visualización -->
-        <div id="pdf-stage" style="flex: 1; width: 100%; overflow: auto; border: 1px solid var(--accent-copper); background-color: #050505; background-image: linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: 20px 20px; position: relative; cursor: grab; padding: 15px 0;">
-          <p id="pdf-placeholder" style="color: var(--text-muted); font-family: var(--cad-font); text-align: center; margin-top: 50px;">[ Cargue un archivo PDF para visualizarlo ]</p>
+        <div id="pdf-stage" style="flex: 1; width: 100%; overflow: auto; border: 1px solid var(--color-acento); background-color: var(--color-fondo-principal); background-image: linear-gradient(rgba(0,229,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.06) 1px, transparent 1px); background-size: var(--tamano-grid-fondo) var(--tamano-grid-fondo); position: relative; cursor: grab; padding: 15px 0;">
+          <p id="pdf-placeholder" style="color: var(--color-texto-tenue); font-family: var(--fuente-cad); text-align: center; margin-top: 50px;">[ Cargue un archivo PDF para visualizarlo ]</p>
           <canvas id="pdf-canvas" style="display: none; margin: 0 auto; box-shadow: 0 0 15px rgba(0,229,255,0.1);"></canvas>
-          <span id="pdf-hint" style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); padding: 5px 10px; font-size: .7rem; color: #94A3B8; background: #000; border: 1px solid #444; white-space: nowrap; pointer-events: none; font-family: var(--cad-font); display: none;">Rueda = zoom · Arrastrar = mover · Doble clic = ampliar</span>
+          <span id="pdf-hint" style="position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); padding: 5px 10px; font-size: .7rem; color: #94A3B8; background: #000; border: 1px solid #444; white-space: nowrap; pointer-events: none; font-family: var(--fuente-cad); display: none;">Rueda = zoom · Arrastrar = mover · Doble clic = ampliar</span>
         </div>
 
         <!-- Barra de herramientas -->
@@ -818,44 +845,37 @@
         <div class="cards-container" style="max-width: 100%;">
           <!-- Tarjeta 1: Digitalización -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 7h8v2H5zm0 4h8v2H5zm0 4h8v2H5zm10-8h4v2h-4zm0 4h4v2h-4zm0 4h4v2h-4z"/></svg>
             <h3>1. Digitalización</h3>
             <p>Escaneo y recuperación de planos en papel, mapas o documentos antiguos para su preservación digital.</p>
           </div>
           <!-- Tarjeta 2: Vectorización -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
             <h3>2. Planos / vectorización</h3>
             <p>—Generación de planos arquitectónicos, mecánicos e industriales en CAD a partir de levantamientos.
                 —Vectorización, reconstrucción de planos a formatos limpios DXF para CAD.</p>
           </div>
           <!-- Tarjeta 3: Modelado 3D -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2zm0 2.83L19.17 12 12 19.17 4.83 12 12 4.83z"/><path d="M12 6L6 12l6 6 6-6-6-6z" fill="none"/></svg>
             <h3>3. Modelado 3D</h3>
             <p>Generación de modelos 3D y BIM a partir de planos 2D o levantamientos existentes para arquitectura e ingeniería.</p>
           </div>
           <!-- Tarjeta 4: Renderizado -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
             <h3>4. Renderizado</h3>
             <p>Creación de renders fotorrealistas y visualizaciones inmersivas de proyectos arquitectónicos y perspectivas técnicas.</p>
           </div>
           <!-- Tarjeta 5: Desarrollo Web -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
             <h3>5. Desarrollo Web</h3>
             <p>Plataformas web interactivas, visores de modelos 3D y recorridos virtuales 360° para presentación de proyectos.</p>
           </div>
           <!-- Tarjeta 6: Rescate Patrimonial -->
           <div class="card">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
             <h3>6. Rescate Patrimonial</h3>
             <p>Preservación y restauración digital de documentación histórica para archivos, museos y instituciones.</p>
           </div>
           <!-- Tarjeta Extra: Áreas de Aplicación -->
-          <div class="card" style="border-color: var(--accent-copper);">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+          <div class="card" style="border-color: var(--color-acento);">
             <h3>Áreas de Aplicación</h3>
             <ul class="card-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
               <li>Arquitectura</li>
@@ -911,50 +931,10 @@
             <p></p>
 
             <p>  <div class="botones-hero">
-              <a href="mariomolina.github.io" class="btn btn-outline">Ver trayectoria</a>
-              <a href="proyectos.html" class="btn btn-outline"">Ver Proyectos</a>
+              <a href="https://mariomolinacc.github.io" class="btn btn-outline">Ver trayectoria</a>
+              <a href="proyectos.html" class="btn btn-outline"">Visualizaciones 3D</a>
             </div></p>
-            
-
-    
-          
-<!-------------------------------------------------------------------------------------------------
-            <p>Su campo de acción abarca:</p>
-            <p>• Digitalización de planos, mapas y documentos.<br>
-               • Vectorización, restauración de planos y documentación técnica.<br>
-               • Generación de planos arquitectónicos, mecánicos e industriales.<br>
-               • Desarrollo de plataformas web visuales.<br>
-               • Desarrollo de herramientas para visualización 2D/3D.<br>
-               • Planos, empadronamiento, regularizaciones.<br>
-               • Diseño y dirección técnica de obras.</p>
-
-   
-
-            <h3 style="color: var(--accent-copper); font-family: var(--cad-font); font-size: 1rem; text-transform: uppercase; margin: 20px 0 10px;">Áreas de aplicación</h3>
-            <p>Nuestro servicio está dirigido a instituciones, oficinas de arquitectura e ingeniería, archivos técnicos y organizaciones 
-              que necesiten conservar y gestionar información técnica de valor histórico u operativo.</p>
-
-            <div class="text-block" style="margin-top: 25px; padding: 15px; border-left: 3px solid var(--accent-copper); border-top: none; border-right: none; border-bottom: none; background: transparent;">
-              <h3>Rescate Patrimonial Digital</h3>
-              <p>Digitalizamos documentos técnicos de gran formato (planos arquitectónicos, mapas, diagramas de ingeniería o esquemas 
-                de infraestructura) para su preservación y gestión eficiente. Convertimos soportes físicos en archivos digitales listos 
-                para consulta, edición o visualización en el navegador web.</p>
-            </div>
           </div>
-      
-
-          <div class="audiencia">
-            <h4>A quién ayudo</h4>
-            <ul>
-              <li>Arquitectos</li>
-              <li>Ingenieros</li>
-              <li>Estudios profesionales</li>
-              <li>Desarrolladores</li>
-              <li>Empresas industriales</li>
-              <li>Inversores</li>
-            </ul>
-          </div>
- ---------------- -->   
         </div>
       </div>
     </section>
@@ -974,31 +954,6 @@
           <img src="img/mi_logo.png" alt="Logo ScanLabb" class="contacto-logo" onerror="this.style.display='none'">
         </div>
 
- 
-
-       <!-- FLYERS (flyer_01 = Mario/Sobre Mí · flyer_02 = Servicios, según tus capturas) -->
-<!-----------------------------------------------------------------------------------------------------
-        <p class="flyers-title">-- FLYERS DISPONIBLES --</p>
-        <div class="flyers-container">
-
-          <button type="button" class="flyer-btn" onclick="openFlyer('img/flyer_01.webp', 'Sobre Mi', 'sobre-mi', 'IR A SOBRE MI')">
-            <img src="img/flyer_01.webp" alt="Flyer Sobre Mi" class="flyer-thumb"
-                 onerror="this.src='https://placehold.co/400x520/000000/00E5FF.png?text=FLYER+01'">
-            <span class="flyer-caption">&gt; SOBRE_MÍ</span>
-            <span class="flyer-hint">CLIC PARA AMPLIAR</span>
-          </button>
-
-          <button type="button" class="flyer-btn" onclick="openFlyer('img/flyer_02.webp', 'Servicios ScanLabb', 'servicios', 'IR A SERVICIOS')">
-            <img src="img/flyer_02.webp" alt="Flyer Servicios ScanLabb" class="flyer-thumb"
-                 onerror="this.src='https://placehold.co/400x520/000000/00E5FF.png?text=FLYER+02'">
-            <span class="flyer-caption">&gt; SERVICIOS [SCANLABB]</span>
-            <span class="flyer-hint">CLIC PARA AMPLIAR</span>
-          </button>
-
-        </div>
-
--------------------------------- -->
-
         <!-- TARJETAS DE CONTACTO -->
         <div class="cards-container">
           <div class="card" style="text-align: center;">
@@ -1006,12 +961,12 @@
             <p><a href="https://wa.me/5492345446330" target="_blank">+54 9 2345 44 6330</a></p>
           </div>
           <div class="card" style="text-align: center;">
-            <h3>Sitio Web</h3>
+            <h3>Sitio web Estudio ScanLabb  </h3>
             <p><a href="https://scanlabb.github.io/" target="_blank">scanlabb.github.io</a></p>
           </div>
           <div class="card" style="text-align: center;">
             <h3>Diseño y Dirección</h3>
-            <p><a href="mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
+            <p><a href="https://mariomolinacc.github.io" target="_blank">mariomolinacc.github.io</a></p>
           </div>
         </div>
 
@@ -1023,7 +978,7 @@
       <div class="footer-inner">
         <img src="img/mi_logo.png" alt="ScanLabb" class="footer-logo" onerror="this.style.display='none'">
         <div class="footer-col">
-          <p class="footer-line footer-brand">&gt; SCANLABB © <span id="footer-year">2025</span> · Digitalización y Rescate Patrimonial</p>
+          <p class="footer-line footer-brand">&gt; Estudio ScanLabb © <span id="footer-year">2025</span> · Digitalización y Rescate Patrimonial</p>
           <nav class="footer-links footer-line" aria-label="Enlaces del sitio">
             <a href="#" onclick="showView('inicio', event)">Inicio</a>
             <a href="#" onclick="showView('servicios', event)">Servicios</a>
@@ -1077,28 +1032,6 @@
 <!-- ============ SCRIPT PRINCIPAL SCANLABB ============ -->
 <script>
 'use strict';
-
-/* ================= AJUSTE DINÁMICO DE URLS (PARA EVITAR BLOQUEOS ENTRE SITIOS) ================= */
-// Esto asegura que los enlaces internos siempre apunten al dominio correcto, 
-// ya sea scanlabb.github.io o mariomolina.github.io sin importar dónde se aloje el index.html
-(function() {
-  var currentHost = window.location.hostname; // Obtiene el dominio actual (ej: scanlabb.github.io)
-  var pathArray = window.location.pathname.split('/');
-  var repoName = pathArray[1] ? pathArray[1].replace(/\/$/, '') : ''; // Obtiene el nombre del repo si existe
-  
-  // Construir la ruta base dinámica
-  var basePath = currentHost;
-  if (repoName && repoName !== 'index.html' && currentHost.indexOf('github.io') !== -1) {
-    basePath = currentHost + '/' + repoName;
-  }
-
-  // Actualizar enlaces internos del HTML (proyectos.html, sobre_mi.html)
-  document.querySelectorAll('a[href^="proyectos.html"], a[href^="sobre_mi.html"]').forEach(function(link) {
-    var originalFile = link.getAttribute('href');
-    // Asegura que use el dominio actual dinámicamente
-    link.setAttribute('href', 'https://' + basePath + '/' + originalFile);
-  });
-})();
 
 /* ================= NAVEGACIÓN ENTRE VISTAS ================= */
 function showView(viewId, event) {
