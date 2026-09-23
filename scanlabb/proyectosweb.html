@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos - Mario Molina</title>
+    <style>
+        /* =======================================================================
+           PANEL DE PROPIEDADES PRINCIPAL (Sistema Paramétrico Total)
+                         "CSS Variables" o "Design Tokens"
+           Cambia aquí y se alterará toda la página (Fondos, textos, botones)
+           ======================================================================= */
+        :root {
+            /* 1. COLORES DE FONDO */
+            --fondo-pagina: #0c253c;       /* Fondo general (el que se ve detrás) #121212  |  Fondo CAD: 0c253c */
+            --fondo-secciones: #0c253c;    /* Fondo del sector  Portafolio #121212  |   Fondo CAD: 0c253c  */
+            --fondo-menu-footer: #1a1a1a;  /* Fondo del Menú superior y Footer #1a1a1a */
+            --fondo-tarjetas: #055196;     /* Fondo de los proyectos   #1e1e1e  */
+            --fondo-imagenes: #181818;     /* Fondo del contenedor de imágenes   #181818 */
+
+            /* 2. COLORES DE TEXTO */
+            --texto-titulos: #ffffff;      /* Títulos principales            #ffffff   */
+            --texto-normal: #e0e0e0;       /* Texto general de la página    #e0e0e0    */
+            --texto-tenue: #b0b0b0;        /* Texto de párrafos y menú         #b0b0b0 */
+            --texto-apagado: #808080;      /* Texto de derechos reservadas,    #808080  etc */
+
+            /* 3. COLORES DE ACENTO (Botones, links activos, líneas) */
+            --color-acento: #3498db;       /* Color principal de botones y destacados      #3498db  */
+            --color-acento-hover: #2980b9; /* Color al pasar el mouse por encima      #2980b9  */
+
+            /* 4. BORDES */
+            --borde-linea: #333333;       /* Bordes de separación generales      #333333 */
+            --borde-tarjeta: #2a2a2a;     /* Borde de las tarjetas               #2a2a2a */
+        }
+        /* =======================================================================
+           FIN DEL PANEL DE PROPIEDADES   |   "CSS Variables" o "Design Tokens"
+           ======================================================================= */
+
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--fondo-pagina); 
+            color: var(--texto-normal); 
+            line-height: 1.6; 
+        }     
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        
+        /* MENÚ */
+        nav { background: var(--fondo-menu-footer); padding: 15px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--borde-linea); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: var(--texto-titulos); text-decoration: none; }
+        .logo span { color: var(--color-acento); }
+        .menu { display: flex; list-style: none; }
+        .menu li { margin-left: 25px; }
+        .menu a { color: var(--texto-tenue); text-decoration: none; transition: color 0.3s; }
+        .menu a:hover { color: var(--color-acento); }
+        .menu .active { color: var(--color-acento); border-bottom: 2px solid var(--color-acento); padding-bottom: 5px; }
+        
+        /* HERO (BANNER SUPERIOR) */
+        .hero { background: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.85)), url(''); background-position: center; background-size: cover; height: 50vh; display: flex; align-items: center; text-align: center; color: var(--texto-titulos); border-bottom: 1px solid var(--borde-linea); }
+        .hero-content { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+        
+        /* SECCIÓN TRABAJOS/PORTAFOLIO */
+        .trabajos { padding: 80px 0; background: var(--fondo-secciones); }
+        .trabajos h2 { text-align: center; margin-bottom: 50px; color: var(--texto-titulos); position: relative; padding-bottom: 15px; font-size: 2.5rem; }
+        .trabajos h2:after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--color-acento); }                
+        .proyectos { display: grid; grid-template-columns: 1fr; gap: 60px; }
+        .proyecto { background: var(--fondo-tarjetas); border-radius: 10px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; border: 1px solid var(--borde-tarjeta); max-width: 100%; }
+        .proyecto:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2); border-color: var(--color-acento); }
+        .proyecto-info { padding: 25px; background: linear-gradient(to bottom, var(--fondo-tarjetas), var(--fondo-imagenes)); border-bottom: 1px solid var(--borde-tarjeta); }
+        .proyecto-info h3 { color: var(--texto-titulos); margin-bottom: 15px; font-size: 1.5rem; font-weight: 600; }
+        .proyecto-info p { color: var(--texto-tenue); margin-bottom: 20px; line-height: 1.5; }
+        
+        /* IMÁGENES */
+        .imagenes { padding: 0; background: var(--fondo-imagenes); }
+        .imagen { margin-bottom: 20px; border-radius: 0; overflow: hidden; position: relative; border-bottom: 1px solid var(--borde-tarjeta); }
+        .imagen:last-child { margin-bottom: 0; border-bottom: none; }
+        .imagen-img-wrap { position: relative; display: block; cursor: pointer; }
+        .imagen img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; }
+        .imagen-img-wrap:hover img { transform: scale(1.02); }
+        .etiqueta { background: var(--color-acento); color: var(--texto-titulos); padding: 6px 14px; border-radius: 0 0 8px 0; position: absolute; top: 0; left: 0; font-size: 0.85rem; font-weight: bold; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        
+        /* FOOTER */
+        footer { background: var(--fondo-menu-footer); color: var(--texto-tenue); padding: 40px 0; text-align: center; border-top: 1px solid var(--borde-linea); }
+        .social-links { display: flex; gap: 20px; margin-bottom: 20px; justify-content: center; }
+        .social-links a { color: var(--texto-tenue); font-size: 1.5rem; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+        .social-links a:hover { color: var(--color-acento); background: rgba(52, 152, 219, 0.1); transform: translateY(-3px); }
+        .social-links svg { width: 20px; height: 20px; fill: currentColor; }
+        .copyright { font-size: 0.9rem; color: var(--texto-apagado); }
+        @media (max-width: 768px) { .nav-container { flex-direction: column; } .menu { margin-top: 15px; flex-wrap: wrap; justify-content: center; } .menu li { margin: 5px 10px; } .hero h1 { font-size: 2.5rem; } .trabajos h2 { font-size: 2rem; } .proyectos { gap: 40px; } }
+        @media (min-width: 1024px) { .container { width: 95%; max-width: none; } }
+
+        /* CSS BOTÓN Y MODAL */
+        .btn-ver-web {
+            display: block;
+            text-align: center;
+            margin: 15px;
+            padding: 12px;
+            background: var(--color-acento);
+            color: var(--texto-titulos);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .btn-ver-web:hover { background: var(--color-acento-hover); }
+
+        .modal-overlay {
+            display: none; 
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.activo { display: flex; }
+        .modal-contenido {
+            width: 90%;
+            max-width: 600px;
+            background: var(--fondo-menu-footer);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--borde-linea);
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .modal-titulo-principal { color: var(--texto-titulos); font-size: 1.8rem; margin-bottom: 15px; }
+        .modal-subtitulo { color: var(--texto-tenue); margin-bottom: 30px; }
+        .btn-modal-ver-sitio {
+            display: inline-block;
+            background: var(--color-acento);
+            color: var(--texto-titulos);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+        .btn-modal-ver-sitio:hover { background: var(--color-acento-hover); }
+        .btn-modal-cerrar {
+            display: block;
+            margin: 20px auto 0;
+            color: var(--texto-apagado);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Mario<span>Molina</span></a>
+            <ul class="menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="proyectos.html">Visualizaciones 3D</a></li>
+                <li><a href="proyectosweb.html" class="active">Diseño Web</a></li>
+                <li><a href="sobre_mi.html">Sobre Mí</a></li>               
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Mis Proyectos Web</h1>
+            <p>Haz clic en las imágenes para visualizar los sitios en vivo</p>
+        </div>
+    </section>
+
+    <section class="trabajos">
+        <div class="container">
+            <h2>Portafolio</h2>
+            
+            <div id="galeria-proyectos" class="proyectos">
+                
+                <!-- PROYECTO 2 -->
+                <div class="proyecto">
+                    <div class="proyecto-info">
+                        <h3>Proyecto Web para Profesional</h3>
+                        <p>Diseño web para Estudio de Diseño y Construcción - Ciudad de 25 de Mayo, Prov. de Buenos Aires</p>
+                    </div>
+                    <div class="imagenes">
+                        <div class="imagen">
+                            <span class="etiqueta">Web en vivo</span>
+                            <!-- Imagen separada, sin botones encima que arruinen el clic -->
+                            <div class="imagen-img-wrap" onclick="abrirModal('https://mariomolinacc.github.io', 'Proyecto Punta del Este')">
+                                <img src="img_web/web_001.webp" alt="Vista previa Punta del Este">
+                            </div>
+                            <!-- Botón separado y limpio -->
+                            <a href="https://mariomolinacc.github.io" target="_blank" class="btn-ver-web">Ver Sitio Web Completo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROYECTO 1 -->
+                <div class="proyecto">
+                    <div class="proyecto-info">
+                        <h3>Diseño Web Corporativo</h3>
+                        <p>Sitio del Estudio ScanLabb - Digitalización · Planos · Mapas · Desarrollo Web - Ciudad 25 de Mayo - Prov. de Buenos Aires</p>
+                    </div>
+                    <div class="imagenes">
+                        <div class="imagen">
+                            <span class="etiqueta">Web en vivo</span>
+                            <div class="imagen-img-wrap" onclick="abrirModal('https://scanlabb.github.io', 'Proyecto Web / Visores')">
+                                <img src="img_web/web_002.webp" alt="Vista previa Corporativo">
+                            </div>
+                            <a href="https://scanlabb.github.io" target="_blank" class="btn-ver-web">Ver Sitio Web Completo</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
+            </div>
+            <p class="copyright">© 2023 Mario Molina - Diseño y Construcción - Todos los derechos reservados – Buenos Aires, Argentina 🌎.</p>
+            <span class="icono"> 🌐 </span>
+            <a href="https://mariomolinacc.github.io" target="_blank" style="color: cyan; text-decoration: none; font-size: 12px; font-family: Arial, sans-serif;"> Diseño Web ScanLabb</a>
+        </div>
+    </footer>
+
+    <!-- MODAL SIMPLIFICADO: Muestra el botón directo para abrir la web en otra pestaña -->
+    <div id="modalOverlay" class="modal-overlay" onclick="cerrarModal(event)">
+        <div class="modal-contenido" onclick="event.stopPropagation()">
+            <h2 id="modalTitulo" class="modal-titulo-principal">Título</h2>
+            <p class="modal-subtitulo">Haz clic en el siguiente botón para abrir el sitio web en vivo en una nueva pestaña.</p>
+            <a id="modalLinkExterno" href="#" target="_blank" class="btn-modal-ver-sitio">Ver Sitio Web en Vivo ↗</a>
+            <span class="btn-modal-cerrar" onclick="cerrarModal()">Cerrar ✖</span>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(url, titulo) {
+            // Si no hay URL real, mostramos Próximamente
+            if (url === '#' || url === '') {
+                document.getElementById('modalTitulo').innerText = 'Próximamente';
+                document.getElementById('modalLinkExterno').style.display = 'none'; 
+            } else {
+                document.getElementById('modalTitulo').innerText = titulo;
+                document.getElementById('modalLinkExterno').href = url;
+                document.getElementById('modalLinkExterno').style.display = 'inline-block'; 
+            }
+            document.getElementById('modalOverlay').classList.add('activo');
+        }
+
+        function cerrarModal(event) {
+            // Permite cerrar tocando el fondo oscuro o el botón de cerrar
+            if (event && event.target.id !== 'modalOverlay' && event.target.className !== 'btn-modal-cerrar') {
+                return; 
+            }
+            document.getElementById('modalOverlay').classList.remove('activo');
+        }
+    </script>
+</body>
+</html>
