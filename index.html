@@ -8,7 +8,6 @@
   <style>
     /* ========================================================================
        PROPIEDADES DEL SISTEMA (System Variables / Edit CAD)
-       Modifica aquí para cambiar全局 los estilos.
        ======================================================================== */
     :root {
       --bg-dark: #050505;
@@ -22,9 +21,17 @@
       --text-dim: #555;
       --border-dim: #333;
       --cad-font: 'Lucida Console', 'Courier New', monospace;
-      --gap-size: 20px;
-      --card-padding: 30px;
-      --border-radius: 0px; /* Set to 8px if you want rounded corners */
+      
+      /* === AJUSTES DE COMPRESIÓN / ESPACIOS === */
+      --gap-size: 12px;          
+      --card-padding: 20px;      
+      --border-radius: 0px;
+      
+      /* === PROPIEDADES DE VISUALIZACIÓN === */
+      --access-layout: 1fr; /* MANTENIDO APILADO (ORIGINAL) */
+      
+      --portal-highlight-color: #00E5FF; /* ¡AQUÍ PUEDES CAMBIAR EL COLOR DE PORTAL_ POR CÓDIGO HEX! */
+      --portal-cursor-visible: inline-block; /* Usa 'none' para ocultar el cursor de PORTAL_ */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,17 +41,17 @@
       font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-light);
-      line-height: 1.6;
+      line-height: 1.4;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 20px 15px;
     }
 
-    /* Capa CRT: scanlines sutiles sobre toda la pantalla */
+    /* Capa CRT */
     body::after {
       content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none; z-index: 9998;
@@ -64,63 +71,61 @@
     }
 
     ::selection { background: var(--accent-cyan); color: #000; }
-
-    a { color: var(--accent-cyan); text-decoration: none; transition: none; }
+    a { color: var(--accent-cyan); text-decoration: none; }
     a:hover { color: var(--accent-cyan-hover); }
 
-    /* ========================================================================
-       OBJETO: CONTENEDOR PRINCIPAL
-       ======================================================================== */
-    .terminal-container {
-      width: 100%;
-      max-width: 1200px;
-      z-index: 10;
-    }
+    .terminal-container { width: 100%; max-width: 900px; z-index: 10; }
 
     /* ========================================================================
-       OBJETO: HEADER / BOOT SCREEN
+       HEADER / BOOT SCREEN
        ======================================================================== */
     .boot-screen {
       font-family: var(--cad-font);
       color: var(--accent-amber);
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       letter-spacing: 1px;
-      margin-bottom: var(--gap-size);
+      margin-bottom: 15px;
       text-align: center;
       border-bottom: 1px dashed var(--border-dim);
-      padding-bottom: 20px;
+      padding-bottom: 10px;
     }
 
     .portal-title {
       font-family: var(--cad-font);
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2rem, 7vw, 3.5rem);
       background: linear-gradient(0deg, #FFFFFF 0%, var(--accent-cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 4px;
-      line-height: 1.1;
+      line-height: 1;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     .portal-subtitle {
       font-family: var(--cad-font);
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 0.85rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
+    }
+
+    /* ESTILO PARA PORTAL_ */
+    .portal-highlight {
+      color: var(--portal-highlight-color);
+      font-weight: bold;
     }
 
     /* ========================================================================
-       OBJETO: GRID DE ACCESOS DIRECTOS (Portal Cards)
+       GRID DE ACCESOS DIRECTOS (Portal Cards)
        ======================================================================== */
     .access-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: var(--access-layout);
       gap: var(--gap-size);
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
 
     .portal-card {
@@ -129,100 +134,99 @@
       padding: var(--card-padding);
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       position: relative;
       transition: border-color 0.3s ease, transform 0.3s ease;
     }
 
     .portal-card:hover {
       border-color: var(--accent-cyan);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 229, 255, 0.1);
     }
 
     .card-header {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       border-bottom: 1px dashed var(--border-dim);
-      padding-bottom: 15px;
+      padding-bottom: 10px;
     }
 
     .card-logo {
-      width: 60px;
-      height: 60px;
+      width: 45px;
+      height: 45px;
       object-fit: contain;
       filter: grayscale(100%) brightness(1.2);
       transition: filter 0.3s;
     }
 
-    .portal-card:hover .card-logo {
-      filter: none;
+    .portal-card:hover .card-logo { filter: none; }
+
+    /* === AJUSTE DE TÍTULOS EN EL MISMO RENGLÓN === */
+    .card-titles {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .card-titles h2 {
       font-family: var(--cad-font);
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       color: #FFF;
       letter-spacing: 1px;
+      margin: 0;
     }
 
     .card-titles span {
       font-family: var(--cad-font);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--accent-cyan);
       letter-spacing: 2px;
       text-transform: uppercase;
     }
 
-    .card-body {
-      flex: 1;
-    }
-
     .card-list {
       list-style: none;
       font-family: var(--cad-font);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
     .card-list li {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       display: flex;
       align-items: flex-start;
       gap: 8px;
     }
 
-    .card-list li::before {
-      content: '>';
-      color: var(--accent-cyan);
-      font-weight: bold;
-    }
+    .card-list li::before { content: '>'; color: var(--accent-cyan); font-weight: bold; }
 
     .card-footer {
-      margin-top: 15px;
+      margin-top: 5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px dashed var(--border-dim);
-      padding-top: 15px;
+      padding-top: 10px;
     }
 
     .card-url {
       font-family: var(--cad-font);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
       word-break: break-all;
     }
 
     .enter-btn {
       display: inline-block;
-      padding: 8px 20px;
+      padding: 6px 15px;
       background: transparent;
       color: var(--accent-cyan);
       border: 1px solid var(--accent-cyan);
       font-family: var(--cad-font);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -233,52 +237,49 @@
     .enter-btn:hover {
       background: var(--accent-cyan);
       color: #000;
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
     }
 
     /* ========================================================================
-       OBJETO: ZONA EXPANSIBLE (Add More)
+       ZONA EXPANSIBLE (Add More)
        ======================================================================== */
     .expansion-zone {
       border: 1px dashed var(--border-dim);
-      padding: 30px;
+      padding: 15px;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .expansion-title {
       font-family: var(--cad-font);
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .add-link {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-family: var(--cad-font);
       color: var(--text-dim);
-      font-size: 0.9rem;
-      padding: 10px 20px;
+      font-size: 0.8rem;
+      padding: 8px 15px;
       border: 1px dashed var(--border-dim);
     }
-    .add-link:hover {
-      color: var(--accent-amber);
-      border-color: var(--accent-amber);
-    }
+    .add-link:hover { color: var(--accent-amber); border-color: var(--accent-amber); }
 
     /* ========================================================================
        FOOTER
        ======================================================================== */
     .terminal-footer {
-      margin-top: 40px;
+      margin-top: 20px;
       border-top: 1px solid var(--accent-cyan);
-      padding-top: 15px;
+      padding-top: 10px;
       font-family: var(--cad-font);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
       text-align: center;
       letter-spacing: 1px;
@@ -288,119 +289,93 @@
     @keyframes blink { 50% { opacity: 0; } }
     .cursor { 
       display: inline-block; 
-      width: 10px; 
-      height: 1.2em; 
+      width: 8px;  
+      height: 1em; 
       background: var(--accent-cyan); 
       vertical-align: text-bottom; 
       animation: blink 1s steps(1) infinite; 
-      margin-left: 5px;
+      margin-left: 4px;
+    }
+
+    /* === CURSOR ESPECÍFICO DE PORTAL_ === */
+    .portal-cursor {
+      display: var(--portal-cursor-visible);
+      background: var(--portal-highlight-color);
     }
 
     /* Responsive */
     @media (max-width: 768px) {
-      .access-grid {
-        grid-template-columns: 1fr;
-      }
-      .card-footer {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-      }
+      .access-grid { grid-template-columns: 1fr; }
+      .card-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-
 <div class="terminal-container">
-
-  <!-- PANTALLA DE ARRANQUE / BOOT -->
   <div class="boot-screen">
-    &gt; INIT_SYSTEM... OK<br>
-    &gt; LOADING_MODULES [CAD] [BIM] [GIS] [WEB]... OK<br>
-    &gt; ESTABLISHING_CONNECTION... OK<br>
-    &gt; ACCESS GRANTED<span class="cursor"></span>
+    &gt; INIT_SYSTEM... OK<br>&gt; LOADING_MODULES [CAD] [BIM] [GIS] [WEB]... OK<br>&gt; ESTABLISHING_CONNECTION... OK<br>&gt; ACCESS GRANTED<span class="cursor_"></span>
   </div>
-  <p class="portal-subtitle">&gt; PORTAL_</p>
+  <p class="portal-subtitle">&gt; <span class="portal-highlight">PORTAL_</span><span class="cursor portal-cursor"></span></p>
   <h1 class="portal-title">MARIO MOLINA</h1>
   <p class="portal-subtitle">&gt; SELECT WORKSPACE ENVIRONMENT_</p>
 
-  <!-- GRID DE ACCESOS DIRECTOS -->
   <div class="access-grid">
-
     <!-- ACCESO 1: SCANLABB -->
     <div class="portal-card">
       <div class="card-header">
-        <!-- Reemplaza src con la ruta real de tu logo ScanLabb -->
-        <img src="/scanlabb/img/mi_logo.png" alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src="img/mi_logo" alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>ScanLabb</h2>
-          <span>Estudio Digital</span>
+          <span>| Estudio Digital</span>
         </div>
       </div>
       <div class="card-body">
         <ul class="card-list">
-          <li>Diseño</li>
-          <li>Digitalización</li>
-          <li>Planos y Mapas</li>
-          <li>Desarrollo Web</li>
+          <li>Digitalización · Planos · Mapas · Modelado 3D</li>
+          <li>Desarrollo de plataformas Web · Visores 2D/3D</li>
         </ul>
       </div>
       <div class="card-footer">
         <span class="card-url">scanlabb.github.io</span>
-        <a href="/scanlabb/index.html" class="enter-btn">[ INGRESAR ]</a>
+        <a href="https://scanlabb.github.io/scanlabb/index.html" class="enter-btn">[ INGRESAR ]</a>
       </div>
     </div>
 
     <!-- ACCESO 2: MARIO MOLINA CC -->
     <div class="portal-card">
       <div class="card-header">
-        <!-- Reemplaza src con la ruta real de tu logo MM -->
-        <img src="mmcc/img/mi_logo.png" alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src="img/mi_logo_mm" alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>Mario Molina</h2>
-          <span>Diseño &amp; Construcción</span>
+          <span>| Diseño &amp; Construcción</span>
         </div>
       </div>
       <div class="card-body">
         <ul class="card-list">
-          <li>Planos</li>
-          <li>Proyectos</li>
-          <li>Dirección de Obras</li>
+          <li>Diseño arquitectónico · Dirección de Obras</li>
+          <li>Plano municipal · Proyectos · Regularizaciones</li>
         </ul>
       </div>
       <div class="card-footer">
         <span class="card-url">mariomolinacc.github.io</span>
-        <a href="/mmcc/index.html" class="enter-btn">[ INGRESAR ]</a>
+        <a href="https://scanlabb.github.io/mmcc/index.html" class="enter-btn">[ INGRESAR ]</a>
       </div>
     </div>
-
-    <!-- ACCESO EXTRA (Plantilla para agregar más en el futuro) -->
-    <!-- Para usarlo, solo cambia el estilo display a flex -->
-    <div class="portal-card" style="display: none;">
-       <!-- Copia la estructura de arriba aquí cuando tengas un nuevo proyecto -->
-    </div>
-
+    <!-- ACCESO EXTRA (Plantilla) -->
+    <div class="portal-card" style="display: none;"></div>
   </div>
 
-  <!-- ZONA DE EXPANSIÓN (Para futuros accesos) -->
   <div class="expansion-zone">
     <p class="expansion-title">&gt; SYSTEM READY FOR NEW MODULES_</p>
-    <a href="#" class="add-link" onclick="alert('Reserva de espacio para futuros accesos directos.')">
-      + ADD NEW WORKSPACE
-    </a>
+    <a href="#" class="add-link" onclick="alert('Reserva de espacio para futuros accesos directos.')">+ ADD NEW WORKSPACE</a>
   </div>
 
-  <!-- FOOTER -->
   <div class="terminal-footer">
-    &gt; PORTAL_TERMINAL_v1.0 · MARIO MOLINA © <span id="year">2024</span> · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
+    &gt; PORTAL_TERMINAL_v1.01 · MARIO MOLINA © <span id="year">2026</span> · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
   </div>
-
 </div>
-
 <script>
-  // Script para el año dinámico
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
-
 </body>
 </html>
