@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mario Molina | Constructor Civil</title>
+  <style>
+    /* =======================================================================
+       PANEL MAESTRO PARAMÉTRICO (DESIGN TOKENS)
+       ======================================================================= */
+    :root {
+      /* 1. SISTEMA DE COLORES */
+      --color-acento: #00E5FF;              /* Cyan brillante (Basado en tu afiche) */
+      --color-acento-hover: #5BF2FF;        
+      --color-acento-hover-bg: rgba(0, 229, 255, 0.1);
+      --color-fondo-principal: #050505;     
+      --color-fondo-secundario: #08090C;    
+      --color-fondo-menu: #000000;          
+      --color-fondo-seccion: #12141a;      
+      --color-texto-claro: #FFFFFF;         
+      --color-texto-base: #E2E8F0;          
+      --color-texto-tenue: #94A3B8;         
+      --color-borde-fino: #333333;          
+      
+      /* 2. TIPOGRAFÍAS */
+      --fuente-web: 'Trebuchet MS', Tahoma, Geneva, Verdana, sans-serif;
+      --fuente-cad: 'Lucida Console', 'Courier New', monospace;
+      --tamano-hero-h1: 2.8rem;    /* Original 3.5 */
+      --tamano-hero-h2: 1.8rem;
+      --tamano-titulo-h2: 2.5rem;
+      
+      /* 3. MEDIDAS Y ESPACIOS */
+      --altura-hero: 100vh;
+      --max-ancho-pagina: 1200px;
+      --padding-secciones: 80px 40px;
+      --margen-entre-tarjetas: 25px;
+      
+      /* 4. EFECTOS Y SOMBRAS */
+      --sombra-caja: 0 5px 15px rgba(0,0,0,0.3);
+      --sombra-caja-hover: 0 15px 30px rgba(0,0,0,0.5);
+      --sombra-flotante: 0 4px 15px rgba(0, 229, 255, 0.4);
+      --tamano-grid-fondo: 20px;
+    }
+    /* =======================================================================
+       FIN DEL PANEL MAESTRO
+       ======================================================================= */
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--fuente-web);
+      background-color: var(--color-fondo-principal);
+      color: var(--color-texto-base);
+      line-height: 1.6;
+    }
+
+    a { color: var(--color-acento); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--color-acento-hover); }
+
+    .main-nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      background-color: var(--color-fondo-menu); padding: 0 40px; height: 70px;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+      border-bottom: 1px solid var(--color-acento);
+    }
+    
+    .nav-logo-link { display: flex; align-items: center; gap: 12px; }
+    .nav-logo-img { height: 50px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+    .nav-logo-text { font-size: 1rem; font-weight: bold; color: var(--color-texto-claro); }
+    .nav-logo-text span { color: var(--color-acento); }
+
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav a { color: var(--color-texto-claro); font-weight: normal; font-size: 0.9rem; transition: color 0.2s; letter-spacing: 0.5px; }
+    nav a:hover { color: var(--color-acento-hover); }
+    .menu-icon { display: none; font-size: 2rem; color: var(--color-texto-claro); cursor: pointer; }
+
+    /* --- HERO (ESTILO AFICHE) --- */
+    .hero {
+      margin-top: 0; 
+      min-height: var(--altura-hero); 
+      height: auto; 
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      color: var(--color-texto-claro);
+      background-image: url('building.jpeg'); 
+      background-size: cover;
+      background-position: center top; 
+      background-attachment: fixed;
+      position: relative;
+      border-bottom: 5px solid var(--color-acento);
+      padding-top: 70px; 
+      padding-bottom: 0; 
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.55) 0%, rgba(5, 5, 5, 0.90) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 900px;
+      padding: 40px 20px 0 20px; 
+      width: 100%;
+    }
+    
+    .hero-sello {
+      display: flex; flex-direction: column; align-items: center; margin-bottom: 40px;
+    }
+    .hero-logo { width: 180px; margin-bottom: 10px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.7)); }
+    .hero-titulo { font-size: var(--tamano-hero-h1); line-height: 1; margin-bottom: 5px; letter-spacing: 2px; }
+    .hero-titulo span { display: block; font-size: 1.5rem; font-weight: normal; color: var(--color-texto-claro); margin-top: 5px; }  /*  1.8 */
+    .hero h2 { 
+      font-size: 1.5rem; color: var(--color-acento); font-weight: bold; letter-spacing: 4px; 
+      margin-top: 15px; text-transform: uppercase; border-top: 1px solid var(--color-acento); 
+      border-bottom: 1px solid var(--color-acento); padding: 8px 20px; 
+    }
+    .hero .profesion { 
+      font-size: 1.1rem; max-width: 700px; margin: 30px auto 40px auto; line-height: 1.6; 
+      opacity: 0.9; text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
+    }
+    
+    .bim-flow-title { text-transform: uppercase; letter-spacing: 2px; color: var(--color-acento); font-size: 0.9rem; margin-bottom: 20px; }
+
+    .banner-bim-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; position: relative; z-index: 2; }
+    .bim-step-card { position: relative; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); transition: transform 0.3s, border-color 0.3s; }
+    .bim-step-card:hover { transform: translateY(-5px); border-color: var(--color-acento); }
+    .bim-step-card img { width: 100%; height: auto; display: block; }
+
+    .bim-flow-wrapper {
+      position: relative; z-index: 2; width: 100%; max-width: 800px; margin: 0 auto; padding-bottom: 100px; 
+    }
+    .bim-flow-wrapper::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 250px; 
+      background: linear-gradient(to bottom, transparent 0%, rgba(5, 5, 5, 0.85) 100%); z-index: 3; pointer-events: none; 
+    }
+
+    /* BANNER INFERIOR (Marcas/Contacto) */
+    .marcas-banner { 
+      position: relative; width: 100%; background-color: rgba(0, 0, 0, 0.85); 
+      backdrop-filter: blur(8px); padding: 30px 0; overflow: hidden; 
+      border-top: 1px solid var(--color-borde-fino); z-index: 4; margin-top: -80px; 
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px;
+    }
+    .contacto-banner-item { font-family: var(--fuente-cad); color: var(--color-texto-claro); font-size: 1.1rem; letter-spacing: 1px; }
+    .contacto-banner-item span { color: var(--color-acento); }
+
+    .section { padding: var(--padding-secciones); max-width: var(--max-ancho-pagina); margin: 0 auto; }
+    .section-full-dark { background-color: var(--color-fondo-seccion); color: var(--color-texto-claro); }
+    .section-full-grey { background-color: var(--color-fondo-principal); color: var(--color-texto-claro); }
+    .section h2 { font-size: var(--tamano-titulo-h2); margin-bottom: 40px; font-family: Tahoma, Geneva, sans-serif; border-bottom: 3px solid var(--color-acento); display: inline-block; padding-bottom: 10px; }
+
+    /* --- SOBRE MÍ --- */
+    .sobre-mi-section { position: relative; background-color: var(--color-fondo-principal); color: var(--color-texto-claro); overflow: hidden; }
+    .sobre-mi-content { position: relative; z-index: 2; padding: var(--padding-secciones); max-width: 1100px; margin: 0 auto; }
+    .sobre-mi-texto { flex: 1; }
+    .sobre-mi-texto p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+    .sobre-mi-texto p strong { color: var(--color-acento); }
+
+    .servicios { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--margen-entre-tarjetas); }
+    .servicio-item { display: flex; align-items: flex-start; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 4px; border-left: 5px solid var(--color-acento); transition: background 0.3s, transform 0.3s; }
+    .servicio-item:hover { background: var(--color-acento-hover-bg); transform: translateY(-5px); }
+    .servicio-item .icono { font-size: 2rem; margin-right: 20px; flex-shrink: 0; }
+    .servicio-item h3 { color: var(--color-texto-claro); margin-bottom: 8px; font-size: 1.2rem; }
+    .servicio-item p { color: var(--color-texto-tenue); }
+
+    /* --- PROYECTOS --- */
+    .galeria-proyectos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .proyecto-item { background: var(--color-fondo-secundario); border-radius: 4px; overflow: hidden; box-shadow: var(--sombra-caja); border: 1px solid var(--color-borde-fino); transition: transform 0.3s, box-shadow 0.3s; position: relative; }
+    .proyecto-item:hover { transform: translateY(-10px); box-shadow: var(--sombra-caja-hover); border-color: var(--color-acento); }
+    .proyecto-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
+    .proyecto-etiqueta { text-align: center; padding: 20px; font-size: 1.1rem; font-weight: 600; color: var(--color-texto-claro); background: var(--color-fondo-secundario); }
+
+    .cta-section { text-align: center; padding: 80px 20px; background-color: var(--color-acento); color: var(--color-fondo-menu); }
+    .cta-section h2 { font-size: var(--tamano-titulo-h2); margin-bottom: 30px; border-bottom: 3px solid rgba(255,255,255,0.5); display: inline-block; padding-bottom: 10px; color: var(--color-fondo-menu); }
+    .whatsapp-btn { background: #25d366; color: white; padding: 18px 40px; font-size: 1.3rem; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s; display: inline-block; }
+    .whatsapp-btn:hover { background: #128c7e; color: white; transform: translateY(-3px); }
+
+    /* --- CONTACTO --- */
+    .contacto-section { position: relative; background-color: var(--color-fondo-seccion); color: var(--color-texto-claro); overflow: hidden; }
+    .contacto-content { position: relative; z-index: 2; padding: var(--padding-secciones); max-width: var(--max-ancho-pagina); margin: 0 auto; }
+    .contacto-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
+    .contacto-item { display: flex; align-items: flex-start; gap: 15px; background: rgba(0, 0, 0, 0.6); padding: 20px; border-radius: 4px; backdrop-filter: blur(5px); border: 1px solid var(--color-borde-fino); }
+    .contacto-item .icono { font-size: 1.5rem; }
+    .contacto-enlace { color: var(--color-acento); }
+    .contacto-enlace:hover { color: var(--color-acento-hover); }
+
+    footer { background-color: var(--color-fondo-menu); color: var(--color-texto-tenue); text-align: center; padding: 40px 20px; border-top: 5px solid var(--color-acento); }
+
+    .wa-float { position: fixed; bottom: 30px; right: 30px; z-index: 999; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: var(--sombra-flotante); transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.1); color: #fff; }
+    .wa-float svg { width: 35px; height: 35px; fill: #fff; }
+
+    @media (max-width: 768px) {
+      .menu-icon { display: block; }
+      nav ul { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: var(--color-fondo-menu); padding: 20px; gap: 20px; border-top: 1px solid var(--color-borde-fino); }
+      nav ul.active { display: flex; }
+      
+      .hero { background-attachment: scroll; background-position: center; padding-top: 90px; }
+      .hero-content { padding-top: 0; }
+      .hero-logo { width: 150px; } 
+      .hero-titulo { font-size: 2.5rem; }        /* --- Original 2.5 --- */ 
+      .hero-titulo span { font-size: 1.4rem; }
+      .hero h2 { font-size: 1.2rem; }
+      .hero .profesion { font-size: 1.05rem; }
+      .banner-bim-flow { grid-template-columns: repeat(2, 1fr); }
+      .bim-flow-wrapper { padding-bottom: 80px; }
+      
+      .nav-logo-text { font-size: 0.85rem; }
+      .nav-logo-img { height: 40px; }
+
+      .sobre-mi-content, .contacto-content { padding: 60px 20px; }
+      .section { padding: 60px 20px; }
+      .section h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="https://wa.me/5492345446330?text=Hola%20Mario,%20necesito%20información%20sobre%20sus%20servicios" class="wa-float" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<nav class="main-nav">
+  <a href="#inicio" class="nav-logo-link">
+    <img src="mi_logo.png" alt="Logo MIM" class="nav-logo-img">
+    <div class="nav-logo-text">Diseño y <span>Construcción</span></div>
+  </a>
+  <div class="menu-icon" id="menuToggle">≡</div>
+  <ul id="navMenu">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#sobre_mi">Sobre mí</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO FULLSCREEN (ESTILO AFICHE) -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <div class="hero-sello">
+      <img src="mi_logo_mm.png" alt="Logo MIM" class="hero-logo">
+      <h1> Mario Molina</h1>
+      <div class="hero-titulo"><span>Constructor Civil</span></div>
+    </div>
+    
+    <h4>Diseño Arquitectónico · Dirección de Obras<br>
+         Planos · Proyectos · Regularizaciones· Permisos de Edificación</h4>
+    
+    <p class="profesion">Soluciones integrales en diseño, gestión y dirección de obra para clientes particulares y empresas.</p>
+    
+    <h3 class="bim-flow-title">Flujo de trabajo</h3>
+    <div class="banner-bim-flow">
+      <div class="bim-step-card"><img src="bim_01.jpg" alt="Diseño Arquitectónico y Estructural"></div>
+      <div class="bim-step-card"><img src="bim_02.jpg" alt="Modelado BIM Coordinación 3D"></div>
+      <div class="bim-step-card"><img src="bim_03.jpg" alt="Análisis GIS y Gestión Territorial"></div>
+      <div class="bim-step-card"><img src="bim_04.jpg" alt="Documentación Técnica y Presupuestos"></div>
+    </div>
+  </div>
+
+  <!-- Envoltorio con gradiente desvanecido -->
+  <div class="bim-flow-wrapper"></div>
+
+  <!-- BANNER INFERIOR DE CONTACTO (COMO EN EL AFICHE) -->
+  <div class="marcas-banner">
+    <div class="contacto-banner-item">🌐 <span>mariomolinacc.github.io</span></div>
+    <div class="contacto-banner-item">📱 <span>+54 9 2345 44 6330</span></div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section class="sobre-mi-section" id="sobre_mi">
+  <div class="sobre-mi-content">
+    <h2>Sobre mí</h2>
+    <div class="sobre-mi-texto">
+      <p>Soy <strong>Mario Molina</strong> Constructor Civil argentino (titulado en 1986), con competencias para diseñar, dirigir y construir edificios para diversos usos (residencial, comercial, oficinas, depósitos). Me especializo en el diseño y optimización de proyectos de edificación mediante la integración de tecnologías como BIM, CAD, CAE, impresión 3D y Geomática. </p>
+      <p>Con más de tres décadas de experiencia desarrollado y dirigiendo proyectos de ingeniería y construcción, desde viviendas hasta complejos industriales. </p>
+      <p>Mi experiencia corporativa incluye roles como diseñador CAD/CAE para empresas notables como Arcor, Philips, Whirlpool y Peabody, y Gerente de Ingeniería en Philco, supervisando equipos multidisciplinarios (ingeniería, producción, calidad) y operaciones, reportando a la Gerencia General.</p>
+      <p>Desde 2010, asesoré a inversores, family offices y empresas multinacionales (Daewoo, Sanyo, Newsan, Midas) en reconversión de activos inmobiliarios, optimizando costos y rentabilidad.</p>
+      <p>Actualmente dirijo mi propio estudio, ofreciendo soluciones completas que incluyen diseño conceptual, documentación técnica, planificación y dirección técnica de obras.</p>
+      <p><em>"Mi objetivo es traducir tu idea en un proyecto viable, funcional y bien ejecutado, acompañándote desde el primer boceto hasta la entrega final de la obra".</em></p>
+      <p><strong>Cuéntame, ¿Necesitas asesoría, planos o supervisión?</strong> Estoy aquí para ayudarte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS (SEGÚN AFICHE) -->
+<section class="section-full-grey" id="servicios">
+  <div class="section">
+    <h2>Mis servicios</h2>
+    <div class="servicios">
+      <div class="servicio-item"><div class="icono">🏠</div><div><h3>Residencial</h3><p>Casas, viviendas multifamiliares y barrios privados.</p></div></div>
+      <div class="servicio-item"><div class="icono">🏢</div><div><h3>Oficinas y Comercio</h3><p>Diseño y construcción de espacios de trabajo y retail.</p></div></div>
+      <div class="servicio-item"><div class="icono">🏬</div><div><h3>Comercios e Industria</h3><p>Naves industriales, depósitos y locales comerciales.</p></div></div>
+      <div class="servicio-item"><div class="icono">📋</div><div><h3>Gestión y Dirección</h3><p>Documentación, planificación y supervisión técnica de obras.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section class="section-full-dark">
+  <div class="section">
+    <h2>Mis Proyectos</h2>
+    <div class="galeria-proyectos">
+      <div class="proyecto-item">
+        <img src="img/proyecto_pe_01.webp" alt="Edificio multifamiliar y comercial - Punta del Este, Uruguay" loading="lazy">
+        <p class="proyecto-etiqueta">🏛️ Edificio multifamiliar y comercial - Punta del Este</p>
+      </div>
+      <div class="proyecto-item">
+        <img src="img/proyecto_df_01.webp" alt="Proyecto Casa Dufaur, San Isidro (BA)" loading="lazy">
+        <p class="proyecto-etiqueta">🏛️ Proyecto Casa Dufaur, San Isidro (BA)</p>
+      </div>
+      <div class="proyecto-item">
+        <img src="img/proyecto_ca_01.webp" alt="Proyecto Casa Ayacucho, San Isidro (BA)" loading="lazy">
+        <p class="proyecto-etiqueta">🏛️ Proyecto Casa Ayacucho, San Isidro (BA)</p>
+      </div>        
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <h2>¡Solicita tu presupuesto sin cargo!</h2>
+  <a href="https://wa.me/5492345446330?text=Hola%20Mario,%20necesito%20información%20sobre%20sus%20servicios" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
+</div>
+
+<!-- CONTACTO -->
+<section class="contacto-section" id="contacto">
+  <div class="contacto-content">
+    <h2>Contacto</h2>
+    <div class="contacto-info">
+      <div class="contacto-item"><span class="icono">📱</span><div><strong>WhatsApp:</strong> <a href="https://wa.me/5492345446330" target="_blank" class="contacto-enlace">+549 2345 44 6330</a></div></div>
+      <div class="contacto-item"><span class="icono">🌐</span><div><strong>Sitio web:</strong> <a href="https://bio.site/mmolina" target="_blank" class="contacto-enlace">bio.site/mmolina</a></div></div>
+      <div class="contacto-item"><span class="icono">💻</span><div><strong>Github:</strong> <a href="https://mariomolinacc.github.io" target="_blank" class="contacto-enlace">mariomolinacc.github.io</a></div></div>
+      <div class="contacto-item"><span class="icono">📍</span><div><strong>Oficina:</strong> Calle 11, N°1065, 25 de Mayo, (BA) 🇦🇷</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; <script>document.write(new Date().getFullYear())</script> Mario Molina | Constructor Civil · Todos los derechos reservados · 25 de Mayo, Buenos Aires · Argentina</p>
+  <a href="https://mariomolinacc.github.io" target="_blank">🌐 Design_by_MM</a>
+</footer>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
+  menuToggle.addEventListener('click', () => { navMenu.classList.toggle('active'); });
+  document.querySelectorAll('#navMenu a').forEach(link => {
+    link.addEventListener('click', () => { navMenu.classList.remove('active'); });
+  });
+</script>
+
+</body>
+</html>
