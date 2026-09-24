@@ -21,17 +21,36 @@
       --text-dim: #555;
       --border-dim: #333;
       --cad-font: 'Lucida Console', 'Courier New', monospace;
-      
+
       /* === AJUSTES DE COMPRESIÓN / ESPACIOS === */
-      --gap-size: 12px;          
-      --card-padding: 20px;      
+      --gap-size: 12px;
+      --card-padding: 20px;
       --border-radius: 0px;
-      
+
       /* === PROPIEDADES DE VISUALIZACIÓN === */
       --access-layout: 1fr; /* MANTENIDO APILADO (ORIGINAL) */
-      
-      --portal-highlight-color: #00E5FF; /* ¡AQUÍ PUEDES CAMBIAR EL COLOR DE PORTAL_ POR CÓDIGO HEX! */
-      --portal-cursor-visible: inline-block; /* Usa 'none' para ocultar el cursor de PORTAL_ */
+
+      --portal-highlight-color: #00E5FF; /* COLOR DE PORTAL_ */
+      --portal-cursor-visible: inline-block; /* 'none' para ocultar el cursor */
+
+      /* === [0] LOGO SUPERIOR =============================================== */
+      --logo-size: 250px;      /* Valor inicial 130px_ */
+      --logo-glow: rgba(0, 229, 255, .35);
+
+      /* === [1] SUBTÍTULO PARAMÉTRICO (atributos separados) === */
+      --sub-size: 0.85rem;
+      --sub-tracking: 2px;      /* letter-spacing */
+      --sub-transform: uppercase;
+      --sub-color: var(--text-muted);
+      --sub-margin: 20px;       /* margin-bottom */
+
+      /* === [3] RENDER APAISADO === */
+      --render-ratio: 16 / 6;   /* probá 21/9 para más panorama */
+
+      /* === [5] BOTÓN FLOTANTE WHATSAPP === */
+      --wa-green: #25D366;
+      --wa-size: 56px;
+      --wa-offset: 22px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,6 +109,15 @@
       padding-bottom: 10px;
     }
 
+    /* === [0] LOGO SUPERIOR === */
+    .portal-logo {
+      display: block;
+      width: var(--logo-size);
+      height: auto;
+      margin: 0 auto 12px;
+      filter: drop-shadow(0 0 10px var(--logo-glow));
+    }
+
     .portal-title {
       font-family: var(--cad-font);
       font-size: clamp(2rem, 7vw, 3.5rem);
@@ -102,17 +130,17 @@
       margin-bottom: 5px;
     }
 
+    /* === [1] SUBTÍTULO — ahora 100% paramétrico === */
     .portal-subtitle {
       font-family: var(--cad-font);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      color: var(--sub-color);
+      font-size: var(--sub-size);
+      letter-spacing: var(--sub-tracking);
+      text-transform: var(--sub-transform);
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: var(--sub-margin);
     }
 
-    /* ESTILO PARA PORTAL_ */
     .portal-highlight {
       color: var(--portal-highlight-color);
       font-weight: bold;
@@ -154,8 +182,8 @@
     }
 
     .card-logo {
-      width: 45px;
-      height: 45px;
+      width: 150px;
+      height: 65px;
       object-fit: contain;
       filter: grayscale(100%) brightness(1.2);
       transition: filter 0.3s;
@@ -163,7 +191,6 @@
 
     .portal-card:hover .card-logo { filter: none; }
 
-    /* === AJUSTE DE TÍTULOS EN EL MISMO RENGLÓN === */
     .card-titles {
       display: flex;
       align-items: baseline;
@@ -241,6 +268,83 @@
     }
 
     /* ========================================================================
+       [2] BOTONES DE ACCESO RÁPIDO — re-mapeados a variables LOCALES
+       ======================================================================== */
+    .botones-hero {
+      display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;
+      margin: 5px 0 20px;
+    }
+    .btn {
+      display: inline-block; padding: 10px 25px;
+      background: var(--accent-cyan); color: #000;
+      font-family: var(--cad-font); font-size: 0.8rem; font-weight: 700;
+      border: 1px solid var(--accent-cyan); border-radius: 0;
+      box-shadow: none; transition: all 0.2s ease; cursor: pointer;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .btn:hover {
+      background: var(--accent-cyan-hover); border-color: var(--accent-cyan-hover);
+      color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+    }
+    .btn-outline { background: transparent; color: var(--accent-cyan); }
+    .btn-outline:hover { background: var(--accent-cyan); color: #000; }
+
+    /* ========================================================================
+       [3] RENDER APAISADO (ancho completo de la columna)
+       ======================================================================== */
+    .hero-render {
+      margin: 0 0 20px;
+      border: 1px solid var(--border-dim);
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+    .hero-render:hover { border-color: var(--accent-cyan); }
+    .hero-render img {
+      display: block; width: 100%; height: auto;
+      aspect-ratio: var(--render-ratio);
+      object-fit: cover;
+    }
+    .hero-render .render-tag {
+      position: absolute; top: 8px; left: 8px;
+      font-family: var(--cad-font); font-size: 0.6rem; letter-spacing: 1px;
+      color: var(--accent-cyan); background: rgba(0,0,0,.75);
+      border: 1px solid var(--accent-cyan); padding: 3px 8px;
+    }
+    .hero-render figcaption {
+      display: flex; justify-content: space-between; gap: 10px;
+      font-family: var(--cad-font); font-size: 0.65rem;
+      color: var(--text-dim); letter-spacing: 1px;
+      padding: 7px 10px; border-top: 1px dashed var(--border-dim);
+    }
+    /* Fallback si la imagen no carga */
+    .hero-render.img-missing img { display: none; }
+    .hero-render.img-missing::after {
+      content: '> IMG_NOT_FOUND :: img/render_portal.jpg_';
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: var(--render-ratio);
+      font-family: var(--cad-font); font-size: 0.75rem;
+      color: var(--accent-amber); letter-spacing: 1px;
+    }
+
+    /* ========================================================================
+       [4] ZONA DE CONTACTO
+       ======================================================================== */
+    .contact-zone {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 8px 18px;
+      border: 1px dashed var(--border-dim);
+      padding: 12px 15px; margin-bottom: 20px;
+      font-family: var(--cad-font); font-size: 0.75rem;
+      color: var(--text-muted); letter-spacing: 1px;
+      text-align: center;
+    }
+    .contact-zone .cz-label { color: var(--text-dim); }
+    .contact-zone .contact-sep { color: var(--text-dim); }
+    .contact-zone .cz-status { color: var(--accent-green); }
+    .contact-zone a { border-bottom: 1px dashed transparent; }
+    .contact-zone a:hover { border-bottom-color: currentColor; }
+
+    /* ========================================================================
        ZONA EXPANSIBLE (Add More)
        ======================================================================== */
     .expansion-zone {
@@ -283,47 +387,94 @@
       color: var(--text-dim);
       text-align: center;
       letter-spacing: 1px;
+      line-height: 1.8;
     }
 
-    /* Animación de Parpadeo */
     @keyframes blink { 50% { opacity: 0; } }
-    .cursor { 
-      display: inline-block; 
-      width: 8px;  
-      height: 1em; 
-      background: var(--accent-cyan); 
-      vertical-align: text-bottom; 
-      animation: blink 1s steps(1) infinite; 
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--accent-cyan);
+      vertical-align: text-bottom;
+      animation: blink 1s steps(1) infinite;
       margin-left: 4px;
     }
 
-    /* === CURSOR ESPECÍFICO DE PORTAL_ === */
     .portal-cursor {
       display: var(--portal-cursor-visible);
       background: var(--portal-highlight-color);
     }
 
+    /* ========================================================================
+       [5] BOTÓN FLOTANTE WHATSAPP
+       ======================================================================== */
+    .wa-float {
+      position: fixed; bottom: var(--wa-offset); right: var(--wa-offset);
+      width: var(--wa-size); height: var(--wa-size); z-index: 9999; /* sobre la capa CRT */
+      display: flex; align-items: center; justify-content: center;
+      background: var(--wa-green); color: #fff; border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(0,0,0,.55);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .wa-float svg { width: 58%; height: 58%; }
+    .wa-float:hover {
+      color: #fff; transform: translateY(-3px) scale(1.06);
+      box-shadow: 0 8px 22px rgba(37,211,102,.45);
+    }
+    /* Anillo de pulso */
+    .wa-float::before {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      border: 2px solid var(--wa-green);
+      animation: wa-pulse 2.2s ease-out infinite;
+    }
+    @keyframes wa-pulse {
+      0%   { transform: scale(1);   opacity: .8; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    /* Tooltip estilo terminal */
+    .wa-float::after {
+      content: 'CONTACT_WHATSAPP';
+      position: absolute; right: calc(100% + 12px); top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--cad-font); font-size: 0.6rem; letter-spacing: 1px;
+      color: var(--wa-green); background: rgba(0,0,0,.85);
+      border: 1px solid var(--wa-green); padding: 4px 8px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .wa-float:hover::after { opacity: 1; }
+
     /* Responsive */
     @media (max-width: 768px) {
+      :root { --wa-size: 48px; --wa-offset: 15px; --logo-size: 90px; }
       .access-grid { grid-template-columns: 1fr; }
       .card-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
+      .wa-float::after { display: none; } /* sin tooltip táctil */
     }
   </style>
 </head>
 <body>
 <div class="terminal-container">
+
   <div class="boot-screen">
     &gt; INIT_SYSTEM... OK<br>&gt; LOADING_MODULES [CAD] [BIM] [GIS] [WEB]... OK<br>&gt; ESTABLISHING_CONNECTION... OK<br>&gt; ACCESS GRANTED<span class="cursor_"></span>
   </div>
+
+  <!-- [0] LOGO SCANLABB sobre el título (renombrá a img/mi_logo.png con extensión) -->
+ <!--     <img src="img/mi_logo.png" alt="Logo ScanLabb" class="portal-logo" onerror="this.style.display='none'">    -->
   <p class="portal-subtitle">&gt; <span class="portal-highlight">PORTAL_</span><span class="cursor portal-cursor"></span></p>
   <h1 class="portal-title">MARIO MOLINA</h1>
+
+  <!-- [1] Subtítulo paramétrico -->
+  <p class="portal-subtitle">&gt; <span class="portal-highlight">Diseño · Digitalización · Planos y servicios relacionados_</span></p>
   <p class="portal-subtitle">&gt; SELECT WORKSPACE ENVIRONMENT_</p>
 
   <div class="access-grid">
     <!-- ACCESO 1: SCANLABB -->
     <div class="portal-card">
       <div class="card-header">
-        <img src="img/mi_logo" alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src=" " alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>ScanLabb</h2>
           <span>| Laboratorio Digital</span>
@@ -341,10 +492,10 @@
       </div>
     </div>
 
-    <!-- ACCESO 2: MARIO MOLINA CC -->
+    <!-- ACCESO 2: OFICINA TÉCNICA -->
     <div class="portal-card">
       <div class="card-header">
-        <img src="img/mi_logo_mm" alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src=" " alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>Oficina Técnica</h2>
           <span>| Civil · Mecánica · Productos </span>
@@ -362,11 +513,10 @@
       </div>
     </div>
 
-
-    <!-- ACCESO 3: MARIO MOLINA CC -->
+    <!-- ACCESO 3: DISEÑO Y CONSTRUCCIÓN -->
     <div class="portal-card">
       <div class="card-header">
-        <img src="img/mi_logo_mm" alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src=" " alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>Diseño y Construcción</h2>
           <span>| Diseño, Proyecto y Dirección de Obras</span>
@@ -384,9 +534,36 @@
       </div>
     </div>
 
-
     <!-- ACCESO EXTRA (Plantilla) -->
     <div class="portal-card" style="display: none;"></div>
+  </div>
+
+  <!-- [3] RENDER APAISADO — cambiá el src por tu render -->
+  <figure class="hero-render">
+    <span class="render-tag">[ VISTA_PREVIA ]</span>
+    <img src="img/render_portal.webp" alt="Render ilustrativo del portal" loading="lazy"
+         onerror="this.closest('.hero-render').classList.add('img-missing')">
+    <figcaption>
+      <span>&gt; RENDER_001 :: VISUALIZACIÓN ILUSTRATIVA</span>
+      <span>ESC 1:1</span>
+    </figcaption>
+  </figure>
+
+  <!-- [2] BOTONES DE ACCESO RÁPIDO (actualizá los href a tus páginas reales) -->
+  <div class="botones-hero">
+    <a href="proyectos.html" class="btn btn-outline">Visualizaciones 3D</a>
+    <a href="blog.html" class="btn btn-outline">Bitácora</a>
+    <a href="sobre_mi.html" class="btn btn-outline">Sobre_mi</a>
+  </div>
+
+  <!-- [4] ZONA DE CONTACTO -->
+  <div class="contact-zone">
+    <span class="cz-label">&gt; CONTACT_CHANNEL:</span>
+    <a href="https://wa.me/5492345446330" target="_blank" rel="noopener">[WA] +54 9 2345 44-6330</a>
+    <span class="contact-sep">·</span>
+    <a href="https://scanlabb.github.io" target="_blank" rel="noopener">scanlabb.github.io</a>
+    <span class="contact-sep">·</span>
+    <span class="cz-status">STATUS: ONLINE</span>
   </div>
 
   <div class="expansion-zone">
@@ -395,9 +572,20 @@
   </div>
 
   <div class="terminal-footer">
-    &gt; PORTAL_TERMINAL_v1.01 · MARIO MOLINA © <span id="year">2026</span> · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
+    &gt; ESTUDIO SCANLABB © <span id="year">2026</span> · DIGITALIZACIÓN Y RESCATE PATRIMONIAL<br>
+    &gt; DISEÑO Y DIRECCIÓN: MARIO MOLINA · CONSTRUCTOR CIVIL · GEOINFORMÁTICO<br>
+    &gt; PORTAL_TERMINAL_v1.01 · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
   </div>
 </div>
+
+<!-- [5] BOTÓN FLOTANTE WHATSAPP -->
+<a class="wa-float" href="https://wa.me/5492345446330?text=Hola%20Mario!%20Te%20escribo%20desde%20tu%20portal%20ScanLabb_"
+   target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
