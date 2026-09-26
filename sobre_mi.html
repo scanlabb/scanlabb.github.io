@@ -60,7 +60,7 @@
         .wiki-wrapper { 
             width: 100%; 
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 24px; /* Padding lateral para que no quede pegado en pantallas grandes */
         }
 
         /* --- Header Sticky --- */
@@ -77,7 +77,7 @@
         .wiki-header {
             display:flex; align-items:flex-end; justify-content:space-between;
             padding: 12px 24px; gap:16px; flex-wrap:wrap;
-            max-width: 1600px; 
+            max-width: 1600px; /* Limita el contenido interno del header para que no se separe demasiado */
             margin: 0 auto;
         }
         .wiki-logo {
@@ -130,11 +130,11 @@
             color:var(--h1); transition:color .4s,border-color .4s
         }
         h2 .se { font-family:'Inter',sans-serif; margin-right:6px; font-size:1.2rem; vertical-align:middle }
-        
+
         h3 {
             font-family:'Libre Baskerville',Georgia,serif;
             font-size:1.1rem; font-weight:700; color:var(--h1);
-            margin:20px 0 10px; transition:color .4s;
+            margin:20px 0 10px;
         }
 
         .toc {
@@ -185,7 +185,7 @@
         .el li { margin-bottom:16px; padding:10px 16px; border-left:3px solid var(--line-b); background:var(--exp-bg); border-radius:0 4px 4px 0; transition:background .25s }
         .el li:hover { background:var(--exp-h) } .el li strong { color:var(--h1) }
 
-        .wb { list-style:none; padding:0; margin: 10px 0; }
+        .wb { list-style:none; padding:0 }
         .wb li { padding:3px 0 3px 16px; position:relative; margin-bottom:4px }
         .wb li::before { content:''; position:absolute; left:0; top:11px; width:6px; height:6px; background:var(--bullet); border-radius:50% }
         .wb li strong { color:var(--h1) }
@@ -209,7 +209,7 @@
         .wf { border-top:1px solid var(--border); margin-top:36px; padding-top:14px; font-size:.78rem; color:var(--text-m); text-align:center }
 
         /* ========================================================
-           NUEVOS ESTILOS: Imágenes Antes/Después, Timeline y Cards
+           NUEVOS ESTILOS: Imágenes Antes/Después, Timeline, Cards y Lightbox
            ======================================================== */
 
         /* 1. Bloque de Imágenes Antes y Después */
@@ -228,12 +228,13 @@
         }
         .img-comp-item img {
             width: 100%;
-            height: 220px;
+            height: 470px;
             object-fit: cover;
             border-radius: 6px;
             border: 1px solid var(--img-bd);
             box-shadow: var(--sh-ib);
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         .img-comp-item img:hover { transform: scale(1.02); }
         .img-comp-label {
@@ -244,7 +245,46 @@
         }
         .img-comp-label strong { color: var(--accent); }
 
-        /* 2. Línea de Tiempo de Evolución Profesional */
+        /* 2. Imagen Apaisada Independiente (Ej: Trayectoria) */
+        .full-width-img-container {
+            margin: 30px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--sh-ib);
+        }
+        .zoom-img {
+            width: 100%;
+            height: auto;
+            max-height: 700px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .zoom-img:hover {
+            transform: scale(1.01);
+            filter: brightness(1.1);
+        }
+
+        /* 3. Contenedor de 3 Imágenes en Fila (Formación Académica) */
+        .formacion-imagenes {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .formacion-imagenes .img-col {
+            flex: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--img-bd);
+            box-shadow: var(--sh-ib);
+        }
+        .formacion-imagenes .zoom-img {
+            max-height: 220px;
+        }
+
+        /* 4. Línea de Tiempo de Evolución Profesional */
         .timeline {
             position: relative;
             margin: 40px 0;
@@ -304,7 +344,7 @@
             margin-bottom: 0;
         }
 
-        /* 3. Tarjetas de Formación y Experiencia */
+        /* 5. Tarjetas de Formación y Experiencia */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -349,6 +389,58 @@
         }
         .info-card p strong { color: var(--text); }
 
+        /* ========================================================
+           LIGHTBOX (Visor de imágenes en pantalla completa)
+           ======================================================== */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .lightbox-overlay.active img {
+            transform: scale(1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 300;
+            font-family: 'Arial', sans-serif;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            z-index: 2001;
+            user-select: none;
+        }
+        .lightbox-close:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
         /* Responsive para los nuevos elementos */
         @media(max-width:860px) {
             .wiki-wrapper { padding: 0 12px; } 
@@ -374,27 +466,40 @@
                 border-radius: 50%;
                 border: 2px solid var(--card);
             }
+            /* Responsive para 3 imágenes en fila */
+            .formacion-imagenes { flex-direction: column; }
+            .formacion-imagenes .zoom-img { max-height: 300px; }
+            .lightbox-close { top: 15px; right: 15px; font-size: 30px; }
         }
         @media(max-width:480px) {
             body { font-size:14px } h1 { font-size:1.55rem } h2 { font-size:1.15rem }
             .refs { columns:1; column-gap:0 } .btn { width:100%; text-align:center; padding:12px 20px }
             .wiki-header { flex-direction:column; align-items:flex-start }
             .wiki-nav { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch } .wiki-tab { flex-shrink:0 }
-        }
+        }       
+        
+        
+        
     </style>
 </head>
 
 <body data-theme="dark">
 
+    <!-- ESTRUCTURA DEL LIGHTBOX (Visor de imágenes) -->
+    <div class="lightbox-overlay" id="lightbox">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img src="" alt="Imagen ampliada" id="lightboxImg">
+    </div>
+
     <div class="wiki-header-wrapper">
         <header class="wiki-header">
             <a href="index.html" class="wiki-logo">Diseño y Construcción</a>
             <nav class="wiki-nav">
-                <a href="https://scanlabb.github.io/" class="wiki-tab">Inicio</a>
+                <a href="index.html" class="wiki-tab">Inicio</a>
                 <a href="proyectos.html" class="wiki-tab">Proyectos</a>               
-                <a href="blog.html" class="wiki-tab">Bitácora</a>                 <!-- Aquí la pestaña activa es Sobre mí -->
+                <!-- Aquí la pestaña activa es Sobre mí -->
                 <a href="sobre_mi.html" class="wiki-tab active">Sobre mí</a>               
-                <a href="https://scanlabb.github.io/" class="wiki-tab">Portal</a>
+                <a href="index.html#contacto" class="wiki-tab">Contacto</a>
             </nav>
         </header>
     </div>
@@ -452,11 +557,11 @@
             <!-- MEJORA 1: Imágenes Antes y Después -->
             <div class="img-comparison">
                 <div class="img-comp-item">
-                    <img src="img/antes_tablero.jpg" alt="Dibujo técnico manual en tablero">
+                    <img src="img/antes_tablero.jpg" alt="Dibujo técnico manual en tablero" class="zoom-img">
                     <div class="img-comp-label"><strong>Ayer:</strong> Tableros de dibujo y tecnígrafos</div>
                 </div>
                 <div class="img-comp-item">
-                    <img src="img/despues_cad.jpg" alt="Pantallas con software CAD, BIM y GIS">
+                    <img src="img/despues_cad.jpg" alt="Pantallas con software CAD, BIM y GIS" class="zoom-img">
                     <div class="img-comp-label"><strong>Hoy:</strong> Pantallas CAD, CAE, BIM y GIS</div>
                 </div>
             </div>
@@ -468,172 +573,158 @@
             <p>Actualmente dirige ScanLabb, un estudio dedicado al diseño, digitalización, restauración y gestión de documentación 
             técnica, incluyendo planos, mapas y archivos de proyectos. También desarrolla plataformas web y herramientas para la 
             visualización y consulta de información técnica en 2D y 3D.</p>
-         
-
+      
            <h3>Trayectoria </h3>
+      
+           
             <p>Inició su trayectoria laboral como dibujante técnico industrial en los estudios del arquitecto Jorge Luis Vázquez, 
             en 25 de Mayo, provincia de Buenos Aires, entre 1980 y 1982, y de Iribarne y Asociados, en la Ciudad Autónoma de 
             Buenos Aires, entre 1982 y 1986. <br>
-           <p>Esta primera etapa le permitió incorporarse tempranamente al ámbito de la arquitectura, la ingeniería 
-            y la documentación técnica, antes de completar sus estudios superiores en diseño y construcción civil.</p>
+           <p>Esta primera etapa le permitió incorporarse tempranamente al ámbito de la arquitectura, la ingeniería y la documentación 
+            técnica, antes de completar sus estudios superiores en diseño y construcción civil.</p>
             
+              
               <p>Luego de finalizar su formación de constructor civil, desarrolló su carrera en distintos roles vinculados 
-              con la ingeniería y el diseño, entre ellos dibujante proyectista, diseñador, gerente de ingeniería y 
-              director de proyectos de construcción, especializándose además en el asesoramiento técnico para la reconversión 
-              de activos industriales y edificaciones. </p>   
-              
-              <!-- MEJORA 2: Cuadro Gráfico de Evolución Profesional -->
-            <h3>  Evolución profesional y transformación digital </h3>
-              
-              <div class="timeline">
-                  <div class="timeline-container">
-                      <div class="timeline-card">
-                          <span class="timeline-year">1980 - 1991</span>
-                          <h4>Trabajo manual en tablero | Dibujo Industrial</h4>
-                          <p>Nexo entre la ingeniería y la fabricación, trabajando en tres áreas principales:<br>
-                          <p><strong>Civil</strong>: Creación de planos de infraestructura civil,  
-                                     topografía y redes de servicios publicos.<br> 
-                             <strong>Mecánico</strong>: Diseño de partes para automotriz, naval y metalmecánica.<br> 
-                             <strong>Industrial</strong>: Diseño de layouts de plantas, automatización eléctrica y 
-                             sistemas de tuberías complejas.</p>
-                      </div>
-                      <div class="timeline-card">
-                          <span class="timeline-year">1992 - 2001</span>
-                          <h4>Diseño e Ingeniería Asistida (CAD/CAE)</h4>
-                          <p>Proyectos en AutoCAD + AME 3D y extraccion de planos en 2D.
-                             - Integración Pro Engineer Parametrico (1995) y Catia (2002). 
-                          Incorporación de impresión 3D (SLA, FDM, SLS) para maquetas y prototipos en multinacionales.</p>
-                      </div>
-                      <div class="timeline-card">
-                          <span class="timeline-year">2002 - 2010</span>
-                          <h4>Gestión de Ingeniería</h4>
-                          <p>Gerente de Ingeniería a cargo de ingeniería, producción, calidad y 
-                             de la gestión operativa. Integracion CAD y SAP/R3 en todas las areas  
-                             con acceso a visores digitales (planos y fichas técnicas) desde SAP  
-                             via Intranet en 4 plantas industriales</p>
-                      </div>
-                      <div class="timeline-card">
-                          <span class="timeline-year">2010 - Presente</span>
-                          <h4>Gestión Digital CAD, BIM y GIS</h4>
-                          <p>Integración CAD/CAE en el sector industrial y AEC | Inicios con BIM en proyectos de Construcción.
-                             | En los ultimos años CAD + BIM + Analisis GIS y emplazamientos digitales en proyectos de construcción. </p>
-                      </div>
-                  </div>
-              </div>
-   
-             <p>Estas experiencias incluyeron proyectos desarrollados en Brasil, Chile, China y Corea del Sur, y 
-              consolidaron su capacidad para resolver desafíos técnicos, logísticos y organizacionales en entornos 
-              multiculturales y equipos interdisciplinarios.</p>
-               
+              con la ingeniería y el diseño, entre ellos: <br></p>
+              <p>  • Dibujante proyectista (plantas industriales y logisticas).<br>
+                • Diseñador   (arquitectónico · mecánico · tecnológico).<br>
+                • Gerente de ingeniería  (civil e industrial).<br>
+                • Director de proyectos de construcción (viviendas, naves industriales y logisticas).<br> 
+                • Asesor técnico para la reconversión de activos  (plantas industriales y logisticas) </p>          
+ 
+             <!-- NUEVA IMAGEN APaisADA EN TRAYECTORIA -->
+            <div class="full-width-img-container">
+                <img src="img/trayectoria_apaisada.webp" alt="Imagen de trayectoria profesional" class="zoom-img">
+            </div>   
                  
-          <h3>Formación académica</h3>
-            <!-- MEJORA 3A: Tarjetas de Formación Académica -->
-            <div class="cards-grid">
-                <div class="info-card">
-                    <span class="info-card-icon">🌐</span>
-                    <h4>Especialización en Sistemas de Información Geográfica</h4>
-                    <span class="meta">Escuela de Posgrado, FADU-UBA | 2004</span>
-                    <p>Área de especialización GIS: adquisición y procesamiento de datos geoespaciales, imágenes 
-                    satelitales y aéreas, sistemas globales de navegación por satélite —GNSS— y análisis espacial 
-                    aplicado a la gestión del territorio.</p>
+
+         <p><h2>Formación académica</h2></p>
+                 
+
+
+
+             <!-- NUEVA IMAGEN APaisADA EN FORMACION -->
+            <div class="full-width-img-container">
+                <img src="img/formacion_0.webp" alt="Imagen Formación académica" class="zoom-img">
+            </div> 
+
+
+
+
+            <!-- NUEVAS 3 IMÁGENES EN FORMACIÓN ACADÉMICA -->
+  <!--
+            <div class="formacion-imagenes">
+                <div class="img-col">
+                    <img src="img/formacion_1.webp" alt="Profesional GIS" class="zoom-img">
                 </div>
-                <div class="info-card">
-                    <span class="info-card-icon">🏛️</span>
-                    <h4>Constructor Civil</h4>
-                    <span class="meta">Instituto Superior de Educación Tecnológica | ISET-BA - MEyJ | 1986</span>
-                    <p>Campo de acción: El título habilita para realizar de forma independiente el diseño, 
-                    cálculo, dirección y administración de obras edilicias y sus instalaciones, conforme 
-                    a la normativa vigente. Ademas, puede realizar peritajes y tasaciones, elaborar estudios 
-                    topográficos y brindar asesoramiento sobre materiales, tecnologías y sistemas constructivos.</p>
+                <div class="img-col">
+                    <img src="img/formacion_2.webp" alt="Constructor Civil" class="zoom-img">
                 </div>
-                <div class="info-card">
-                    <span class="info-card-icon">📐</span>
-                    <h4>Dibujante Técnico Industrial</h4>
-                    <span class="meta">Escuela Técnica Nacional | 25 de Mayo, BA | ENET 1981</span>
-                    <p>Campo de acción: Actúa como nexo entre la ingeniería y la fabricación, trabajando en tres áreas principales:<br>
-                    <p><strong>Civil</strong>: Creación de planos para infraestructura urbana y edilícia, topografía, 
-                                y redes de servicios publicos.<br> 
-                       <strong>Mecánico</strong>: Diseño de partes para automotriz, naval y metalmecánica.<br> 
-                       <strong>Industrial</strong>: Diseño de layouts de plantas, automatización eléctrica y sistemas de tuberías.</p>
-                </div>
-                <div class="info-card">
-                    <span class="info-card-icon">⚙️</span>
-                    <h4>Certificaciones / Competencias complementarias</h4>
-                    <span class="meta">Formación Continua</span>
-                    <p>• Actualización permanente en CAD, CAE, BIM, geomática y desarrollo software.<br>
-                       • Ingeniería de Sistemas MCSE | New Horizons (1999).<br>
-                       • Planificación y Gestión de Proyectos | SAP Argentina (1999).<br>
-                       • AutoCAD + AME 3D y aplicaciones 3D CAD/CAE | AutoDesk (1992).</p>
+                <div class="img-col">
+                    <img src="img/formacion_3.webp" alt="Dibujante Técnico Industrial" class="zoom-img">
                 </div>
             </div>
+ -->
 
 
+           
+                     <p>🌐<strong> Especialización en Sistemas de Información Geográfica</strong> <br>
+                      Escuela de Posgrado, FADU-UBA | 2004</br> 
+                      Área de especialización: <br>
+                      Adquisición y procesamiento de datos geoespaciales, imágenes satelitales y 
+                      aéreas, sistemas globales de navegación por satélite —GNSS— y análisis espacial aplicado a la 
+                      gestión del territorio. </p>          
+            
+                      
+                  <p>🏛️<strong> Constructor Civil </strong><br>
+                     Instituto Superior de Educación Tecnológica - BA | CONET / MEyJ | 1986. <br> 
+                     Campo de acción:<br> 
+                     El título habilita para realizar de forma independiente: diseño, cálculo, dirección y administración de 
+                     obras edilicias y sus instalaciones, conforme a la normativa vigente.</p> 
+                     
+                    <p>📐<strong> Dibujante Técnico Industrial </strong> <br>
+                     Escuela Técnica Nacional, ENET | 25 de Mayo, BA. | 1981. <br>
+                     Áreas de competencia:<br>
+                     Actúa como nexo entre la ingeniería y la fabricación, trabajando en tres áreas 
+                     principales: <strong>Civil </strong> (planos de infraestructura, topografía y redes de servicios), 
+                     <strong>Mecánico </strong> (diseño de partes para automotriz, naval y metalmecánica) e <strong>Industrial </strong>
+                     (diseño de layouts de plantas, automatización eléctrica y sistemas de tuberías).</p>
+  
+                                     <!-- NUEVA IMAGEN APaisADA EN EDUCACION -->
+            <div class="full-width-img-container">
+                <img src="img/formacion_complementaria.webp" alt="Competencias complementaria" class="zoom-img">
+            </div> 
+             
+                  <p>⚙️ <strong>Certificaciones / Competencias complementarias </strong><br>  
+                       • Actualización permanente en tecnologías CAD, CAE, BIM, geomática, desarrollo software y OS. <br>
+                       • Certificación en Ingenieria de Sistemas MCSE | Instituto New Horizons, BA | Patrocinado por Philco, 1999.<br>
+                       • Certificación Planificación, Control y Gestión de Proyectos | SAP Argentina | Patrocinado por Philco, 1999.<br>
+                       • Especialización en AutoCAD + AME Solid 3D | AutoDesk, Buenos Aires| Patrocinado por Whirlpool, 1992.</p>
 
-          <h3>Experiencia profesional</h3>
-            <!-- MEJORA 3B: Tarjetas de Experiencia Profesional -->
-            <div class="cards-grid">
-                <div class="info-card">
-                    <span class="meta">1988 - 1989 | ARCOR </span>
-                    <h4>Proyectista de Infraestructura</h4>
-                    <p>Diseño y construcción de plantas y oficinas industriales | Complejo Arcor San Luis.</p>
-                </div>
-                <div class="info-card">
-                    <span class="meta">1989 - 1995 | Philips · Whirlpool</span>
-                    <h4>Diseñador CAD/CAE</h4>
-                    <p>Departamento de Ingeniería de Desarrollo | Planta San Luis.</p>
-                </div>
-                <div class="info-card">
-                    <span class="meta">1996 - 2002 | Peabody · Philco</span>
-                    <h4>Diseñador CAD/CAE</h4>
-                    <p>Departamento de Ingeniería de Desarrollo | Planta Buenos Aires.</p>
-                </div>
-                <div class="info-card">
-                    <span class="meta">2002 - 2010 | Philco</span>
-                    <h4>Gerente de Ingeniería</h4>
-                    <p>Responsabilidad sobre equipos multidisciplinarios (ingeniería, producción, calidad) y 
-                    operaciones, reportando a Gerencia General.</p>
-                </div>
-                <div class="info-card">
-                    <span class="meta">2010 - 2022 | Estudio Mario Molina</span>
-                    <h4>Dirección de Proyectos Independientes</h4>
-                    <p>Brinda asesoría para inversores, family offices y empresas como <strong>Daewoo, Newsan y Midas</strong> 
-                    en reconversión de infraestructura.</p>
-                </div>
-                <div class="info-card">
-                    <span class="meta">2023 - Presente | ScanLabb Estudio de Diseño y Tecnología </span>
-                    <h4>Dirección de ScanLabb</h4>
-                    <p>Estudio especializado en diseño, digitalización y restauración de documentación técnica (planos, mapas),
-                     incluyendo desarrollo de plataformas web y herramientas de visualización y consulta de información 
-                     técnica en 2D y 3D..</p>
-                </div>
-            </div>
-
- 
- 
-            <h2 id="tecnologia"><span class="se"></span>Transformación Digital</h2>
+           
+            <p><h2>Experiencia profesional</h2></p>
+            
+                                   <!-- NUEVA IMAGEN APaisADA EN EXPERIENCIA -->
+            <div class="full-width-img-container">
+                <img src="img/experiencia_apaisada.webp" alt="Imagen de trayectoria profesional" class="zoom-img">
+            </div>   
+            
+            <p>Su trayectoria abarca: <br>
                <ul class="wb">
-                <li><strong>1992:</strong> Se especializa y usa — AutoCAD + AME — y herramientas 3D CAD/CAE, 
-                Pro Engineer (1995) y Catia (2002), en proyectos de multinacionales.</li> 
-                <li><strong>1995:</strong> Integra la impresión 3D (estereolitografía, FDM y sinterizado), 
-                estereolitografía o SLA (resina curada por luz), FDM (extrusión de plástico), y sinterizado 
-                selectivo por láser o SLS (polvo fundido), para maquetas y prototipos.</li>
-                <li><strong>2000:</strong> Automatizó la gestión de documentos en cuatro plantas 
-                (en diferentes provincias) y redes de proveedores (dentro y fuera del pais) con la 
-                integración de SAP/R3 con AutoCAD y Pro/E.</li>
+               <li><strong>1988 - 1989:</strong> Proyectista de infraestructura, complejo <strong> Arcor </strong> San Luis  
+                 (diseño y construcción de plantas y oficinas industriales).</li>
+                <li><strong>1989 - 1995:</strong> Diseñador de Ingeniería de desarrollo CAD/CAE | <strong> Philips y Whirlpool </strong> 
+                | San Luis.</li>
+                <li><strong>1996 - 2002:</strong> Diseñador de Ingeniería de desarrollo CAD/CAE | <strong> Peabody y Philco </strong> 
+                | Buenos Aires.</li>
+                <li><strong>2002 - 2010:</strong> Asume el rol de Gerente de Ingeniería en Philco, con responsabilidad directa sobre 
+                 equipos multidisciplinarios (ingeniería, producción, calidad) y operaciones, reportando a la Gerencia General.</li>
+                <li><strong>2010 - 2022:</strong>  Estudio Mario Molina se especializa en el diseño, construcción y asesoría 
+                independiente para inversores, family offices y empresa como Daewoo, Newsan y Midas, en la dirección de proyectos de 
+                reconversión de infraestructura.</li>
+                <li><strong>2023 - Presente:</strong> Lidera ScanLabb, estudio especializado en servicios de diseño, 
+                 digitalización y restauración de documentación técnica (planos, mapas), incluyendo desarrollo de plataformas web 
+                 y herramientas de visualización.</li>
+            </ul>
+            
+
+                   
+            
+            
+            
+
+            <h2 id="tecnologia"><span class="se"></span>Transformación Digital</h2>
+ 
+               <ul class="wb">
+                <li>1992: Se especializa y usa — AutoCAD + AME — y herramientas 3D CAD/CAE, Pro Engineer (1995) y Catia (2004), 
+                en proyectos de multinacionales.</li> 
+                <li>1995: Integra la impresión 3D (estereolitografía, FDM y sinterizado), estereolitografía o SLA 
+                (resina curada por luz), FDM (extrusión de plástico), y sinterizado selectivo por láser o 
+                SLS (polvo fundido).), para maquetas y prototipos.</li>
+                <li>2000: Automatizó la gestión de documentos en cuatro plantas (en diferentes provincias) y redes de 
+                proveedores (dentro y fuera del pais) con la integración de SAP/R3 con AutoCAD y Pro/E.
                </ul>
+  
            
             <h2 id="infraestructura"><span class="se"></span>Infraestructura y Entorno de Trabajo</h2>
-            <p>· Trabaja, gestiona y administra con estaciones multisistemas Debian, macOS y Windows. <br>
+ 
+             <!-- NUEVA IMAGEN APaisADA EN INFRAESTRUTURA -->
+            <div class="full-width-img-container">
+                <img src="img/infraestructura.webp" alt="Infraestructura y Entorno de Trabajo" class="zoom-img">
+            </div> 
+ 
+ 
+            <p>· Trabaja con estaciones multisistemas (Debian, macOS y Windows). <br>
                · Para clientes corporativos utiliza AutoCAD, Civil 3D, Revit, Sketchup y SAP según cada proyecto. <br>
-               · Para clientes privados emplea FreeCAD, Blender, BonsaiBIM, QCAD y QGIS sobre Debian, reduciendo costos sin perder precisión. <br>
+               · Para clientes privados emplea FreeCAD, Blender, BonsaiBIM, QCAD y QGIS sobre Debian, reduciendo 
+                 costos sin perder precisión. <br>
                · Mantiene compatibilidad con formatos IFC, DWG y RVT. <br>
                · Crea plataformas web para visualizaciones 2D/3D y herramientas orientadas al control documental.</p>
 
             <h2 id="internacional"><span class="se"></span>Trayectoria Internacional</h2>
-            <p>Gracias a su alianza con empresas como Daewoo, Newsan, Midas, ha participado activamente en proyectos de i
-            nnovación y reconversión tecnológica en mercados competitivos como <strong>Brasil, Chile, China
-             y Corea del Sur</strong>, consolidando su capacidad para resolver desafíos técnicos y logísticos
-              en entornos exigentes y de escala global.</p>
+            <p>Gracias a su alianza con empresas como Daewoo, Newsan, Midas, ha participado activamente en proyectos de 
+              innovación y reconversión tecnológica en mercados competitivos como <strong>Brasil, Chile, China y Corea del Sur</strong>, 
+               consolidando su capacidad para resolver desafíos técnicos y logísticos en entornos exigentes y de escala global.</p>
 
             <div class="clearfix"></div>
 
@@ -665,12 +756,54 @@
             </ul>
 
             <footer class="wf"> 
-               <p>© 2026 Mario Molina - Diseño y Construcción - Todos los derechos reservados · Buenos Aires, Argentina</p>
-               <a href="https://mariomolinacc.github.io" target="_blank" style="color: cyan; text-decoration: none; font-size: 12px; font-family: Arial, sans-serif;">🌐 ScanLabb desarrollo web | update: 2026-09-11 T20:30:00Z</a> 
+                <p>© 2026 Mario Molina - Diseño y Construcción - Todos los derechos reservados · Buenos Aires, Argentina</p>
+               <a href="https://mariomolinacc.github.io" target="_blank" style="color: cyan; text-decoration: none; font-size: 12px; font-family: Arial, sans-serif;">🌐 ScanLabb desarrollo web | update: 2026-09-11 T22:59:00Z</a> 
             </footer>
         
         </div>
     </div>
+
+    <!-- JAVASCRIPT PARA EL LIGHTBOX -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxClose = document.getElementById('lightboxClose');
+            const zoomImages = document.querySelectorAll('.zoom-img');
+
+            // Abrir lightbox al hacer clic en cualquier imagen con clase .zoom-img
+            zoomImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    lightboxImg.src = this.src;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Evita el scroll de fondo
+                });
+            });
+
+            // Función para cerrar el lightbox
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = ''; // Restaura el scroll
+            }
+
+            // Cerrar al hacer clic en la X
+            lightboxClose.addEventListener('click', closeLightbox);
+
+            // Cerrar al hacer clic en el fondo oscuro fuera de la imagen
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Cerrar con la tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
