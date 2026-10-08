@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScanLabb | Laboratorio Digital</title>
+  <style>
+    /* VARIABLES HEREDADAS DE TU PORTAL */
+    :root {
+      --bg-dark: #050505; --bg-grid: #08090C; --accent-cyan: #00E5FF;
+      --accent-cyan-hover: #5BF2FF; --accent-amber: #fad816;
+      --text-light: #E2E8F0; --text-muted: #94A3B8; --text-dim: #555;
+      --border-dim: #333; --cad-font: 'Lucida Console', 'Courier New', monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif; background-color: var(--bg-dark);
+      color: var(--text-light); line-height: 1.4; overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center; padding: 20px 15px;
+    }
+    body::after { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9998; background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); opacity: .22; }
+    body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: -1; background-color: var(--bg-grid); background-image: linear-gradient(rgba(0,229,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.03) 1px, transparent 1px); background-size: 20px 20px; }
+    
+    .terminal-container { width: 100%; max-width: 900px; z-index: 10; }
+    .boot-screen { font-family: var(--cad-font); color: var(--accent-amber); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 15px; text-align: center; border-bottom: 1px dashed var(--border-dim); padding-bottom: 10px; }
+    .portal-title { font-family: var(--cad-font); font-size: clamp(2rem, 7vw, 3rem); background: linear-gradient(0deg, #FFF 0%, var(--accent-cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 4px; text-align: center; margin-bottom: 5px; }
+    .portal-subtitle { font-family: var(--cad-font); color: var(--text-muted); font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; margin-bottom: 30px; }
+    .portal-highlight { color: var(--accent-cyan); font-weight: bold; }
+    
+    /* CONTENEDOR DE SERVICIOS */
+    .service-card { border: 1px solid var(--border-dim); background: rgba(0,0,0,0.6); padding: 20px; margin-bottom: 20px; display: flex; gap: 20px; transition: border-color 0.3s ease; }
+    .service-card:hover { border-color: var(--accent-cyan); }
+    .service-text { flex: 1; }
+    .service-text h2 { font-family: var(--cad-font); color: #FFF; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 1px dashed var(--border-dim); padding-bottom: 5px; }
+    .service-text ul { list-style: none; font-family: var(--cad-font); font-size: 0.8rem; color: var(--text-muted); }
+    .service-text ul li { margin-bottom: 8px; display: flex; gap: 8px; }
+    .service-text ul li::before { content: '>'; color: var(--accent-cyan); font-weight: bold; }
+    
+    /* SISTEMA DE ZOOM (IMÁGENES) */
+    .img-container { flex: 1; border: 1px solid var(--border-dim); cursor: zoom-in; overflow: hidden; position: relative; height: 300px; }
+    .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .img-container:hover img { transform: scale(1.1); }
+    .img-tag { position: absolute; top: 8px; left: 8px; font-family: var(--cad-font); font-size: 0.6rem; color: var(--accent-cyan); background: rgba(0,0,0,.75); border: 1px solid var(--accent-cyan); padding: 3px 8px; }
+    
+    /* MODAL ZOOM */
+    #zoomModal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; padding: 20px; cursor: zoom-out; }
+    #zoomModal img { max-width: 95%; max-height: 90vh; object-fit: contain; transform-origin: center center; transition: transform 0.2s; }
+    .close-btn { position: absolute; top: 20px; right: 30px; color: var(--accent-cyan); font-size: 2.5rem; cursor: pointer; font-family: var(--cad-font); }
+    .zoom-hint { position: absolute; bottom: 20px; color: var(--text-muted); font-family: var(--cad-font); font-size: 0.7rem; letter-spacing: 1px; }
+    
+    .btn-back { display: inline-block; padding: 10px 25px; background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); font-family: var(--cad-font); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; text-decoration: none; margin-top: 20px; }
+    .btn-back:hover { background: var(--accent-cyan); color: #000; }
+    @media (max-width: 768px) { .service-card { flex-direction: column; } .img-container { height: 200px; } }
+  </style>
+</head>
+<body>
+<div class="terminal-container">
+  <div class="boot-screen">&gt; LOADING_MODULE [LABORATORIO_DIGITAL]... OK<br>&gt; ACCESS GRANTED</div>
+  <h1 class="portal-title">SCANLABB</h1>
+  <p class="portal-subtitle">&gt; <span class="portal-highlight">Laboratorio Digital_</span></p>
+
+  <!-- SERVICIO 1 -->
+  <div class="service-card">
+    <div class="service-text">
+      <h2>Digitalización Técnica</h2>
+      <ul>
+        <li>Brindamos servicios de Digitalización de Planos, Mapas y Documentación Técnica.</li>
+        <li>Convertimos documentos en papel a formatos editables CAD, GIS o PDF.</li>
+      </ul>
+    </div>
+    <div class="img-container" onclick="openZoom('render/digitalizacion_03.webp')">
+      <span class="img-tag">[ PLANO_CAD ]</span>
+      <img src="render/digitalizacion_03.webp" alt="Digitalización">
+    </div>
+  </div>
+
+  <!-- SERVICIO 2 -->
+  <div class="service-card">
+    <div class="img-container" onclick="openZoom('render/digitalizacion_02.webp')">
+      <span class="img-tag">[ VECTOR_MAP ]</span>
+      <img src="render/digitalizacion_02.webp" alt="Vectorización">
+    </div>
+    <div class="service-text">
+      <h2>Vectorización y Reconstrucción</h2>
+      <ul>
+        <li>Vectorizamos y reconstruimos planos, perspectivas e ilustraciones históricas.</li>
+        <li>Rescate patrimonial mediante técnicas digitales precisas.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <a href="index.html" class="btn-back">[ VOLVER_AL_PORTAL ]</a>
+  </div>
+</div>
+
+<div id="zoomModal" onclick="closeZoom()">
+  <span class="close-btn">&times;</span>
+  <img id="zoomedImage" src="" alt="Imagen Ampliada">
+  <div class="zoom-hint">&gt; SCROLL PARA ZOOM_PROFUNTO_</div>
+</div>
+
+<script>
+  const modal = document.getElementById('zoomModal');
+  const zoomedImage = document.getElementById('zoomedImage');
+  let scale = 1;
+  function openZoom(src) { modal.style.display = 'flex'; zoomedImage.src = src; scale = 1; zoomedImage.style.transform = `scale(${scale})`; }
+  function closeZoom() { modal.style.display = 'none'; }
+  modal.addEventListener('wheel', (e) => { e.preventDefault(); scale += e.deltaY < 0 ? 0.2 : -0.2; scale = Math.max(1, Math.min(scale, 6)); zoomedImage.style.transform = `scale(${scale})`; });
+  zoomedImage.addEventListener('click', (e) => e.stopPropagation());
+</script>
+</body>
+</html>

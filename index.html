@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal de Acceso - Estudio de Mario Molina: ScanLabb digitalización planos de ingeniería - CAD, BIM, GIS, Desarrollo Web." />
-  <title>Portal de Inicio | Mario Molina · ScanLabb</title>
+  <meta name="description" content="Portal de Acceso - ScanLabb: Digitalización de planos, CAD, BIM, GIS, Desarrollo Web. Dirige Mario Molina." />
+  <title>Portal de Inicio | ScanLabb · Mario Molina</title>
   <style>
     /* ========================================================================
        PROPIEDADES DEL SISTEMA (System Variables / Edit CAD)
@@ -34,7 +34,7 @@
       --portal-cursor-visible: inline-block; /* 'none' para ocultar el cursor */
 
       /* === [0] LOGO SUPERIOR =============================================== */
-      --logo-size: 250px;      /* Valor inicial 130px_ */
+      --logo-size: 180px;      /* AJUSTADO PARA FORMATO APAISADO */
       --logo-glow: rgba(0, 229, 255, .35);
 
       /* === [1] SUBTÍTULO PARAMÉTRICO (atributos separados) === */
@@ -230,6 +230,8 @@
 
     .card-list li::before { content: '>'; color: var(--accent-cyan); font-weight: bold; }
 
+    .card-list p { color: var(--text-dim); margin: 5px 0; display: block; }
+
     .card-footer {
       margin-top: 5px;
       display: flex;
@@ -345,37 +347,6 @@
     .contact-zone a:hover { border-bottom-color: currentColor; }
 
     /* ========================================================================
-       ZONA EXPANSIBLE (Add More)
-       ======================================================================== */
-    .expansion-zone {
-      border: 1px dashed var(--border-dim);
-      padding: 15px;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .expansion-title {
-      font-family: var(--cad-font);
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .add-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--cad-font);
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      padding: 8px 15px;
-      border: 1px dashed var(--border-dim);
-    }
-    .add-link:hover { color: var(--accent-amber); border-color: var(--accent-amber); }
-
-    /* ========================================================================
        FOOTER
        ======================================================================== */
     .terminal-footer {
@@ -411,7 +382,7 @@
        ======================================================================== */
     .wa-float {
       position: fixed; bottom: var(--wa-offset); right: var(--wa-offset);
-      width: var(--wa-size); height: var(--wa-size); z-index: 9999; /* sobre la capa CRT */
+      width: var(--wa-size); height: var(--wa-size); z-index: 9999;
       display: flex; align-items: center; justify-content: center;
       background: var(--wa-green); color: #fff; border-radius: 50%;
       box-shadow: 0 4px 14px rgba(0,0,0,.55);
@@ -422,7 +393,6 @@
       color: #fff; transform: translateY(-3px) scale(1.06);
       box-shadow: 0 8px 22px rgba(37,211,102,.45);
     }
-    /* Anillo de pulso */
     .wa-float::before {
       content: ''; position: absolute; inset: 0; border-radius: 50%;
       border: 2px solid var(--wa-green);
@@ -432,7 +402,6 @@
       0%   { transform: scale(1);   opacity: .8; }
       100% { transform: scale(1.7); opacity: 0; }
     }
-    /* Tooltip estilo terminal */
     .wa-float::after {
       content: 'CONTACT_WHATSAPP';
       position: absolute; right: calc(100% + 12px); top: 50%;
@@ -447,10 +416,10 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      :root { --wa-size: 48px; --wa-offset: 15px; --logo-size: 90px; }
+      :root { --wa-size: 48px; --wa-offset: 15px; --logo-size: 120px; }
       .access-grid { grid-template-columns: 1fr; }
       .card-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
-      .wa-float::after { display: none; } /* sin tooltip táctil */
+      .wa-float::after { display: none; }
     }
   </style>
 </head>
@@ -461,25 +430,26 @@
     &gt; INIT_SYSTEM... OK<br>&gt; LOADING_MODULES [CAD] [BIM] [GIS] [WEB]... OK<br>&gt; ESTABLISHING_CONNECTION... OK<br>&gt; ACCESS GRANTED<span class="cursor_"></span>
   </div>
 
-  <!-- [0] LOGO SCANLABB sobre el título (renombrá a img/mi_logo.png con extensión) -->
- <!--     <img src="img/mi_logo.png" alt="Logo ScanLabb" class="portal-logo" onerror="this.style.display='none'">    -->
-  <p class="portal-subtitle">&gt; <span class="portal-highlight">PORTAL_</span></p>
-  <h1 class="portal-title">MARIO MOLINA</h1>
+  <!-- [0] LOGO SCANLABB SUPERIOR -->
+  <img src="render/scanlabb.png" alt="Logo ScanLabb" class="portal-logo" onerror="this.style.display='none'">
+  
+  <h1 class="portal-title">PORTAL SCANLABB</h1>
 
   <!-- [1] Subtítulo paramétrico -->
   <p class="portal-subtitle">&gt; <span class="portal-highlight">Soluciones de Diseño · Digitalización · Planos · 
   3D · Desarrollo Web_</span><span class="cursor portal-cursor"></span></p>
-    <p class="portal-subtitle">&gt; <span class="portal-highlight">[WA] +54 9 2345 44-6330</span></p>
   
-
+  <!-- MENCIÓN DE DIRECCIÓN -->
+  <p class="portal-subtitle">&gt; <span class="portal-highlight">DIRIGE: MARIO MOLINA · Diseñador y Constructor Civil</span></p>
+    <p class="portal-subtitle">&gt; <span class="portal-highlight">[WA] +54 9 2345 44-6330</span></p>
   
   <p class="portal-subtitle">&gt; SELECT WORKSPACE ENVIRONMENT_</p>
 
   <div class="access-grid">
-    <!-- ACCESO 1: SCANLABB -->
+    <!-- ACCESO 1: SCANLABB (Laboratorio Digital) -->
     <div class="portal-card">
       <div class="card-header">
-        <img src=" " alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
+        <img src="img/scanlabb.png" alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>ScanLabb</h2>
           <span>| Laboratorio Digital</span>
@@ -491,7 +461,28 @@
           <li>Vectorizamos y reconstruimos planos, perspectivas e ilustraciones históricas</li>
           <li>Convertimos documentos en papel a formatos editables CAD, GIS o PDF.</li>
           <p>··</p>
-          <li>Desarrollo propio de plataformas Web personalizadas y Visores 2D/3D.</li>
+          <li>Envianos tu consulta por Whatsapp [WA] +54 9 2345 44-6330.</li>          
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span class="card-url">scanlabb.github.io</span>
+        <a href="scanlabb.html" class="enter-btn">[ INGRESAR ]</a>
+      </div>
+    </div>
+
+    <!-- ACCESO 2: DESARROLLO WEB -->
+    <div class="portal-card">
+      <div class="card-header">
+        <img src=" " alt="ScanLabb Logo" class="card-logo" onerror="this.style.display='none'">
+        <div class="card-titles">
+          <h2>Desarrollo Web</h2>
+          <span>| ScanLabb Studio</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>Desarrollo propio de plataformas Web personalizadas para uso general.</li>
+          <li>Desarrollo Web especializadas para ingenieria, arquitectura y diseño con Visores 2D/3D.</li>
           <li>Armamos tu sistema de información para gestionar planos y documentos digitales.</li>
           <p>··</p>
           <li>Envianos tu consulta por Whatsapp [WA] +54 9 2345 44-6330.</li>          
@@ -499,18 +490,17 @@
       </div>
       <div class="card-footer">
         <span class="card-url">scanlabb.github.io</span>
-        <a href="https://scanlabb.github.io/scanlabb/index.html" class="enter-btn">[ INGRESAR ]</a>
+        <a href="desarrollo-web.html" class="enter-btn">[ INGRESAR ]</a>
       </div>
     </div>
 
-    <!-- ACCESO 2: OFICINA TÉCNICA -->
+    <!-- ACCESO 3: OFICINA TÉCNICA -->
     <div class="portal-card">
       <div class="card-header">
         <img src=" " alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>Oficina Técnica</h2>
           <span> | arquitectura e ingeniería.</span>
-          <span>Hacemos planos en AutoCAD para profesionales, particulares, inmobiliarias y empresas.</span>
         </div>
       </div>
       <div class="card-body">
@@ -526,17 +516,17 @@
       </div>
       <div class="card-footer">
         <span class="card-url">mariomolinacc.github.io</span>
-        <a href="https://scanlabb.github.io/mmcc/index.html" class="enter-btn">[ INGRESAR ]</a>
+        <a href="oficina-tecnica.html" class="enter-btn">[ INGRESAR ]</a>
       </div>
     </div>
 
-    <!-- ACCESO 3: DISEÑO Y CONSTRUCCIÓN -->
+    <!-- ACCESO 4: DISEÑO Y CONSTRUCCIÓN -->
     <div class="portal-card">
       <div class="card-header">
         <img src=" " alt="Mario Molina Logo" class="card-logo" onerror="this.style.display='none'">
         <div class="card-titles">
           <h2>Diseño y Construcción</h2>
-          <span>| Diseño, Proyecto y Dirección de Obras</span>
+          <span>| Dir. Mario Molina · Obras</span>
         </div>
       </div>
       <div class="card-body">
@@ -550,12 +540,9 @@
       </div>
       <div class="card-footer">
         <span class="card-url">mariomolinacc.github.io</span>
-        <a href="https://scanlabb.github.io/dcc/index.html" class="enter-btn">[ INGRESAR ]</a>
+        <a href="diseno-construccion.html" class="enter-btn">[ INGRESAR ]</a>
       </div>
     </div>
-
-    <!-- ACCESO EXTRA (Plantilla) -->
-    <div class="portal-card" style="display: none;"></div>
   </div>
 
   <!-- [3] RENDER APAISADO — cambiá el src por tu render -->
@@ -569,7 +556,7 @@
     </figcaption>
   </figure>
 
-  <!-- [2] BOTONES DE ACCESO RÁPIDO (actualizá los href a tus páginas reales) -->
+  <!-- [2] BOTONES DE ACCESO RÁPIDO -->
   <div class="botones-hero">
     <a href="https://scanlabb.github.io/proyectos.html" class="btn btn-outline">Ver Renders 3D</a>
     <a href="https://scanlabb.github.io/blog.html" class="btn btn-outline">Bitácora </a>
@@ -585,15 +572,9 @@
     <span class="contact-sep">·</span>
     <span class="cz-status">STATUS: ONLINE</span>
   </div>
-
-  <!--   <div class="expansion-zone">
-    <p class="expansion-title">&gt; SYSTEM READY FOR NEW MODULES_</p>
-    <a href="#" class="add-link" onclick="alert('Reserva de espacio para futuros accesos directos.')">+ ADD NEW WORKSPACE</a>
-  </div>
--->
   
   <div class="terminal-footer">
-    &gt; ESTUDIO SCANLABB © <span id="year">2026</span> · DIGITALIZACIÓN Y RESCATE PATRIMONIAL<br>
+    &gt; ESTUDIO SCANLABB © <span id="year">2024</span> · DIGITALIZACIÓN Y RESCATE PATRIMONIAL<br>
     &gt; DISEÑO Y DIRECCIÓN: MARIO MOLINA · CONSTRUCTOR CIVIL · GEOINFORMÁTICO<br>
     &gt; PORTAL_TERMINAL_v1.01 · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
   </div>
@@ -608,6 +589,7 @@
 </a>
 
 <script>
+  // Script para inyectar el año actual automáticamente
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
