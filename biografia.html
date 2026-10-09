@@ -200,6 +200,146 @@
       .zoom-img { max-height: 400px; }
       .lightbox-close { top: 15px; right: 15px; font-size: 30px; }
     }
+    
+    
+    
+    /* ========================================================
+           NUEVOS ESTILOS: Imágenes Antes/Después, Timeline, Cards y Lightbox
+           ======================================================== */
+
+        /* 1. Bloque de Imágenes Antes y Después */
+        .img-comparison {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            background: var(--exp-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .img-comp-item {
+            flex: 1;
+            text-align: center;
+        }
+        .img-comp-item img {
+            width: 100%;
+            height: 470px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--img-bd);
+            box-shadow: var(--sh-ib);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .img-comp-item img:hover { transform: scale(1.02); }
+        .img-comp-label {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--text-m);
+            font-weight: 600;
+        }
+        .img-comp-label strong { color: var(--accent); }
+
+        /* 2. Imagen Apaisada Independiente (Ej: Trayectoria) */
+        .full-width-img-container {
+            margin: 30px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--sh-ib);
+        }
+        .zoom-img {
+            width: 100%;
+            height: auto;
+            max-height: 700px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .zoom-img:hover {
+            transform: scale(1.01);
+            filter: brightness(1.1);
+        }
+
+        /* 3. Contenedor de 3 Imágenes en Fila (Formación Académica) */
+        .formacion-imagenes {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .formacion-imagenes .img-col {
+            flex: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--img-bd);
+            box-shadow: var(--sh-ib);
+        }
+        .formacion-imagenes .zoom-img {
+            max-height: 220px;
+        }
+
+        /* 4. Línea de Tiempo de Evolución Profesional */
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: var(--border);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        .timeline-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        .timeline-card {
+            flex: 1 1 45%;
+            background: var(--exp-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--sh-ib);
+        }
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
+        .timeline-year {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .timeline-card h4 {
+            color: var(--h1);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .timeline-card p {
+            font-size: 0.9rem;
+            color: var(--text-m);
+            margin-bottom: 0;
+        }
+    
+    
         
   </style>
 </head>
@@ -211,26 +351,85 @@
   </div>
 
   <h1 class="portal-title">Mario Molina</h1>
-  <p class="portal-subtitle">&gt; <span class="portal-highlight"> Diseñador y Constructor Civil <br>
-        especializado en CAD, GIS, BIM y GeoInformática. </span></p>
+  <p class="portal-subtitle">&gt; <span class="portal-highlight"> Diseño y Dirección <br>
+        ScanLabb Laboratorio Digital </span></p>
 
   <!-- TARJETA DE SERVICIOS -->
   <div class="info-card">
     <div class="card-header-service">
       <h2>Resumen perfil profesional</h2>
-    </div>
-
-    <ul class="data-list">
-        <li>Es un Diseñador, Constructor Civil, Dibujante e Ilustrador arquitectónico argentino, con más de tres 
-         décadas de experiencia en proyectos de ingeniería, arquitectura y diseño para empresas multinacionales líderes como 
-        — Arcor, Philips, Whirlpool, Peabody y Philco —, además de asesorar y dirigir proyectos de reconversión de activos 
-        industriales para —Daewoo, NewSan y Midas—. [1]</li>
       
-        <li> Su perfil integra diversas tecnologías — CAD, CAE, BIM, GIS, Geoinformática y Desarrollo Web —, combina 
-         competencias técnicas y de gestión que le permiten intervenir con precisión en todas las etapas del ciclo 
-         de vida de proyectos de edificación, infraestructura, desarrollo tecnológico y productos. </li>
-    </ul>
-  </div>
+        <p>Mario Molina es un Constructor Civil, GeoInformático, Dibujante e Ilustrador arquitectónico argentino, con más 
+           de tres décadas de experiencia en proyectos de ingeniería, construcción e industria para empresas multinacionales.</p>
+      
+        <p> Ha diseñado y desarrollado proyectos para empresas internacionales líderes como — Arcor, Philips, Whirlpool, 
+           Peabody y Philco — y ha liderado proyectos de reconversión de activos industriales para marcas como 
+           Daewoo, NewSan y Midas.</p>
+
+       <h3>🔄 Evolución del perfil profesional: Transición antes y después de 1992 </h3>
+        
+         <p> Su trayectoria representa la evolución desde el trabajo manual en tableros de dibujo y tecnígrafos, hasta 
+             la gestión digital de proyectos mediante tecnologías CAD, GIS y BIM, especializandose desde 1992, hasta el presente.  </p>
+
+         <p>Ayer: Sus inicios como dibujante, ilustrador y proyectista, fueron con tableros, tecnígrafos, copiadoras 
+            heliográficas, planos de gran formato y archivos (planeras) bajo estándares de rigor militar como 
+            en las empresas multinacionales, propios de un sistema de información de ingeniería del siglo XX. </p>
+         
+          <p>Hoy: Su perfil profesional actual se define como un diseñador tecnológico capaz de integrar 
+              ecosistemas complejos que incluyen CAD, CAE, BIM, GeoInformática y Desarrollo Web, para optimizar 
+              las capacidades del sistema de información digital del siglo XXI. </p>
+         
+
+ <!-- MEJORA 1: Imágenes Antes y Después -->
+            <div class="img-comparison">
+                <div class="img-comp-item">
+                    <img src="img/antes_tablero.jpg" alt="Dibujo manual en tablero" class="zoom-img">
+                    <div class="img-comp-label"><strong>Ayer:</strong> Dibujante e Ilustrador con tableros y tecnígrafos. La era donde 
+                    la precisión dependía de la firma, el estilógrafo y la responsabilidad absoluta del proyectista.</div>
+                </div>
+                <div class="img-comp-item">
+                    <img src="img/despues_cad.jpg" alt="Pantallas con sistemas CAD, BIM y GIS" class="zoom-img">
+                    <div class="img-comp-label"><strong>Hoy:</strong> Diseñador tecnológico. La potencia digital de los sistemas. 
+                    Modelado arquitectónico e industrial CAD/BIM, análisis espacial con GIS 
+                    avanzados y desarrollo de plataformas web 2D y 3D.</div>
+                </div>
+            </div>
+
+          <!--  <p>En su practica actual, administra y opera sobre equipos multisistemas (Debian, macOS y Windows).
+                 Su experiencia técnica se articula en dos ejes principales:</p>
+            
+                 <p>  1. <strong>Entornos corporativos (multinacionales)</strong>: Usa software comercial como AutoCAD, 
+                       Civil 3D, Revit, SketchUp, SAP y otros. <br>
+                      2. <strong>Sector privado (pymes y particulares)</strong>: Emplea FreeCAD, QGIS, OpenCAD, 
+                       IngeTrazo, Blender BIM y otros, reduciendo costos, sin perder precisión, manteniendo la 
+                       interoperabilidad con formatos DWG, DXF e IFC </p>            
+           --->         
+                    
+
+     <h3>💼 Trayectoria y Roles Clave</h3>
+
+          <p>Inició su carrera como dibujante en la provincia de Buenos Aires (Estudio Arq. Jorge Luis Vázquez, 1980-1982) y 
+          como dibujante e ilustrador arquitectónico en CABA (Estudio Iribarne y Asociados, 1982-1986). Esta etapa le permitió 
+          incorporarse al ámbito de la arquitectura, la ingeniería y la documentación técnica, antes de completar sus estudios 
+          en diseño y construcción.</p> 
+
+           <p>A lo largo de su carrera se ha desempeñado como:</p>
+
+          <p><strong>Diseñador y Proyectista</strong>: Desarrollo arquitectónico, mecánico y tecnológico de componentes,
+             productos y plantas industriales.<br>
+           <strong>Líder de Ingeniería y Proyectos</strong>: Gerencia civil/industrial y dirección de obras (viviendas, 
+            naves industriales y centros logísticos).<br>
+             <strong>Consultor Estratégico</strong>: Asesor técnico en la reconversión y optimización de activos industriales.</p>
+
+
+         <h3>🚀 Presente: ScanLabb </h3>
+
+           <p>Actualmente dirige ScanLabb, un estudio especializado en el diseño, digitalización, restauración y gestión inteligente 
+            de documentación técnica (planos, mapas y archivos históricos). Transformamos el archivo físico en activos 
+           digitales mediante el desarrollo de plataformas web para la consulta y visualización de datos técnicos en 2D y 3D.</p>
+
+
+
 
   <h2>Educación</h2>
   
@@ -241,9 +440,10 @@
 
  <p>❄️<strong> Formación en Tecnologías de Enfriamiento y Termofísica</strong> <br>
       Centro de Investigación POLO-UFSC, Universidad Federal de Santa Catarina, SC, Brasil | 2007 <br>
-      Director especialidad: Prof. Ing. Claudio Melo <br>
+      Director de POLO-UFSC: Prof. Dr. Ing. Claudio Melo <br>
       Área de especialización: <br> 
-      Formacion en Tecnologías de Enfriamiento y Termofísica, dirigida a profesionales de ingenieria de desarrollo de electrodomésticos.</p>
+      Formación de especialización en Tecnologías de Enfriamiento y Termofísica, dirigido a profesionales de ingenieria de 
+      desarrollo de electrodomésticos.</p>
    
   <p>🌐<strong> Especialización en Sistemas de Información Geográfica</strong> <br>
       Escuela de Posgrado, FADU-UBA | 2004<br> 
