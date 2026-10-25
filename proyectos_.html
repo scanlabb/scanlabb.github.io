@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio de Proyectos - Mario Molina · ScanLabb. Evolución desde el croquis inicial hasta el render final." />
+    <title>Proyectos | Mario Molina · ScanLabb</title>
+    <style>
+        /* ========================================================================
+           PROPIEDADES DEL SISTEMA (Heredadas de tu Portal CAD)
+           ======================================================================== */
+        :root {
+            --bg-dark: #050505;
+            --bg-grid: #08090C;
+            --accent-cyan: #00E5FF;
+            --accent-cyan-hover: #5BF2FF;
+            --accent-amber: #fad816;
+            --text-light: #E2E8F0;
+            --text-muted: #94A3B8;
+            --text-dim: #555;
+            --border-dim: #333;
+            --cad-font: 'Lucida Console', 'Courier New', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.4;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 15px;
+        }
+
+        /* Efectos visuales heredados */
+        body::after { 
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            pointer-events: none; z-index: 9998; 
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); 
+            opacity: .22; 
+        }
+        body::before { 
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            pointer-events: none; z-index: -1; 
+            background-color: var(--bg-grid); 
+            background-image: linear-gradient(rgba(0,229,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,.03) 1px, transparent 1px); 
+            background-size: 20px 20px; 
+        }
+
+        .terminal-container { width: 100%; max-width: 1100px; z-index: 10; } /* Ancho mayor para galerías */
+        
+        /* Boot Screen */
+        .boot-screen { 
+            font-family: var(--cad-font); color: var(--accent-amber); 
+            font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 15px; 
+            text-align: center; border-bottom: 1px dashed var(--border-dim); 
+            padding-bottom: 10px; 
+        }
+        .cursor {
+            display: inline-block; width: 8px; height: 1em;
+            background: var(--accent-cyan); vertical-align: text-bottom;
+            animation: blink 1s steps(1) infinite; margin-left: 4px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Títulos */
+        .portal-title { 
+            font-family: var(--cad-font); font-size: clamp(2rem, 5vw, 3rem); 
+            background: linear-gradient(0deg, #FFFFFF 0%, var(--accent-cyan) 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            letter-spacing: 4px; text-align: center; margin: 10px 0 5px; 
+        }
+        .portal-subtitle { 
+            font-family: var(--cad-font); color: var(--text-muted); font-size: 0.85rem; 
+            letter-spacing: 2px; text-transform: uppercase; text-align: center; 
+            margin-bottom: 40px; 
+        }
+        .portal-highlight { color: var(--accent-cyan); font-weight: bold; }
+
+        /* Botón FullScreen CAD Style */
+        .fs-btn-container { text-align: center; margin-bottom: 30px; }
+        .fs-btn { 
+            background: transparent; border: 1px solid var(--accent-cyan); 
+            color: var(--accent-cyan); padding: 8px 15px; cursor: pointer; 
+            font-family: var(--cad-font); font-size: 0.8rem; letter-spacing: 1px;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: all 0.2s ease; 
+        }
+        .fs-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .fs-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        .fs-btn .icon-exit { display: none; } 
+        .fs-btn.active .icon-enter { display: none; } 
+        .fs-btn.active .icon-exit { display: block; } 
+
+        /* ========================================================================
+           GALERÍA DE PROYECTOS (Estilo CAD)
+           ======================================================================== */
+        .proyectos-grid { 
+            display: grid; grid-template-columns: 1fr; gap: 40px; 
+            margin-bottom: 40px; 
+        }
+        
+        .proyecto-card { 
+            border: 1px solid var(--border-dim); 
+            background: rgba(0,0,0,0.4); 
+            transition: border-color 0.3s ease;
+        }
+        .proyecto-card:hover { border-color: var(--accent-cyan); }
+
+        .proyecto-header { 
+            padding: 15px 20px; border-bottom: 1px dashed var(--border-dim); 
+        }
+        .proyecto-header h3 { 
+            font-family: var(--cad-font); color: #FFF; font-size: 1.1rem; margin-bottom: 5px; 
+        }
+        .proyecto-header p { 
+            font-family: var(--cad-font); color: var(--accent-amber); font-size: 0.8rem; letter-spacing: 1px; 
+        }
+
+        .proyecto-galeria { display: flex; flex-direction: column; gap: 1px; background: var(--border-dim); }
+        .proyecto-galeria .imagen-contenedor { position: relative; overflow: hidden; background: #000; }
+        .proyecto-galeria .imagen-contenedor img { 
+            width: 100%; height: auto; display: block; 
+            transition: transform 0.4s ease, filter 0.4s ease; 
+            cursor: zoom-in; 
+        }
+        .proyecto-galeria .imagen-contenedor:hover img { transform: scale(1.02); filter: brightness(1.1); }
+
+        .etiqueta { 
+            background: rgba(0, 0, 0, 0.8); color: var(--accent-cyan); 
+            border: 1px solid var(--accent-cyan);
+            padding: 4px 10px; font-family: var(--cad-font); font-size: 0.7rem; 
+            letter-spacing: 1px; text-transform: uppercase;
+            position: absolute; top: 10px; left: 10px; z-index: 2; 
+        }
+
+        /* ========================================================================
+           LIGHTBOX (Visor de imágenes)
+           ======================================================================== */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .lightbox-overlay.active { opacity: 1; visibility: visible; }
+        .lightbox-overlay img {
+            max-width: 95%; max-height: 95%; object-fit: contain;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8); transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .lightbox-overlay.active img { transform: scale(1); }
+        .lightbox-close {
+            position: absolute; top: 25px; right: 35px; color: #fff;
+            font-size: 40px; font-weight: 300; font-family: 'Arial', sans-serif;
+            cursor: pointer; transition: color 0.2s, transform 0.2s; z-index: 10001;
+        }
+        .lightbox-close:hover { color: var(--accent-cyan); transform: rotate(90deg); }
+
+        /* Footer y botón de retorno */
+        .center { text-align: center; margin: 40px 0 20px; }
+        .btn-back {
+            display: inline-block; padding: 10px 25px;
+            background: transparent; color: var(--accent-cyan);
+            font-family: var(--cad-font); font-size: 0.8rem; font-weight: 700;
+            border: 1px solid var(--accent-cyan); 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-decoration: none; transition: all 0.2s ease;
+        }
+        .btn-back:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+
+        .terminal-footer {
+            margin-top: 20px; border-top: 1px solid var(--accent-cyan); padding-top: 10px;
+            font-family: var(--cad-font); font-size: 0.7rem; color: var(--text-dim);
+            text-align: center; letter-spacing: 1px; line-height: 1.8; width: 100%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .portal-title { letter-spacing: 2px; }
+            .proyectos-grid { gap: 25px; }
+            .lightbox-close { top: 15px; right: 15px; font-size: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="terminal-container">
+    <div class="boot-screen">
+        &gt; LOADING MODULE [PORTFOLIO_RENDER]... OK<br>&gt; ACCESS GRANTED<span class="cursor"></span>
+    </div>
+
+    <h1 class="portal-title">Mis Proyectos</h1>
+    <p class="portal-subtitle">&gt; <span class="portal-highlight">Evolución desde el croquis inicial hasta el render final</span></p>
+
+    <!-- Botón FullScreen -->
+  <!--   <div class="fs-btn-container">
+        <button class="fs-btn" id="fsToggle" aria-label="Full Screen" title="Activar/Desactivar Pantalla Completa">
+            <span>Full Screen</span>
+            <!-- Icono Expandir -->
+   <!--          <svg class="icon-enter" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+  -->        
+    <!-- Icono Contraer -->
+       <!--      <svg class="icon-exit" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+        </button>
+ </div>
+  -->
+
+ 
+   <!-- Botónes superiores --> 
+   <div class="fs-btn-container custom-button-grid">
+    <!-- Botón Full Screen -->
+         <button class="fs-btn" id="fsToggle" aria-label="Full Screen" title="Activar/Desactivar Pantalla Completa" 
+            onclick="document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()">
+        <span>Full Screen</span>
+    </button>
+
+    <!-- Enlaces (Volver, Biografía, Contacto) -->
+
+    <a href="biografia.html" class="btn-back">[ Biografía ]</a>
+    <a href="index.html#contacto" class="btn-back">[ Contacto ]</a>
+    <a href="index.html" class="btn-back">[ Volver al portal ]</a>
+</div>
+
+<style>
+/* Estilos para lograr la fila de 4 columnas iguales */
+.custom-button-grid {
+    display: flex;         /* Activa el diseño en línea/fila */
+    gap: 15px;             /* Espacio de separación entre los botones */
+    width: 100%;           /* Ocupa el ancho total disponible */
+}
+
+/* Forzar a que cada elemento ocupe exactamente el mismo ancho */
+.custom-button-grid .fs-btn,
+.custom-button-grid .btn-back {
+    flex: 1;               /* Distribuye el espacio equitativamente (columnas iguales) */
+    text-align: center;    /* Centra el texto dentro de cada botón */
+    box-sizing: border-box;
+}
+</style>
+
+
+
+    <!-- Galería de Proyectos -->
+    <div id="galeria-proyectos" class="proyectos-grid">
+        
+        <!-- PROYECTO 1 -->
+        <div class="proyecto-card">
+            <div class="proyecto-header">
+                <h3>Proyecto Residencial y Comercial</h3>
+                <p>Diseño de edificio multifamiliar y comercial - Punta del Este, Uruguay</p>
+            </div>
+            <div class="proyecto-galeria">
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Dibujo manual</span>
+                    <img src="img/proyecto_pe_00.webp" alt="Dibujo Punta del Este" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render diurno</span>
+                    <img src="img/proyecto_pe_01.webp" alt="Render diurno Punta del Este" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render atardecer</span>
+                    <img src="img/proyecto_pe_02.webp" alt="Render atardecer Punta del Este" class="zoom-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- PROYECTO 2 -->
+        <div class="proyecto-card">
+            <div class="proyecto-header">
+                <h3>Diseño Residencial</h3>
+                <p>Diseño de Vivienda Unifamiliar - Casa Dufaur, San Isidro (BA)</p>
+            </div>
+            <div class="proyecto-galeria">
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Dibujo</span>
+                    <img src="img/proyecto_df_00.webp" alt="Dibujo Casa Dufaur" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render D</span>
+                    <img src="img/proyecto_df_01.webp" alt="Render Día Casa Dufaur" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render N</span>
+                    <img src="img/proyecto_df_02.webp" alt="Render Noche Casa Dufaur" class="zoom-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- PROYECTO 3 -->
+        <div class="proyecto-card">
+            <div class="proyecto-header">
+                <h3>Proyecto Residencial</h3>
+                <p>Diseño de vivienda unifamiliar - Casa Ayacucho, San Isidro (BA)</p>
+            </div>
+            <div class="proyecto-galeria">
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Dibujo</span>
+                    <img src="img/proyecto_ca_00.webp" alt="Dibujo Casa Ayacucho" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render D</span>
+                    <img src="img/proyecto_ca_01.webp" alt="Render Día Casa Ayacucho" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render N</span>
+                    <img src="img/proyecto_ca_02.webp" alt="Render Noche Casa Ayacucho" class="zoom-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- PROYECTO 4 -->
+        <div class="proyecto-card">
+            <div class="proyecto-header">
+                <h3>Proyecto Residencial</h3>
+                <p>Diseño de vivienda unifamiliar - Casa Martinez, San Isidro (BA)</p>
+            </div>
+            <div class="proyecto-galeria">
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Dibujo</span>
+                    <img src="img/proyecto_ct_00.webp" alt="Dibujo Casa Martinez" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render D</span>
+                    <img src="img/proyecto_ct_01.webp" alt="Render Día Casa Martinez" class="zoom-img">
+                </div>
+                <div class="imagen-contenedor">
+                    <span class="etiqueta">Render N</span>
+                    <img src="img/proyecto_ct_02.webp" alt="Render Noche Casa Martinez" class="zoom-img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+          <a href="biografia.html" class="btn-back">[ Biografía ]</a>
+          <a href="index.html#contacto" class="btn-back">[ Contacto ]</a>
+          <a href="index.html" class="btn-back">[ VOLVER_Al portal ]</a>
+
+    </div>
+
+    <div class="terminal-footer">
+        &gt; ESTUDIO SCANLABB © <span id="year">2026</span> · DISEÑO Y DIRECCIÓN: MARIO MOLINA<br>
+        &gt; PORTAFOLIO_DE_PROYECTOS_v1.0 · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
+    </div>
+</div>
+
+<!-- Estructura Lightbox -->
+<div class="lightbox-overlay" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img src="" alt="Imagen ampliada" id="lightboxImg">
+</div>
+
+<script>
+    // 1. Script para el Lightbox (Zoom de imágenes)
+    document.addEventListener('DOMContentLoaded', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const zoomImages = document.querySelectorAll('.zoom-img');
+
+        zoomImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) lightbox.classList.remove('active');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                lightbox.classList.remove('active');
+            }
+        });
+    });
+
+    // 2. Script para FullScreen
+    const fsToggle = document.getElementById('fsToggle');
+    const docElement = document.documentElement;
+
+    fsToggle.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+            if (docElement.requestFullscreen) docElement.requestFullscreen();
+            else if (docElement.mozRequestFullScreen) docElement.mozRequestFullScreen();
+            else if (docElement.webkitRequestFullscreen) docElement.webkitRequestFullscreen();
+            else if (docElement.msRequestFullscreen) docElement.msRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) fsToggle.classList.add('active');
+        else fsToggle.classList.remove('active');
+    });
+
+    // 3. Año dinámico del footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
+
