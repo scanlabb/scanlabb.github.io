@@ -468,11 +468,19 @@ a:hover { color: var(--accent-cyan-hover); }
   border-left: 1px solid var(--accent-cyan);
   box-shadow: -8px 0 30px rgba(0,0,0,.6);
   transform: translateX(100%);
-  transition: transform .28s ease;
+  /* [FIX TV] visibility: con el menú cerrado los enlaces quedan fuera de
+     pantalla pero eran "focuseables" por el D-pad del control remoto.
+     Con visibility:hidden el foco ya no puede entrar al menú invisible. */
+  visibility: hidden;
+  transition: transform .28s ease, visibility 0s linear .28s;
   display: flex; flex-direction: column;
   padding: 64px 0 16px;
 }
-.nav-drawer.open { transform: translateX(0); }
+.nav-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform .28s ease;
+}
 
 .nav-drawer::before {
   content: '> NAV_MENU :: SCANLABB_';
@@ -530,7 +538,13 @@ a:hover { color: var(--accent-cyan-hover); }
   border: 1px solid var(--border-dim);
   overflow: hidden;
   cursor: ew-resize;
-  touch-action: none; /* permite arrastrar en táctil sin hacer scroll */
+  /* [FIX SMART TV] Antes: touch-action:none → prohibía al navegador CUALQUIER
+     gesto iniciado sobre la imagen. En Google TV el puntero del control remoto
+     viaja como gesto táctil (pan), así que al entrar el cursor en esta zona la
+     página ya no podía scrollear en vertical y el cursor quedaba atrapado.
+     Con pan-y el scroll vertical de la página NUNCA se bloquea; el gesto
+     horizontal queda reservado para el comparador. */
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
   transition: border-color .3s ease;
@@ -581,7 +595,7 @@ a:hover { color: var(--accent-cyan-hover); }
 .car-viewport { overflow: hidden; aspect-ratio: 1408 / 739; }
 .car-track {
   display: flex; height: 100%;
-  transition: transform .5s cubic-bezier(.4, 0, .2, 1);    /* ==== .45s ====== */ 
+  transition: transform .5s cubic-bezier(.4, 0, .2, 1);    /* ==== .45s ====== */
 }
 .car-slide { flex: 0 0 100%; position: relative; }
 .car-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -874,7 +888,7 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
   <footer class="terminal-footer">
     &gt; ESTUDIO SCANLABB © <span id="year">2026</span> · DIGITALIZACIÓN Y RESCATE PATRIMONIAL<br>
     &gt; DISEÑO Y DIRECCIÓN: MARIO MOLINA<br>
-    &gt; PORTAL_TERMINAL_v1.02 · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
+    &gt; PORTAL_TERMINAL_v1.03 · ALL SYSTEMS OPERATIONAL<span class="cursor"></span>
   </footer>
 
   <!-- ============ [5] BOTÓN FLOTANTE WHATSAPP ============ -->
@@ -911,12 +925,37 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
     a.addEventListener('click', function () { setMenu(false); });
   });
 
-  /* ======== [7] COMPARADOR ANTES / DESPUES ======== */
+  /* ======== [7] COMPARADOR ANTES / DESPUES — TV-SAFE ========
+     FIX Google TV / Smart TV (cursor atrapado sobre las imágenes):
+
+     CAUSA: antes hacia touch-action:none + setPointerCapture() en el primer
+     toque. El navegador del TV trata el puntero del control remoto como un
+     gesto táctil, entonces CUALQUIER contacto sobre la imagen quedaba
+     "secuestrado" por el comparador: la página no podía scrollear en vertical
+     y el cursor quedaba atrapado dentro del bloque.
+
+     SOLUCION:
+     1) touch-action: pan-y (en el CSS) → el scroll vertical nunca se bloquea.
+     2) Detección de eje con zona muerta: el gesto se toma SOLO si es
+        horizontal (dx > dy). Si es vertical, se suelta y la página se
+        desplaza con normalidad.
+     3) Liberación garantizada: pointerup + pointercancel + lostpointercapture.
+     4) Teclado / control remoto: solo ← → se interceptan; ↑ ↓ y Tab pasan
+        libres, así el foco nunca queda encerrado dentro del slider.
+
+     En PC y móvil el comportamiento queda igual que antes:
+     toque/clic = salto directo · arrastre horizontal = mover la división. */
   var ba = document.getElementById('baSlider');
   if (ba) {
     var after = ba.querySelector('.ba-after');
     var handle = ba.querySelector('.ba-handle');
-    var pos = 50, dragging = false;
+    var pos = 50;
+
+    var SLOP = 8;         /* zona muerta (px) antes de decidir el eje del gesto */
+    var downId = null;    /* pointerId en observación */
+    var downX = 0, downY = 0;
+    var axis = null;      /* 'x' | 'y' | null */
+    var dragging = false; /* gesto horizontal confirmado → controla el comparador */
 
     function apply() {
       after.style.clipPath = 'inset(0 ' + (100 - pos) + '% 0 0)';
@@ -929,18 +968,55 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
       pos = Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100));
       apply();
     }
+    function endGesture() {
+      downId = null; axis = null; dragging = false;
+    }
+
     ba.addEventListener('pointerdown', function (e) {
-      dragging = true;
-      if (ba.setPointerCapture) { try { ba.setPointerCapture(e.pointerId); } catch (err) {} }
-      fromX(e.clientX);
-      e.preventDefault();
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      downId = e.pointerId;
+      downX = e.clientX;
+      downY = e.clientY;
+      axis = null;
+      dragging = false;
+      fromX(e.clientX); /* salto inmediato al punto tocado (igual que antes) */
+      /* SIN preventDefault() y SIN setPointerCapture() acá:
+         la captura recién ocurre cuando el gesto se confirma horizontal,
+         así el scroll vertical (TV / táctil) nunca queda bloqueado. */
     });
-    ba.addEventListener('pointermove', function (e) { if (dragging) fromX(e.clientX); });
+
+    ba.addEventListener('pointermove', function (e) {
+      if (downId === null || e.pointerId !== downId) return;
+
+      if (axis === null) {
+        var dx = e.clientX - downX;
+        var dy = e.clientY - downY;
+        if (Math.abs(dx) < SLOP && Math.abs(dy) < SLOP) return; /* zona muerta */
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          axis = 'x';              /* gesto horizontal → es para el comparador */
+          dragging = true;
+          if (ba.setPointerCapture) { try { ba.setPointerCapture(e.pointerId); } catch (err) {} }
+        } else {
+          axis = 'y';              /* gesto vertical → es scroll de la página: soltar */
+          endGesture();
+          return;
+        }
+      }
+      if (dragging) fromX(e.clientX);
+    });
+
     ['pointerup', 'pointercancel'].forEach(function (ev) {
-      ba.addEventListener(ev, function () { dragging = false; });
+      ba.addEventListener(ev, function (e) {
+        if (e.pointerId === downId || dragging) endGesture();
+      });
     });
+    ba.addEventListener('lostpointercapture', function () { endGesture(); });
+
+    /* Teclado / control remoto: SOLO ← → se interceptan.
+       ↑ ↓ no se tocan → el foco puede salir del slider libremente (TV). */
     ba.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft') { pos = Math.max(0, pos - 4); apply(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft')  { pos = Math.max(0, pos - 4); apply(); e.preventDefault(); }
       if (e.key === 'ArrowRight') { pos = Math.min(100, pos + 4); apply(); e.preventDefault(); }
     });
     apply();
